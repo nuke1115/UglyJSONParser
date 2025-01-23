@@ -127,16 +127,19 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="headers\JsonTree\Implements\NodeBase.cpp" />
-    <ClCompile Include="headers\JsonTree\Implements\Nodes.cpp" />
-    <ClCompile Include="headers\Utils\Implements\TypeConvertFunction.cpp" />
+    <ClCompile Include="src\headers\JsonTree\Implements\NodeBase.cpp" />
+    <ClCompile Include="src\headers\JsonTree\Implements\Nodes.cpp" />
+    <ClCompile Include="src\headers\Utils\Implements\TypeConvertFunction.cpp" />
     <ClCompile Include="testing.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="headers\JsonTree\Node.hpp" />
-    <ClInclude Include="headers\JsonTree\NodeBase.hpp" />
-    <ClInclude Include="headers\JsonTree\NodeTypes.hpp" />
-    <ClInclude Include="headers\Utils\TypeConvertFunction.hpp" />
+    <ClInclude Include="src\headers\JsonTree\Node.hpp" />
+    <ClInclude Include="src\headers\JsonTree\NodeBase.hpp" />
+    <ClInclude Include="src\headers\JsonTree\NodeTypes.hpp" />
+    <ClInclude Include="src\headers\Utils\TypeConvertFunction.hpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\.gitignore" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -25,33 +25,41 @@
     <Filter Include="헤더 파일\Utils">
       <UniqueIdentifier>{8cba4bcf-00c6-4f29-8c44-98458cd2175f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Git">
+      <UniqueIdentifier>{623534b6-dba8-4974-b939-eca5b6d3af89}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="testing.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="headers\Utils\Implements\TypeConvertFunction.cpp">
+    <ClCompile Include="src\headers\JsonTree\Implements\NodeBase.cpp">
+      <Filter>소스 파일\JsonTree</Filter>
+    </ClCompile>
+    <ClCompile Include="src\headers\JsonTree\Implements\Nodes.cpp">
+      <Filter>소스 파일\JsonTree</Filter>
+    </ClCompile>
+    <ClCompile Include="src\headers\Utils\Implements\TypeConvertFunction.cpp">
       <Filter>소스 파일\Utils</Filter>
-    </ClCompile>
-    <ClCompile Include="headers\JsonTree\Implements\NodeBase.cpp">
-      <Filter>소스 파일\JsonTree</Filter>
-    </ClCompile>
-    <ClCompile Include="headers\JsonTree\Implements\Nodes.cpp">
-      <Filter>소스 파일\JsonTree</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="headers\Utils\TypeConvertFunction.hpp">
+    <ClInclude Include="src\headers\JsonTree\Node.hpp">
+      <Filter>헤더 파일\JsonTree</Filter>
+    </ClInclude>
+    <ClInclude Include="src\headers\JsonTree\NodeBase.hpp">
+      <Filter>헤더 파일\JsonTree</Filter>
+    </ClInclude>
+    <ClInclude Include="src\headers\JsonTree\NodeTypes.hpp">
+      <Filter>헤더 파일\JsonTree</Filter>
+    </ClInclude>
+    <ClInclude Include="src\headers\Utils\TypeConvertFunction.hpp">
       <Filter>헤더 파일\Utils</Filter>
     </ClInclude>
-    <ClInclude Include="headers\JsonTree\Node.hpp">
-      <Filter>헤더 파일\JsonTree</Filter>
-    </ClInclude>
-    <ClInclude Include="headers\JsonTree\NodeBase.hpp">
-      <Filter>헤더 파일\JsonTree</Filter>
-    </ClInclude>
-    <ClInclude Include="headers\JsonTree\NodeTypes.hpp">
-      <Filter>헤더 파일\JsonTree</Filter>
-    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\.gitignore">
+      <Filter>Git</Filter>
+    </None>
   </ItemGroup>
 </Project>

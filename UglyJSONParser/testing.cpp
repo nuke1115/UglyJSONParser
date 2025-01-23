@@ -1,7 +1,7 @@
 #include<stdio.h>
 #include<iostream>
 
-#include ".\headers\JsonTree\Node.hpp"
+#include ".\src\headers\JsonTree\Node.hpp"
 
 using namespace UglyJSONParser;
 
