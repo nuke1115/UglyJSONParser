@@ -28,6 +28,12 @@
     <Filter Include="Git">
       <UniqueIdentifier>{623534b6-dba8-4974-b939-eca5b6d3af89}</UniqueIdentifier>
     </Filter>
+    <Filter Include="헤더 파일\FileIO">
+      <UniqueIdentifier>{b5aed390-f669-4583-8a7f-8fed2e2fd313}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\FileIO">
+      <UniqueIdentifier>{020e6778-5313-49ea-8186-712468e1bd0e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="testing.cpp">
@@ -42,6 +48,9 @@
     <ClCompile Include="src\headers\Utils\Implements\TypeConvertFunction.cpp">
       <Filter>소스 파일\Utils</Filter>
     </ClCompile>
+    <ClCompile Include="src\headers\FileIO\Implements\FileIOManager.cpp">
+      <Filter>소스 파일\FileIO</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\headers\JsonTree\Node.hpp">
@@ -55,6 +64,9 @@
     </ClInclude>
     <ClInclude Include="src\headers\Utils\TypeConvertFunction.hpp">
       <Filter>헤더 파일\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="src\headers\FileIO\FileIOManager.hpp">
+      <Filter>헤더 파일\FileIO</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

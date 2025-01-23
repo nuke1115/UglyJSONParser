@@ -1,63 +1,25 @@
 #include<stdio.h>
 #include<iostream>
+#include <fstream>
+
 
 #include ".\src\headers\JsonTree\Node.hpp"
+#include ".\src\headers\FileIO\FileIOManager.hpp"
 
 using namespace UglyJSONParser;
 
 
-void do_test()
-{
-    ObjectNode val("root");
-
-    val.CreateNewNode(NodeType::SingleValue, "c1");
-    val["c1"] = 1;
-
-    val.CreateNewNode(NodeType::Object, "o1");
-    val["o1"].CreateNewNode(NodeType::SingleValue, "c2");
-    val["o1"]["c2"] = "fuck";
-
-
-    std::cout << val.GetJsonTreeByString() << '\n';
-
-    val.DeleteChildNode("c1");
-    val["o1"]["c2"] = 18;
-
-    val.CreateNewNode(NodeType::Array, "a1");
-
-    val["a1"].CreateNewNode(NodeType::SingleValue);
-    val["a1"].CreateNewNode(NodeType::SingleValue);
-
-    val["a1"][0] = 1;
-    val["a1"][1] = 2;
-
-    std::cout << val.GetJsonTreeByString() << '\n';
-
-    val["a1"][1] = "fuck";
-
-    val["a1"].CreateNewNode(NodeType::Null);
-    val["o1"].CreateNewNode(NodeType::Null,"this is null");
-
-    val["a1"].CreateNewNode(NodeType::SingleValue);
-    val["a1"][3] = false;
-
-    std::cout << val.GetJsonTreeByString()<<'\n';
-
-    
-}
-
 int main()
 {
-    //todo. 디버깅 코드 지우기
-    int brk;
-    //scanf_s("%d",&brk);
+    FileIOManager manager;
+
+
+    std::string str;
     
 
-    
-    do_test();
-    
 
-    //scanf_s("%d", &brk);
+
+
 }
 /*
 
@@ -69,5 +31,39 @@ https://stackoverflow.com/questions/66452781/why-const-char-implicitly-converted
 https://en.cppreference.com/w/cpp/language/overload_resolution
 
 표준변환, 사용자 정의 변환
+
+
+
+
+
+---------------
+
+파일 읽기
+파일을 토큰단위로 분해
+토큰을 기반으로 트리 생성
+리턴
+
+json트리를 문자열로 변환
+파일에 쓰기
+
+
+
+---------
+파일 i/o시스템 만들기
+
+토크나이저, 렉서 만들기
+
+트리 생성기 만들기
+
+
+
+
+
+
+
+
+
+
+
 
 */
