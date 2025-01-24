@@ -1,0 +1,7 @@
+{
+    "k1":1,
+    "k2":"fuck",
+    "k3":true,
+    "k4":{"fuck":"fuck2"},
+    "k5":[1,2,true,false]
+}

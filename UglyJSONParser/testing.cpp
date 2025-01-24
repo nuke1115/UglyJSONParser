@@ -11,14 +11,10 @@ using namespace UglyJSONParser;
 
 int main()
 {
-    FileIOManager manager;
-
-
+    FileIOManager mgr;
     std::string str;
-    
-
-
-
+    mgr.LoadTextFromFile(str, ".\\testingFiles\\jsonTest.json");
+    std::cout << str;
 
 }
 /*
@@ -38,13 +34,13 @@ https://en.cppreference.com/w/cpp/language/overload_resolution
 
 ---------------
 
-파일 읽기
+파일 읽기//v
 파일을 토큰단위로 분해
 토큰을 기반으로 트리 생성
 리턴
 
-json트리를 문자열로 변환
-파일에 쓰기
+json트리를 문자열로 변환//v
+파일에 쓰기//v
 
 
 
