@@ -30,16 +30,18 @@ namespace UglyJSONParser
         string GetJsonTreeByString() override;
 
         const std::string& AsString() const override;
-        int AsInt() const override;
+        long long AsInt() const override;
         bool AsBool() const override;
+        double AsDouble() const override;
 
         BaseNode& operator[](const string& strKey) override;
         BaseNode& operator[](const int intKey) override;
 
         void operator=(const char* strData) override;
         void operator=(const string& strData) override;
-        void operator=(const int intData) override;
+        void operator=(const long long intData) override;
         void operator=(const bool boolData) override;
+        void operator=(const double doubleData) override;
 
 
         std::vector<BaseNode*>& GetChildNodeVector() override;
@@ -70,16 +72,18 @@ namespace UglyJSONParser
         string GetJsonTreeByString() override;
 
         const std::string& AsString() const override;
-        int AsInt() const override;
+        long long AsInt() const override;
         bool AsBool() const override;
+        double AsDouble() const override;
 
         BaseNode& operator[](const string& strKey) override;
         BaseNode& operator[](const int intKey) override;
 
         void operator=(const char* strData) override;
         void operator=(const string& strData) override;
-        void operator=(const int intData) override;
+        void operator=(const long long intData) override;
         void operator=(const bool boolData) override;
+        void operator=(const double doubleData) override;
 
 
         std::vector<BaseNode*>& GetChildNodeVector() override;
@@ -110,16 +114,18 @@ namespace UglyJSONParser
         string GetJsonTreeByString() override;
 
         const std::string& AsString() const override;
-        int AsInt() const override;
+        long long AsInt() const override;
         bool AsBool() const override;
+        double AsDouble() const override;
 
         BaseNode& operator[](const string& strKey) override;
         BaseNode& operator[](const int intKey) override;
 
         void operator=(const char* strData) override;
         void operator=(const string& strData) override;
-        void operator=(const int intData) override;
+        void operator=(const long long intData) override;
         void operator=(const bool boolData) override;
+        void operator=(const double doubleData) override;
 
 
         std::vector<BaseNode*>& GetChildNodeVector() override;
@@ -149,16 +155,18 @@ namespace UglyJSONParser
         string GetJsonTreeByString() override;
 
         const std::string& AsString() const override;
-        int AsInt() const override;
+        long long AsInt() const override;
         bool AsBool() const override;
+        double AsDouble() const override;
 
         BaseNode& operator[](const string& strKey) override;
         BaseNode& operator[](const int intKey) override;
 
         void operator=(const char* strData) override;
         void operator=(const string& strData) override;
-        void operator=(const int intData) override;
+        void operator=(const long long intData) override;
         void operator=(const bool boolData) override;
+        void operator=(const double doubleData) override;
 
 
         std::vector<BaseNode*>& GetChildNodeVector() override;

@@ -78,14 +78,19 @@ const std::string& UglyJSONParser::SingleValueNode::AsString() const
     return _data;
 }
 
-int UglyJSONParser::SingleValueNode::AsInt() const
+long long UglyJSONParser::SingleValueNode::AsInt() const
 {
-    return std::stoi(_data);
+    return std::stoll(_data);
 }
 
 bool UglyJSONParser::SingleValueNode::AsBool() const
 {
     return StrToBool(_data);
+}
+
+double UglyJSONParser::SingleValueNode::AsDouble() const
+{
+    return std::stod(_data);
 }
 
 UglyJSONParser::BaseNode& UglyJSONParser::SingleValueNode::operator[](const string& strKey)
@@ -110,7 +115,7 @@ void UglyJSONParser::SingleValueNode::operator=(const string& strData)
     _data = strData;
 }
 
-void UglyJSONParser::SingleValueNode::operator=(const int intData)
+void UglyJSONParser::SingleValueNode::operator=(const long long intData)
 {
     _isStringData = false;
     _data = std::move(std::to_string(intData));
@@ -120,6 +125,12 @@ void UglyJSONParser::SingleValueNode::operator=(const bool boolData)
 {
     _isStringData = false;
     _data = std::move(BoolToString(boolData));
+}
+
+void UglyJSONParser::SingleValueNode::operator=(const double doubleData)
+{
+    _isStringData = false;
+    _data = std::move(std::to_string(doubleData));
 }
 
 std::vector<UglyJSONParser::BaseNode*>& UglyJSONParser::SingleValueNode::GetChildNodeVector()
@@ -187,12 +198,17 @@ const std::string& UglyJSONParser::ObjectNode::AsString() const
     throw std::logic_error("tried to access data in parent node");
 }
 
-int UglyJSONParser::ObjectNode::AsInt() const
+long long UglyJSONParser::ObjectNode::AsInt() const
 {
     throw std::logic_error("tried to access data in parent node");
 }
 
 bool UglyJSONParser::ObjectNode::AsBool() const
+{
+    throw std::logic_error("tried to access data in parent node");
+}
+
+double UglyJSONParser::ObjectNode::AsDouble() const
 {
     throw std::logic_error("tried to access data in parent node");
 }
@@ -225,12 +241,17 @@ void UglyJSONParser::ObjectNode::operator=(const string& strData)
     return;
 }
 
-void UglyJSONParser::ObjectNode::operator=(const int intData)
+void UglyJSONParser::ObjectNode::operator=(const long long intData)
 {
     return;
 }
 
 void UglyJSONParser::ObjectNode::operator=(const bool boolData)
+{
+    return;
+}
+
+void UglyJSONParser::ObjectNode::operator=(const double doubleData)
 {
     return;
 }
@@ -327,12 +348,17 @@ const std::string& UglyJSONParser::ArrayNode::AsString() const
     throw std::logic_error("tried to access data in parent node");
 }
 
-int UglyJSONParser::ArrayNode::AsInt() const
+long long UglyJSONParser::ArrayNode::AsInt() const
 {
     throw std::logic_error("tried to access data in parent node");
 }
 
 bool UglyJSONParser::ArrayNode::AsBool() const
+{
+    throw std::logic_error("tried to access data in parent node");
+}
+
+double UglyJSONParser::ArrayNode::AsDouble() const
 {
     throw std::logic_error("tried to access data in parent node");
 }
@@ -361,12 +387,17 @@ void UglyJSONParser::ArrayNode::operator=(const string& strData)
     return;
 }
 
-void UglyJSONParser::ArrayNode::operator=(const int intData)
+void UglyJSONParser::ArrayNode::operator=(const long long intData)
 {
     return;
 }
 
 void UglyJSONParser::ArrayNode::operator=(const bool boolData)
+{
+    return;
+}
+
+void UglyJSONParser::ArrayNode::operator=(const double doubleData)
 {
     return;
 }
@@ -440,12 +471,17 @@ const std::string& UglyJSONParser::NullNode::AsString() const
     throw std::logic_error("tried to get data in null node");
 }
 
-int UglyJSONParser::NullNode::AsInt() const
+long long UglyJSONParser::NullNode::AsInt() const
 {
     throw std::logic_error("tried to get data in null node");
 }
 
 bool UglyJSONParser::NullNode::AsBool() const
+{
+    throw std::logic_error("tried to get data in null node");
+}
+
+double UglyJSONParser::NullNode::AsDouble() const
 {
     throw std::logic_error("tried to get data in null node");
 }
@@ -470,12 +506,17 @@ void UglyJSONParser::NullNode::operator=(const string& strData)
     return;
 }
 
-void UglyJSONParser::NullNode::operator=(const int intData)
+void UglyJSONParser::NullNode::operator=(const long long intData)
 {
     return;
 }
 
 void UglyJSONParser::NullNode::operator=(const bool boolData)
+{
+    return;
+}
+
+void UglyJSONParser::NullNode::operator=(const double doubleData)
 {
     return;
 }

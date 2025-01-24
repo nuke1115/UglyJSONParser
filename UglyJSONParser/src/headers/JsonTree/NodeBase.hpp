@@ -5,6 +5,7 @@
 #include <vector>
 #include <exception>
 #include <sstream>
+#include <stdlib.h>
 #include ".\NodeTypes.hpp"
 
 
@@ -39,16 +40,18 @@ namespace UglyJSONParser
 
 
         virtual const std::string& AsString() const = 0;
-        virtual int AsInt() const = 0;
+        virtual long long AsInt() const = 0;
         virtual bool AsBool() const = 0;
+        virtual double AsDouble() const = 0;
 
         virtual BaseNode& operator[](const string& strKey) = 0;
         virtual BaseNode& operator[](const int intKey) = 0;
 
         virtual void operator=(const string& strData) = 0;
         virtual void operator=(const char* strData) = 0;
-        virtual void operator=(const int intData) = 0;
+        virtual void operator=(const long long intData) = 0;
         virtual void operator=(const bool boolData) = 0;
+        virtual void operator=(const double doubleData) = 0;
 
 
         virtual std::vector<BaseNode*>& GetChildNodeVector() = 0;
