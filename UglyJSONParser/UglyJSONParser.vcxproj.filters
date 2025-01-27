@@ -34,6 +34,12 @@
     <Filter Include="소스 파일\FileIO">
       <UniqueIdentifier>{020e6778-5313-49ea-8186-712468e1bd0e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="소스 파일\Tokenizer">
+      <UniqueIdentifier>{6c0be741-61b8-4ff0-8f4f-a467a59effbd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="헤더 파일\Tokenizer">
+      <UniqueIdentifier>{6035d0b5-6c03-470f-9233-1e6b2ac108fe}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="testing.cpp">
@@ -50,6 +56,9 @@
     </ClCompile>
     <ClCompile Include="src\headers\FileIO\Implements\FileIOManager.cpp">
       <Filter>소스 파일\FileIO</Filter>
+    </ClCompile>
+    <ClCompile Include="src\headers\Tokenizer\Implements\Tokenizer.cpp">
+      <Filter>소스 파일\Tokenizer</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -68,10 +77,16 @@
     <ClInclude Include="src\headers\FileIO\FileIOManager.hpp">
       <Filter>헤더 파일\FileIO</Filter>
     </ClInclude>
+    <ClInclude Include="src\headers\Tokenizer\Tokenizer.hpp">
+      <Filter>헤더 파일\Tokenizer</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\.gitignore">
       <Filter>Git</Filter>
+    </None>
+    <None Include="test.json">
+      <Filter>리소스 파일</Filter>
     </None>
   </ItemGroup>
 </Project>

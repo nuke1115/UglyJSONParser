@@ -129,20 +129,33 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\headers\FileIO\Implements\FileIOManager.cpp" />
-    <ClCompile Include="src\headers\JsonTree\Implements\NodeBase.cpp" />
-    <ClCompile Include="src\headers\JsonTree\Implements\Nodes.cpp" />
+    <ClCompile Include="src\headers\JsonTree\Implements\NodeBase.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="src\headers\JsonTree\Implements\Nodes.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="src\headers\Tokenizer\Implements\Tokenizer.cpp" />
     <ClCompile Include="src\headers\Utils\Implements\TypeConvertFunction.cpp" />
     <ClCompile Include="testing.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\headers\FileIO\FileIOManager.hpp" />
-    <ClInclude Include="src\headers\JsonTree\Node.hpp" />
-    <ClInclude Include="src\headers\JsonTree\NodeBase.hpp" />
-    <ClInclude Include="src\headers\JsonTree\NodeTypes.hpp" />
+    <ClInclude Include="src\headers\JsonTree\Node.hpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="src\headers\JsonTree\NodeBase.hpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="src\headers\JsonTree\NodeTypes.hpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="src\headers\Tokenizer\Tokenizer.hpp" />
     <ClInclude Include="src\headers\Utils\TypeConvertFunction.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\.gitignore" />
+    <None Include="test.json" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
