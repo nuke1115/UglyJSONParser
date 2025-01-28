@@ -7,6 +7,7 @@
 
 namespace UglyJSONParser
 {
+
     class Tokenizer
     {
     private:
@@ -24,15 +25,23 @@ namespace UglyJSONParser
         const char TokenBackslash = '\\';
         const char NumRangeStart = '0';
         const char NumRangeEnd = '9';
+        const char TokenDecimalPoint = '.';
+        const char TokenExponentUpper = 'E';
+        const char TokenExponentLower = 'e';
 
         const char TokenSpace = ' ';
         const char TokenLineFeed = '\n';
         const char TokenCarriageReturn = '\r';
         const char TokenHorizontalTab = '\t';
 
+        inline bool IsItNumber(const char token)
+        {
+            return NumRangeStart <= token && NumRangeEnd >= token;
+        }
 
         bool TokenizeString(const std::string& sourceString, std::list<std::string>& outTokenizedStrings, size_t& index);
         bool TokenizeNumber(const std::string& sourceString, std::list<std::string>& outTokenizedStrings, size_t& index);
+        bool CheckTokenizedNumber(const std::string& numString, size_t exponentCnt, size_t signCnt, size_t pointCnt);
 
     public:
         bool Tokenize(const std::string& sourceString, std::list<std::string>& outTokenizedStrings);

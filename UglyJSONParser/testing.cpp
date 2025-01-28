@@ -2,19 +2,35 @@
 #include<iostream>
 #include <fstream>
 
-
-#include ".\src\headers\JsonTree\Node.hpp"
+//#include ".\src\headers\JsonTree\Node.hpp"
 #include ".\src\headers\FileIO\FileIOManager.hpp"
+#include ".\src\headers\Tokenizer\Tokenizer.hpp"
 
 using namespace UglyJSONParser;
 
+void run()
+{
+    Tokenizer tokenizer;
+
+    std::string str = "12e+18";
+    std::list<std::string> list;
+
+    std::cout << tokenizer.Tokenize(str, list) << '\n';
+
+    for (auto& i : list)
+    {
+        std::cout << i << '\n';
+    }
+    
+
+}
 
 int main()
 {
-    FileIOManager mgr;
-    std::string str;
-    mgr.LoadTextFromFile(str, ".\\testingFiles\\jsonTest.json");
-    std::cout << str;
+    run();
+
+
+
 
 }
 /*
@@ -52,13 +68,15 @@ json트리를 문자열로 변환//v
 트리 생성기 만들기
 
 
+------------
 
 
+std::_Fac_node 남아있는 문제 <== std::ifstream std::ostream 
 
+------------
 
-
-
-
+ostringstream 더 알아보기
+더 비효율적이면 갈아치우자
 
 
 
