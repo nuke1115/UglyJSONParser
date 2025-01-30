@@ -11,11 +11,13 @@ using namespace UglyJSONParser;
 void run()
 {
     Tokenizer tokenizer;
-
-    std::string str = "12e+18";
+    
+    std::string strJ = "{\"string\": \"Hello\",\"number\": 123,\"boolean_true\": true,\"boolean_false\": false,\"null_value\": null,\"array\": [1, 2, 3],\"object\": {\"key\": \"value\"},\"large_number\": 1234567890,\"float_number\": 3.14,\"exponential_number\": 1.23e4,\"date\": \"2025-01-29T12:00:00Z\"}";
+    std::string str = "\"";
     std::list<std::string> list;
 
-    std::cout << tokenizer.Tokenize(str, list) << '\n';
+
+    std::cout << tokenizer.Tokenize(strJ, list) << '\n';
 
     for (auto& i : list)
     {

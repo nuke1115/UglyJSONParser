@@ -60,6 +60,9 @@
     <ClCompile Include="src\headers\Tokenizer\Implements\Tokenizer.cpp">
       <Filter>소스 파일\Tokenizer</Filter>
     </ClCompile>
+    <ClCompile Include="src\headers\Utils\Implements\StrCmp.cpp">
+      <Filter>소스 파일\Utils</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\headers\JsonTree\Node.hpp">
@@ -79,6 +82,9 @@
     </ClInclude>
     <ClInclude Include="src\headers\Tokenizer\Tokenizer.hpp">
       <Filter>헤더 파일\Tokenizer</Filter>
+    </ClInclude>
+    <ClInclude Include="src\headers\Utils\StrCmp.hpp">
+      <Filter>헤더 파일\Utils</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

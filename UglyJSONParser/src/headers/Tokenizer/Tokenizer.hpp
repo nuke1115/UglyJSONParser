@@ -4,6 +4,7 @@
 #include <list>
 #include <xutility>
 #include <sstream>
+#include "..\Utils\StrCmp.hpp"
 
 namespace UglyJSONParser
 {
@@ -12,6 +13,10 @@ namespace UglyJSONParser
     {
     private:
         using string = std::string;
+
+        const char* TokenTrue = "true";
+        const char* TokenFalse = "false";
+        const char* TokenNull = "null";
 
         const char TokenQuotationMark = '"';
         const char TokenObjectStart = '{';
@@ -42,6 +47,8 @@ namespace UglyJSONParser
         bool TokenizeString(const std::string& sourceString, std::list<std::string>& outTokenizedStrings, size_t& index);
         bool TokenizeNumber(const std::string& sourceString, std::list<std::string>& outTokenizedStrings, size_t& index);
         bool CheckTokenizedNumber(const std::string& numString, size_t exponentCnt, size_t signCnt, size_t pointCnt);
+        bool TokenizeBool(const std::string& sourceString, std::list<std::string>& outTokenizedStrings, size_t& index);
+        bool TokenizeNull(const std::string& sourceString, std::list<std::string>& outTokenizedStrings, size_t& index);
 
     public:
         bool Tokenize(const std::string& sourceString, std::list<std::string>& outTokenizedStrings);

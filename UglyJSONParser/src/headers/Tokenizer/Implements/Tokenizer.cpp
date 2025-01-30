@@ -2,7 +2,8 @@
 
 bool UglyJSONParser::Tokenizer::TokenizeString(const std::string& sourceString, std::list<std::string>& outTokenizedStrings, size_t& index)
 {
-    if (index >= sourceString.size())
+    //만약 null을 제외한 문자의 길이에서 1을 뺀것이 현제 인덱스와 길이가 같다면, 여는 따옴표 하나만 나오고 끝나는거니까, 잘못된 문자열이다.
+    if (index >= sourceString.size() - 1)
     {
         return false;
     }
@@ -16,7 +17,6 @@ bool UglyJSONParser::Tokenizer::TokenizeString(const std::string& sourceString, 
 
     for (;index < sourceString.size(); index++)
     {
-
         if (sourceString[index] == TokenQuotationMark && (consecutiveBackslashCnt % 2 == 0)) // => consecutiveBackslashCnt ^ 1 <= 가독성때문에 바꿈
         {
             oss << sourceString[index];
@@ -40,24 +40,22 @@ bool UglyJSONParser::Tokenizer::TokenizeString(const std::string& sourceString, 
 
     return false;
 }
-//size_t 언더플로우 문제 개선
-    // index - 1은 언더플로우가 안나는것이 보장된다.
-    // 
-    //단일 \ 가 들어왔을떄 케이스 처리
 
-bool UglyJSONParser::Tokenizer::CheckTokenizedNumber(const std::string& numString, size_t exponentCnt, size_t signCnt, size_t pointCnt)//버그 고치기, 코드 다듬기
+bool UglyJSONParser::Tokenizer::CheckTokenizedNumber(const std::string& numString, size_t exponentCnt, size_t signCnt, size_t pointCnt)
 {
     if (exponentCnt > 1 || signCnt > 2 || pointCnt > 1)
     {
         return false;
     }
 
-    if (numString.front() == TokenDecimalPoint || (numString.front() == TokenExponentUpper || numString.front() == TokenExponentLower))
+    //부호와 수 둘 다 아닐때 true가 되야한다.
+    if (!IsItNumber(numString.front()) && (numString.front() != TokenPlus && numString.front() != TokenMinus))
     {
         return false;
     }
 
-    if (numString.back() == TokenDecimalPoint || (numString.back() == TokenExponentUpper || numString.back() == TokenExponentLower) || (numString.back() == TokenPlus || numString.back() == TokenMinus))
+    //수가 아닐때 true가 되야한다.
+    if (!IsItNumber(numString.back()))
     {
         return false;
     }
@@ -67,8 +65,8 @@ bool UglyJSONParser::Tokenizer::CheckTokenizedNumber(const std::string& numStrin
         if (numString[i] == TokenPlus || numString[i] == TokenMinus) // 부호일때
         {
             //위치가 0이 아닌 부호는 앞에는 무조건 e 또는 E가 와야하고, 뒤에는 무조건 수가 와야한다.
-            //=> 위치가 0이 아닌 부호는 앞에 e하고 E 둘 다 없거나, 뒤에 수가 없으면 잘못된 문법이다.
-            if ((numString[i - 1] != TokenExponentUpper && numString[i - 1] != TokenExponentLower) || !IsItNumber(numString[i + 1]))
+            //=> 위치가 0이 아닌 부호는 뒤에 수가 없거나, 앞에 지수가 없다면 잘못된 문법이다.
+            if (!IsItNumber(numString[i + 1]) || (numString[i - 1] != TokenExponentUpper && numString[i - 1] != TokenExponentLower))
             {
                 return false;
             }
@@ -85,7 +83,7 @@ bool UglyJSONParser::Tokenizer::CheckTokenizedNumber(const std::string& numStrin
         {
             //지수의 경우는 앞에는 무조건 수가 와야하고, 뒤에는 부호 또는 수가 와야한다.
             //=> 지수의 경우 앞의 토큰이 수가 아니거나, 뒤에 오는 토큰이 부호와 수 둘 다 아니면 잘못된 문법이다.
-            if (!IsItNumber(numString[i - 1]) || (!IsItNumber(numString[i + 1]) && (numString[i + 1] != TokenPlus && numString[i + 1] != TokenMinus)))//조건 다시 유심히 살펴보기
+            if (!IsItNumber(numString[i - 1]) || (!IsItNumber(numString[i + 1]) && (numString[i + 1] != TokenPlus && numString[i + 1] != TokenMinus)))
             {
                 return false;
             }
@@ -126,7 +124,7 @@ bool UglyJSONParser::Tokenizer::TokenizeNumber(const std::string& sourceString, 
         }
         else if (nowChar < NumRangeStart || nowChar > NumRangeEnd)
         {
-            continue;
+            return false;//continue로 할까 생각해봤는데, 이러면 잘못된줄 모르니까... return false로 하는편이 디버깅할때 문제가 있다는걸 알기에는 편할듯
         }
 
         numberString.push_back(nowChar);
@@ -142,45 +140,78 @@ bool UglyJSONParser::Tokenizer::TokenizeNumber(const std::string& sourceString, 
 stod로 할지 stoll로 할지 정하는건, 트리 생성하는 부분에서 e나 E나 .이 있는지 검사해서 정하는 방식으로 하자
 */
 
+bool UglyJSONParser::Tokenizer::TokenizeBool(const std::string& sourceString, std::list<std::string>& outTokenizedStrings, size_t& index)
+{
+    if (CompareString(sourceString, TokenTrue, index))
+    {
+        outTokenizedStrings.emplace_back(TokenTrue);
+        index += 3;
+        return true;
+    }
+    else if (CompareString(sourceString, TokenFalse, index))
+    {
+        outTokenizedStrings.emplace_back(TokenFalse);
+        index += 4;
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}
+
+bool UglyJSONParser::Tokenizer::TokenizeNull(const std::string& sourceString, std::list<std::string>& outTokenizedStrings, size_t& index)
+{
+    if (CompareString(sourceString, TokenNull, index) == false)
+    {
+        return false;
+    }
+
+    outTokenizedStrings.emplace_back(TokenNull);
+    index += 3;
+
+    return true;
+}
+
 bool UglyJSONParser::Tokenizer::Tokenize(const std::string& sourceString, std::list<std::string>& outTokenizedStrings)
 {
     if (sourceString.empty())
     {
         return false;
     }
-
-    std::ostringstream oss;
+    
+    bool result = true;
 
     for (size_t i = 0; i < sourceString.size(); i++)
     {
-        oss.clear();
-        oss.str("");
-
         if (sourceString[i] == TokenObjectStart || sourceString[i] == TokenObjectEnd || sourceString[i] == TokenArrayStart || sourceString[i] == TokenArrayEnd || sourceString[i] == TokenComma || sourceString[i] == TokenColon)
         {
-            oss << sourceString[i];
-            outTokenizedStrings.emplace_back(oss.str());
+            outTokenizedStrings.emplace_back(1,sourceString[i]);
         }
         else if (sourceString[i] == TokenQuotationMark)
         {
-            bool result = TokenizeString(sourceString,outTokenizedStrings, i);
-            if (result == false)
-            {
-                outTokenizedStrings.clear();
-                return false;
-            }
+            result = TokenizeString(sourceString,outTokenizedStrings, i);
         }
         else if ((sourceString[i] == TokenPlus || sourceString[i] == TokenMinus) || (NumRangeStart <= sourceString[i] && sourceString[i] <= NumRangeEnd))
         {
-            bool result = TokenizeNumber(sourceString, outTokenizedStrings, i);
-            if (result == false)
-            {
-                outTokenizedStrings.clear();
-                return false;
-            }
+            result = TokenizeNumber(sourceString, outTokenizedStrings, i);
+        }
+        else if (sourceString[i] == TokenTrue[0] || sourceString[i] == TokenFalse[0])
+        {
+            result = TokenizeBool(sourceString, outTokenizedStrings, i);
+        }
+        else if (sourceString[i] == TokenNull[0])
+        {
+            result = TokenizeNull(sourceString, outTokenizedStrings, i);
         }
 
+        if (result == false)
+        {
+            outTokenizedStrings.clear();
+            return false;
+        }
     }
+
     return true;
 }
 
@@ -213,14 +244,5 @@ e 또는 E 뒤에 부호 또는 수가 없다면 false 리턴.
 
 
 }
-
-
-
-
-
-
-만약 :다음에 읽은 토큰이 ,거나 },]라면 리스트를 비우고 false리턴
-만약 , 다음에 읽은 토큰이 "이 아니라면 false리턴
-
-oss알아보기
+//////
 */
