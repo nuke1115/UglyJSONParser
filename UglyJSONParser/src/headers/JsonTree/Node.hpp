@@ -4,7 +4,7 @@
 #include <utility>
 #include ".\NodeBase.hpp"
 #include ".\NodeTypes.hpp"
-#include "..\Utils\TypeConvertFunction.hpp"
+#include "..\Utils\TypeUtils.hpp"
 
 
 

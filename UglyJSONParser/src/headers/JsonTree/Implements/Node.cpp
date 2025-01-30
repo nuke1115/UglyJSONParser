@@ -85,7 +85,7 @@ long long UglyJSONParser::SingleValueNode::AsInt() const
 
 bool UglyJSONParser::SingleValueNode::AsBool() const
 {
-    return StrToBool(_data);
+    return TypeUtils::StrToBool(_data);
 }
 
 double UglyJSONParser::SingleValueNode::AsDouble() const
@@ -124,7 +124,7 @@ void UglyJSONParser::SingleValueNode::operator=(const long long intData)
 void UglyJSONParser::SingleValueNode::operator=(const bool boolData)
 {
     _isStringData = false;
-    _data = std::move(BoolToString(boolData));
+    _data = std::move(TypeUtils::BoolToString(boolData));
 }
 
 void UglyJSONParser::SingleValueNode::operator=(const double doubleData)

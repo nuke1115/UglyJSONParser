@@ -132,12 +132,12 @@
     <ClCompile Include="src\headers\JsonTree\Implements\NodeBase.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClCompile>
-    <ClCompile Include="src\headers\JsonTree\Implements\Nodes.cpp">
+    <ClCompile Include="src\headers\JsonTree\Implements\Node.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="src\headers\Tokenizer\Implements\Tokenizer.cpp" />
-    <ClCompile Include="src\headers\Utils\Implements\StrCmp.cpp" />
-    <ClCompile Include="src\headers\Utils\Implements\TypeConvertFunction.cpp" />
+    <ClCompile Include="src\headers\Utils\Implements\StringUtils.cpp" />
+    <ClCompile Include="src\headers\Utils\Implements\TypeUtils.cpp" />
     <ClCompile Include="testing.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -152,8 +152,8 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="src\headers\Tokenizer\Tokenizer.hpp" />
-    <ClInclude Include="src\headers\Utils\StrCmp.hpp" />
-    <ClInclude Include="src\headers\Utils\TypeConvertFunction.hpp" />
+    <ClInclude Include="src\headers\Utils\StringUtils.hpp" />
+    <ClInclude Include="src\headers\Utils\TypeUtils.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\.gitignore" />

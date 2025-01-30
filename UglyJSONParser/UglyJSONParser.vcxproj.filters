@@ -48,11 +48,8 @@
     <ClCompile Include="src\headers\JsonTree\Implements\NodeBase.cpp">
       <Filter>소스 파일\JsonTree</Filter>
     </ClCompile>
-    <ClCompile Include="src\headers\JsonTree\Implements\Nodes.cpp">
+    <ClCompile Include="src\headers\JsonTree\Implements\Node.cpp">
       <Filter>소스 파일\JsonTree</Filter>
-    </ClCompile>
-    <ClCompile Include="src\headers\Utils\Implements\TypeConvertFunction.cpp">
-      <Filter>소스 파일\Utils</Filter>
     </ClCompile>
     <ClCompile Include="src\headers\FileIO\Implements\FileIOManager.cpp">
       <Filter>소스 파일\FileIO</Filter>
@@ -60,7 +57,10 @@
     <ClCompile Include="src\headers\Tokenizer\Implements\Tokenizer.cpp">
       <Filter>소스 파일\Tokenizer</Filter>
     </ClCompile>
-    <ClCompile Include="src\headers\Utils\Implements\StrCmp.cpp">
+    <ClCompile Include="src\headers\Utils\Implements\TypeUtils.cpp">
+      <Filter>소스 파일\Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="src\headers\Utils\Implements\StringUtils.cpp">
       <Filter>소스 파일\Utils</Filter>
     </ClCompile>
   </ItemGroup>
@@ -74,16 +74,16 @@
     <ClInclude Include="src\headers\JsonTree\NodeTypes.hpp">
       <Filter>헤더 파일\JsonTree</Filter>
     </ClInclude>
-    <ClInclude Include="src\headers\Utils\TypeConvertFunction.hpp">
-      <Filter>헤더 파일\Utils</Filter>
-    </ClInclude>
     <ClInclude Include="src\headers\FileIO\FileIOManager.hpp">
       <Filter>헤더 파일\FileIO</Filter>
     </ClInclude>
     <ClInclude Include="src\headers\Tokenizer\Tokenizer.hpp">
       <Filter>헤더 파일\Tokenizer</Filter>
     </ClInclude>
-    <ClInclude Include="src\headers\Utils\StrCmp.hpp">
+    <ClInclude Include="src\headers\Utils\TypeUtils.hpp">
+      <Filter>헤더 파일\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="src\headers\Utils\StringUtils.hpp">
       <Filter>헤더 파일\Utils</Filter>
     </ClInclude>
   </ItemGroup>

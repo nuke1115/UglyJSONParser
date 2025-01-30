@@ -4,7 +4,7 @@
 #include <list>
 #include <xutility>
 #include <sstream>
-#include "..\Utils\StrCmp.hpp"
+#include "..\Utils\StringUtils.hpp"
 
 namespace UglyJSONParser
 {

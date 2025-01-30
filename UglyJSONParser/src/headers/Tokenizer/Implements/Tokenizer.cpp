@@ -142,13 +142,13 @@ stod로 할지 stoll로 할지 정하는건, 트리 생성하는 부분에서 e나 E나 .이 있는지 검�
 
 bool UglyJSONParser::Tokenizer::TokenizeBool(const std::string& sourceString, std::list<std::string>& outTokenizedStrings, size_t& index)
 {
-    if (CompareString(sourceString, TokenTrue, index))
+    if (StringUtils::CompareString(sourceString, TokenTrue, index))
     {
         outTokenizedStrings.emplace_back(TokenTrue);
         index += 3;
         return true;
     }
-    else if (CompareString(sourceString, TokenFalse, index))
+    else if (StringUtils::CompareString(sourceString, TokenFalse, index))
     {
         outTokenizedStrings.emplace_back(TokenFalse);
         index += 4;
@@ -162,7 +162,7 @@ bool UglyJSONParser::Tokenizer::TokenizeBool(const std::string& sourceString, st
 
 bool UglyJSONParser::Tokenizer::TokenizeNull(const std::string& sourceString, std::list<std::string>& outTokenizedStrings, size_t& index)
 {
-    if (CompareString(sourceString, TokenNull, index) == false)
+    if (StringUtils::CompareString(sourceString, TokenNull, index) == false)
     {
         return false;
     }
