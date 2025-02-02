@@ -19,3 +19,23 @@ bool UglyJSONParser::StringUtils::CompareString(const std::string& target, const
 
     return true;
 }
+
+bool UglyJSONParser::StringUtils::IsItNumber(const char token)
+{
+    return '0' <= token && '9' >= token;
+}
+
+bool UglyJSONParser::StringUtils::IsItOpeningToken(const char token)
+{
+    return token == '{' || token == '[';
+}
+
+bool UglyJSONParser::StringUtils::IsItClosingToken(const char token)
+{
+    return token == '}' || token == ']';
+}
+
+bool UglyJSONParser::StringUtils::IsItSign(const char token)
+{
+    return token == '+' || token == '-';
+}
