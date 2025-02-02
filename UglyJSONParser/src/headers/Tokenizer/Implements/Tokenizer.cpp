@@ -47,26 +47,28 @@ bool UglyJSONParser::Tokenizer::CheckTokenizedNumber(const std::string& numStrin
     {
         return false;
     }
-
-    //부호와 수 둘 다 아닐때 true가 되야한다.
-    if (!IsItNumber(numString.front()) && (numString.front() != TokenPlus && numString.front() != TokenMinus))
+    
+    //부호와 수 둘 다 아닐때 true가 되야한다. //(numString.front() != TokenPlus && numString.front() != TokenMinus)
+    if (!StringUtils::IsItNumber(numString.front()) && !StringUtils::IsItSign(numString.front()))
     {
         return false;
     }
 
     //수가 아닐때 true가 되야한다.
-    if (!IsItNumber(numString.back()))
+    if (!StringUtils::IsItNumber(numString.back()))
     {
         return false;
     }
 
+    //이미 앞에서 양 끝쪽 케이스 처리했으니까
     for (size_t i = 1; i < numString.size() - 1; i++)
     {
-        if (numString[i] == TokenPlus || numString[i] == TokenMinus) // 부호일때
+        //numString[i] == TokenPlus || numString[i] == TokenMinus
+        if (StringUtils::IsItSign(numString[i])) // 부호일때
         {
             //위치가 0이 아닌 부호는 앞에는 무조건 e 또는 E가 와야하고, 뒤에는 무조건 수가 와야한다.
             //=> 위치가 0이 아닌 부호는 뒤에 수가 없거나, 앞에 지수가 없다면 잘못된 문법이다.
-            if (!IsItNumber(numString[i + 1]) || (numString[i - 1] != TokenExponentUpper && numString[i - 1] != TokenExponentLower))
+            if (!StringUtils::IsItNumber(numString[i + 1]) || (numString[i - 1] != TokenExponentUpper && numString[i - 1] != TokenExponentLower))
             {
                 return false;
             }
@@ -74,7 +76,7 @@ bool UglyJSONParser::Tokenizer::CheckTokenizedNumber(const std::string& numStrin
         else if (numString[i] == TokenDecimalPoint) //소수점일때
         {
             //양쪽이 모두 수여야 한다 => 양쪽 모두 수가 아니면 잘못된 문법
-            if (!IsItNumber(numString[i - 1]) || !IsItNumber(numString[i + 1]))
+            if (!StringUtils::IsItNumber(numString[i - 1]) || !StringUtils::IsItNumber(numString[i + 1]))
             {
                 return false;
             }
@@ -82,8 +84,8 @@ bool UglyJSONParser::Tokenizer::CheckTokenizedNumber(const std::string& numStrin
         else if (numString[i] == TokenExponentUpper || numString[i] == TokenExponentLower) //지수기호일때
         {
             //지수의 경우는 앞에는 무조건 수가 와야하고, 뒤에는 부호 또는 수가 와야한다.
-            //=> 지수의 경우 앞의 토큰이 수가 아니거나, 뒤에 오는 토큰이 부호와 수 둘 다 아니면 잘못된 문법이다.
-            if (!IsItNumber(numString[i - 1]) || (!IsItNumber(numString[i + 1]) && (numString[i + 1] != TokenPlus && numString[i + 1] != TokenMinus)))
+            //=> 지수의 경우 앞의 토큰이 수가 아니거나, 뒤에 오는 토큰이 부호와 수 둘 다 아니면 잘못된 문법이다.//(numString[i + 1] != TokenPlus && numString[i + 1] != TokenMinus)
+            if (!StringUtils::IsItNumber(numString[i - 1]) || (!StringUtils::IsItNumber(numString[i + 1]) && !StringUtils::IsItSign(numString[i + 1])))
             {
                 return false;
             }
@@ -118,7 +120,7 @@ bool UglyJSONParser::Tokenizer::TokenizeNumber(const std::string& sourceString, 
         {
             decimalPointCnt++;
         }
-        else if (nowChar == TokenPlus || nowChar == TokenMinus)
+        else if (StringUtils::IsItSign(nowChar))
         {
             signCnt++;
         }
@@ -173,26 +175,124 @@ bool UglyJSONParser::Tokenizer::TokenizeNull(const std::string& sourceString, st
     return true;
 }
 
+bool UglyJSONParser::Tokenizer::CheckTokenizedTokens(const std::list<std::string>& tokenizedStrings)
+{
+    if (tokenizedStrings.empty())
+    {
+        return false;
+    }
+
+    size_t rootValueCnt = 0;//스택이 비어있을때 arr,obj의 시작괄호, 따옴표, numbers에 속하는 값이 감지되면
+
+    std::stack<char> indentationStack;
+
+    if ((tokenizedStrings.front().front() == TokenColon || tokenizedStrings.front().front() == TokenComma) || (tokenizedStrings.back().front() == TokenColon || tokenizedStrings.back().front() == TokenComma))
+    {
+        return false;
+    }
+
+    for (auto presentIter = tokenizedStrings.begin(); presentIter != tokenizedStrings.end() && rootValueCnt < 2; presentIter++)
+    {
+        if (presentIter->front() == TokenObjectStart || presentIter->front() == TokenArrayStart)
+        {
+            if (indentationStack.empty())
+            {
+                rootValueCnt++;
+            }
+
+            indentationStack.push(presentIter->front());
+        }
+        else if (presentIter->front() == TokenObjectEnd || presentIter->front() == TokenArrayEnd)
+        {
+            if (indentationStack.empty() || (indentationStack.top() == TokenObjectStart && presentIter->front() == TokenArrayEnd) || (indentationStack.top() == TokenArrayStart && presentIter->front() == TokenObjectEnd))
+            {
+                return false;
+            }
+            
+            indentationStack.pop();
+        }
+        else if (indentationStack.empty() && (presentIter->front() == TokenQuotationMark || StringUtils::IsItSign(presentIter->front()) || StringUtils::IsItNumber(presentIter->front())))
+        {
+            rootValueCnt++;
+        }
+        else if (presentIter->front() == TokenColon)
+        {
+            auto nextIter = std::next(presentIter), pastIter = std::prev(presentIter);
+            if (indentationStack.empty() || indentationStack.top() != TokenObjectStart)
+            {
+                return false;
+            }
+
+            if (!TypeUtils::IsItJsonString(*pastIter) || !(StringUtils::IsItOpeningToken(nextIter->front()) || TypeUtils::IsItJsonValue(*nextIter)))
+            {
+                return false;
+            }
+        }
+        else if (presentIter->front() == TokenComma)
+        {
+            auto nextIter = std::next(presentIter), pastIter = std::prev(presentIter);
+            if (indentationStack.empty() || !(StringUtils::IsItClosingToken(pastIter->front()) || TypeUtils::IsItJsonValue(*pastIter)))
+            {
+                return false;
+            }
+
+            if (indentationStack.top() == TokenObjectStart && !TypeUtils::IsItJsonString(*nextIter))
+            {
+                return false;
+            }
+            else if (indentationStack.top() == TokenArrayStart && !(StringUtils::IsItOpeningToken(nextIter->front()) || TypeUtils::IsItJsonValue(*nextIter)))
+            {
+                return false;
+            }
+        }
+
+
+        if (std::next(presentIter) != tokenizedStrings.end())
+        {
+            if (presentIter->front() == TokenObjectStart && !TypeUtils::IsItJsonString(*std::next(presentIter)))
+            {
+                return false;
+            }
+            else if (TypeUtils::IsItJsonValue(*presentIter) && TypeUtils::IsItJsonValue(*std::next(presentIter)))
+            {
+                return false;
+            }
+        }
+
+    }
+
+    if (!indentationStack.empty() || rootValueCnt > 1)
+    {
+        return false;
+    }
+
+    return true;
+}
+/*
+json single value가 연속으로 있으면 안된다.
+{ 다음으로는 무조건 string이 와야된다.
+*/
+
 bool UglyJSONParser::Tokenizer::Tokenize(const std::string& sourceString, std::list<std::string>& outTokenizedStrings)
 {
     if (sourceString.empty())
     {
         return false;
     }
-    
+
     bool result = true;
 
     for (size_t i = 0; i < sourceString.size(); i++)
     {
         if (sourceString[i] == TokenObjectStart || sourceString[i] == TokenObjectEnd || sourceString[i] == TokenArrayStart || sourceString[i] == TokenArrayEnd || sourceString[i] == TokenComma || sourceString[i] == TokenColon)
         {
-            outTokenizedStrings.emplace_back(1,sourceString[i]);
+            outTokenizedStrings.emplace_back(1, sourceString[i]);
         }
         else if (sourceString[i] == TokenQuotationMark)
         {
-            result = TokenizeString(sourceString,outTokenizedStrings, i);
+            result = TokenizeString(sourceString, outTokenizedStrings, i);
         }
-        else if ((sourceString[i] == TokenPlus || sourceString[i] == TokenMinus) || (NumRangeStart <= sourceString[i] && sourceString[i] <= NumRangeEnd))
+        else if ( StringUtils::IsItSign(sourceString[i]) || (NumRangeStart <= sourceString[i] && sourceString[i] <= NumRangeEnd))
         {
             result = TokenizeNumber(sourceString, outTokenizedStrings, i);
         }
@@ -212,8 +312,45 @@ bool UglyJSONParser::Tokenizer::Tokenize(const std::string& sourceString, std::l
         }
     }
 
+    if (result)
+    {
+        result = CheckTokenizedTokens(outTokenizedStrings);
+    }
+
+    if (result == false)
+    {
+        outTokenizedStrings.clear();
+        return false;
+    }
+
     return true;
 }
+
+/*
+    :일 경우 //:는 무조건 object에서만 나옴
+    =>indentationStack이 비어있지 않고 top이 {면서 ,왼쪽은 string타입이고, 오른쪽은 여는토큰이거나 단일value여야 한다.
+    =>indentationStack이 비어있거나 top이 {이 아니거나 ,왼쪽이 string타입이 아니거나, 오른쪽이 여는토큰과 단일value 둘 다 아니라면 틀린문법.
+
+    ,일 경우 //,는 object와 array 둘 다 나옴
+    => indentationStack이 비어있지 않아야하고, 왼쪽은 닫는토큰이거나 단일 value여야 하고,
+    => top이 {일때:오른쪽은 string이어야 한다.
+    => top이 [일때:오른쪽은 여는토큰이거나 단일value여야한다.
+    ----------
+    =>만약 indentationStack이 비어있거나, 왼쪽이 닫는토큰과 단일value 둘 다 아니거나,
+    => top이 {일때:오른쪽이 string이 아니면 잘못된 문법
+    => top이 [일때:오른쪽이 여는토큰과 단일value 둘 다 아니면 잘못된 문법
+
+    jsonValue일 경우
+    연속되면 안됨
+    =>만약 jsonValue(여는토큰들과 단일value)가 연속된다면 잘못된 문법
+
+    */
+
+    /*
+    괄호 문법 검사 //v
+    최상위 value 갯수 검사 // v
+    토큰이 이상한 형태인지 검사 (:, ,: :} :] [: number : value ...) //
+    */
 
 /*
 읽은 문자가 괄호 토큰들( {,},[,] ) 이것들이라면 바로 리스트에 push하고 다음문자를 읽는다.
@@ -244,5 +381,5 @@ e 또는 E 뒤에 부호 또는 수가 없다면 false 리턴.
 
 
 }
-//////
+
 */

@@ -63,6 +63,9 @@
     <ClCompile Include="src\headers\Utils\Implements\StringUtils.cpp">
       <Filter>소스 파일\Utils</Filter>
     </ClCompile>
+    <ClCompile Include="src\headers\JsonTree\Implements\JSONTreeBuilder.cpp">
+      <Filter>소스 파일\JsonTree</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\headers\JsonTree\Node.hpp">
@@ -85,6 +88,9 @@
     </ClInclude>
     <ClInclude Include="src\headers\Utils\StringUtils.hpp">
       <Filter>헤더 파일\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="src\headers\JsonTree\JSONTreeBuilder.hpp">
+      <Filter>헤더 파일\JsonTree</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

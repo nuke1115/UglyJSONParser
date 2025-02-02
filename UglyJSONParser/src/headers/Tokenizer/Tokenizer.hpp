@@ -3,8 +3,10 @@
 #include <string>
 #include <list>
 #include <xutility>
+#include <stack>
 #include <sstream>
 #include "..\Utils\StringUtils.hpp"
+#include "..\Utils\TypeUtils.hpp"
 
 namespace UglyJSONParser
 {
@@ -39,16 +41,14 @@ namespace UglyJSONParser
         const char TokenCarriageReturn = '\r';
         const char TokenHorizontalTab = '\t';
 
-        inline bool IsItNumber(const char token)
-        {
-            return NumRangeStart <= token && NumRangeEnd >= token;
-        }
+        
 
         bool TokenizeString(const std::string& sourceString, std::list<std::string>& outTokenizedStrings, size_t& index);
         bool TokenizeNumber(const std::string& sourceString, std::list<std::string>& outTokenizedStrings, size_t& index);
         bool CheckTokenizedNumber(const std::string& numString, size_t exponentCnt, size_t signCnt, size_t pointCnt);
         bool TokenizeBool(const std::string& sourceString, std::list<std::string>& outTokenizedStrings, size_t& index);
         bool TokenizeNull(const std::string& sourceString, std::list<std::string>& outTokenizedStrings, size_t& index);
+        bool CheckTokenizedTokens(const std::list<std::string>& tokenizedStrings);//완성된 json토큰들 검사하는 기능들 다 여기로 옮기기
 
     public:
         bool Tokenize(const std::string& sourceString, std::list<std::string>& outTokenizedStrings);
