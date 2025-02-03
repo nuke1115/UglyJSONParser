@@ -49,13 +49,13 @@ bool UglyJSONParser::Tokenizer::CheckTokenizedNumber(const std::string& numStrin
     }
     
     //부호와 수 둘 다 아닐때 true가 되야한다. //(numString.front() != TokenPlus && numString.front() != TokenMinus)
-    if (!StringUtils::IsItNumber(numString.front()) && !StringUtils::IsItSign(numString.front()))
+    if (!StringUtils::IsItDigit(numString.front()) && !StringUtils::IsItSign(numString.front()))
     {
         return false;
     }
 
     //수가 아닐때 true가 되야한다.
-    if (!StringUtils::IsItNumber(numString.back()))
+    if (!StringUtils::IsItDigit(numString.back()))
     {
         return false;
     }
@@ -68,7 +68,7 @@ bool UglyJSONParser::Tokenizer::CheckTokenizedNumber(const std::string& numStrin
         {
             //위치가 0이 아닌 부호는 앞에는 무조건 e 또는 E가 와야하고, 뒤에는 무조건 수가 와야한다.
             //=> 위치가 0이 아닌 부호는 뒤에 수가 없거나, 앞에 지수가 없다면 잘못된 문법이다.
-            if (!StringUtils::IsItNumber(numString[i + 1]) || (numString[i - 1] != TokenExponentUpper && numString[i - 1] != TokenExponentLower))
+            if (!StringUtils::IsItDigit(numString[i + 1]) || (numString[i - 1] != TokenExponentUpper && numString[i - 1] != TokenExponentLower))
             {
                 return false;
             }
@@ -76,7 +76,7 @@ bool UglyJSONParser::Tokenizer::CheckTokenizedNumber(const std::string& numStrin
         else if (numString[i] == TokenDecimalPoint) //소수점일때
         {
             //양쪽이 모두 수여야 한다 => 양쪽 모두 수가 아니면 잘못된 문법
-            if (!StringUtils::IsItNumber(numString[i - 1]) || !StringUtils::IsItNumber(numString[i + 1]))
+            if (!StringUtils::IsItDigit(numString[i - 1]) || !StringUtils::IsItDigit(numString[i + 1]))
             {
                 return false;
             }
@@ -85,7 +85,7 @@ bool UglyJSONParser::Tokenizer::CheckTokenizedNumber(const std::string& numStrin
         {
             //지수의 경우는 앞에는 무조건 수가 와야하고, 뒤에는 부호 또는 수가 와야한다.
             //=> 지수의 경우 앞의 토큰이 수가 아니거나, 뒤에 오는 토큰이 부호와 수 둘 다 아니면 잘못된 문법이다.//(numString[i + 1] != TokenPlus && numString[i + 1] != TokenMinus)
-            if (!StringUtils::IsItNumber(numString[i - 1]) || (!StringUtils::IsItNumber(numString[i + 1]) && !StringUtils::IsItSign(numString[i + 1])))
+            if (!StringUtils::IsItDigit(numString[i - 1]) || (!StringUtils::IsItDigit(numString[i + 1]) && !StringUtils::IsItSign(numString[i + 1])))
             {
                 return false;
             }
@@ -190,7 +190,7 @@ bool UglyJSONParser::Tokenizer::CheckTokenizedTokens(const std::list<std::string
     {
         return false;
     }
-
+    
     for (auto presentIter = tokenizedStrings.begin(); presentIter != tokenizedStrings.end() && rootValueCnt < 2; presentIter++)
     {
         if (presentIter->front() == TokenObjectStart || presentIter->front() == TokenArrayStart)
@@ -211,7 +211,7 @@ bool UglyJSONParser::Tokenizer::CheckTokenizedTokens(const std::list<std::string
             
             indentationStack.pop();
         }
-        else if (indentationStack.empty() && (presentIter->front() == TokenQuotationMark || StringUtils::IsItSign(presentIter->front()) || StringUtils::IsItNumber(presentIter->front())))
+        else if (indentationStack.empty() && (presentIter->front() == TokenQuotationMark || StringUtils::IsItSign(presentIter->front()) || StringUtils::IsItDigit(presentIter->front())))
         {
             rootValueCnt++;
         }

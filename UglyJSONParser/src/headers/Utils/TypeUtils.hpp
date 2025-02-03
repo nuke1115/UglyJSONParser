@@ -1,6 +1,7 @@
 #ifndef UGLY_JSON_PARSER_TYPE_UTILS_HEADER
 
 #include <string>
+#include "..\JsonTree\NodeTypes.hpp"
 #include ".\StringUtils.hpp"
 
 
@@ -21,6 +22,9 @@ namespace UglyJSONParser
         /// <returns></returns>
         bool IsItJsonValue(const std::string& key);
         
+        bool IsItJsonBool(const std::string& key);
+
+        NodeType GetNodeTypeOfToken(const std::string& token);
     }
 }
 

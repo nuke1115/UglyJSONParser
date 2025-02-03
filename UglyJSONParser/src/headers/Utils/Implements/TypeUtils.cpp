@@ -27,9 +27,45 @@ bool UglyJSONParser::TypeUtils::IsItJsonValue(const std::string& key)
 {
     return (
         IsItJsonString(key) ||
-        (StringUtils::IsItNumber(key.front()) || key.front() == '+' || key.front() == '-') ||
-        (StringUtils::CompareString(key,"true",0) || StringUtils::CompareString(key,"false",0)) ||
+        (StringUtils::IsItDigit(key.front()) || StringUtils::IsItSign(key.front())) ||
+        IsItJsonBool(key) ||
         StringUtils::CompareString(key,"null",0)
         );
 }
 
+bool UglyJSONParser::TypeUtils::IsItJsonBool(const std::string& key)
+{
+    return !key.compare("true") || !key.compare("false");
+}
+
+UglyJSONParser::NodeType UglyJSONParser::TypeUtils::GetNodeTypeOfToken(const std::string& token)
+{
+    if (token.front() == '{')
+    {
+        return NodeType::Object;
+    }
+    else if (token.front() == '[')
+    {
+        return NodeType::Array;
+    }
+    else if (!token.compare("null"))
+    {
+        return NodeType::Null;
+    }
+    else if (IsItJsonValue(token) && token.compare("null"))
+    {
+        return NodeType::SingleValue;
+    }
+    else
+    {
+        return NodeType::Error;
+    }
+}
+/*
+Null = 0,
+Object = 1,
+Array = 2,
+SingleValue = 3,
+Root = 4,
+Error = -1
+*/
