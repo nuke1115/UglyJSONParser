@@ -130,7 +130,7 @@
   <ItemGroup>
     <ClCompile Include="src\headers\FileIO\Implements\FileIOManager.cpp" />
     <ClCompile Include="src\headers\JsonTree\Implements\JSONTreeBuilder.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="src\headers\JsonTree\Implements\NodeBase.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
@@ -146,7 +146,7 @@
   <ItemGroup>
     <ClInclude Include="src\headers\FileIO\FileIOManager.hpp" />
     <ClInclude Include="src\headers\JsonTree\JSONTreeBuilder.hpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="src\headers\JsonTree\Node.hpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>

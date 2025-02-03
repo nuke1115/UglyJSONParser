@@ -25,7 +25,7 @@ namespace UglyJSONParser
         BaseNode(BaseNode&&) = delete;
 
 
-        inline NodeType GetNodeType() const
+        inline NodeType GetNodeType() const //이거 두개 다 virtual 로 바꿔야된다 조졌다 ㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋ
         {
             return _nodeType;
         }

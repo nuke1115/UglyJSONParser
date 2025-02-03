@@ -183,6 +183,51 @@ namespace UglyJSONParser
 
         ~NullNode();
     };
+
+    class RootNode : public BaseNode
+    {
+    private:
+        BaseNode* _entryPoint = nullptr;
+    public:
+
+        RootNode();
+        RootNode(const RootNode&) = delete;
+        RootNode(RootNode&&) = delete;
+
+        string GetJsonTreeByString() override;
+
+        const std::string& AsString() const override;
+        long long AsInt() const override;
+        bool AsBool() const override;
+        double AsDouble() const override;
+
+        BaseNode& operator[](const string& strKey) override;
+        BaseNode& operator[](const int intKey) override;
+
+        void operator=(const char* strData) override;
+        void operator=(const string& strData) override;
+        void operator=(const long long intData) override;
+        void operator=(const bool boolData) override;
+        void operator=(const double doubleData) override;
+
+
+        std::vector<BaseNode*>& GetChildNodeVector() override;
+
+
+        void Clear() override;
+
+        void DeleteChildNode(const string& strKey) override;
+        void DeleteChildNode(int intKey) override;
+
+        void CreateNewNode(NodeType type, string strKey) override;
+        void CreateNewNode(NodeType type) override;
+
+        bool SetRoot(BaseNode* node);
+        bool SetType(NodeType type);
+
+
+        ~RootNode();
+    };
 }
 
 

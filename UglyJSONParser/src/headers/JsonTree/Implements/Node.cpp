@@ -24,6 +24,11 @@ UglyJSONParser::NullNode::NullNode(string name) : BaseNode(name, NodeType::Null)
 
 }
 
+UglyJSONParser::RootNode::RootNode() : BaseNode("root", NodeType::Root)
+{
+    _entryPoint = nullptr;
+}
+
 #pragma endregion
 
 
@@ -53,8 +58,23 @@ UglyJSONParser::NullNode::~NullNode()
 {
 
 }
+
+UglyJSONParser::RootNode::~RootNode()
+{
+    if (_entryPoint != nullptr)
+    {
+        _entryPoint->Clear();
+        delete _entryPoint;
+        _entryPoint = nullptr;
+    }
+}
 #pragma endregion
 
+/*
+
+에초에 " 자체는 string 표현하려고 한거고, 문자열로 처리되는 "는 \"형태로 들어온다.
+
+*/
 
 #pragma region SingleValueNode
 
@@ -63,7 +83,7 @@ std::string UglyJSONParser::SingleValueNode::GetJsonTreeByString()
     std::ostringstream oss;
     if (_isStringData)
     {
-        oss << "\"" << _data << "\"";
+        oss << '\"' << _data << '\"';
     }
     else
     {
@@ -439,7 +459,7 @@ void UglyJSONParser::ArrayNode::DeleteChildNode(int intKey)
 
 void UglyJSONParser::ArrayNode::CreateNewNode(NodeType type, string strKey)
 {
-    return;
+    CreateNewNode(type);
 }
 
 void UglyJSONParser::ArrayNode::CreateNewNode(NodeType type)
@@ -553,12 +573,136 @@ void UglyJSONParser::NullNode::CreateNewNode(NodeType type)
 
 #pragma endregion
 
+#pragma region RootNode
+
+bool UglyJSONParser::RootNode::SetRoot(BaseNode* node)
+{
+    if (_entryPoint == nullptr && node != nullptr)
+    {
+        _entryPoint = node;
+        return true;
+    }
+    return false;
+}
+
+bool UglyJSONParser::RootNode::SetType(NodeType type)
+{
+    if (_nodeType == NodeType::Root)
+    {
+        _nodeType = type;
+        return true;
+    }
+    return false;
+}
+
+std::string UglyJSONParser::RootNode::GetJsonTreeByString()
+{
+    return std::move(_entryPoint->GetJsonTreeByString());
+}
+
+const std::string& UglyJSONParser::RootNode::AsString() const
+{
+    return _entryPoint->AsString();
+}
+
+long long UglyJSONParser::RootNode::AsInt() const
+{
+    return _entryPoint->AsInt();
+}
+
+bool UglyJSONParser::RootNode::AsBool() const
+{
+    return _entryPoint->AsBool();
+}
+
+double UglyJSONParser::RootNode::AsDouble() const
+{
+    return _entryPoint->AsDouble();
+}
+
+UglyJSONParser::BaseNode& UglyJSONParser::RootNode::operator[](const string& strKey)
+{
+    return (*_entryPoint)[strKey];
+}
+
+UglyJSONParser::BaseNode& UglyJSONParser::RootNode::operator[](const int intKey)
+{
+    return (*_entryPoint)[intKey];
+}
+
+void UglyJSONParser::RootNode::operator=(const char* strData)
+{
+    (*_entryPoint) = strData;
+}
+
+void UglyJSONParser::RootNode::operator=(const string& strData)
+{
+    (*_entryPoint) = strData;
+}
+
+void UglyJSONParser::RootNode::operator=(const long long intData)
+{
+    (*_entryPoint) = intData;
+}
+
+void UglyJSONParser::RootNode::operator=(const bool boolData)
+{
+    (*_entryPoint) = boolData;
+}
+
+void UglyJSONParser::RootNode::operator=(const double doubleData)
+{
+    (*_entryPoint) = doubleData;
+}
+
+std::vector<UglyJSONParser::BaseNode*>& UglyJSONParser::RootNode::GetChildNodeVector()
+{
+    return _entryPoint->GetChildNodeVector();
+}
+
+void UglyJSONParser::RootNode::Clear()
+{
+    _entryPoint->Clear();
+    _entryPoint = nullptr;
+}
+
+void UglyJSONParser::RootNode::DeleteChildNode(const string& strKey)
+{
+    _entryPoint->DeleteChildNode(strKey);
+}
+
+void UglyJSONParser::RootNode::DeleteChildNode(int intKey)
+{
+    _entryPoint->DeleteChildNode(intKey);
+}
+
+void UglyJSONParser::RootNode::CreateNewNode(NodeType type, string strKey)
+{
+    _entryPoint->CreateNewNode(type, strKey);
+}
+
+void UglyJSONParser::RootNode::CreateNewNode(NodeType type)
+{
+    _entryPoint->CreateNewNode(type);
+}
+
+#pragma endregion
 
 #pragma region NodeFactory
 
 
 UglyJSONParser::BaseNode* UglyJSONParser::NodeFactory::CreateNode(NodeType type, std::string name)
 {
+    if (name.front() == '\"')
+    {
+        name.erase(0, 1);
+    }
+    
+    if (name.back() == '\"')
+    {
+        name.pop_back();
+    }
+
     switch (type)
     {
     case NodeType::Object:
