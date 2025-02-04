@@ -1,4 +1,5 @@
 #ifndef UGLY_JSON_PARSER_STRING_UTILS_HEADER
+#define UGLY_JSON_PARSER_STRING_UTILS_HEADER
 
 #include <string>
 #include <xstring>
@@ -9,15 +10,30 @@ namespace UglyJSONParser
     {
         bool CompareString(const std::string& target, const std::string& key, size_t targetStringStartIndex);
 
-        bool IsItDigit(const char token);
+        inline bool IsItDigit(const char token)
+        {
+            return '0' <= token && '9' >= token;
+        }
 
-        bool IsItOpeningToken(const char token);
+        inline bool IsItOpeningToken(const char token)
+        {
+            return token == '{' || token == '[';
+        }
 
-        bool IsItClosingToken(const char token);
+        inline bool IsItClosingToken(const char token)
+        {
+            return token == '}' || token == ']';
+        }
 
-        bool IsItSign(const char token);
+        inline bool IsItSign(const char token)
+        {
+            return token == '+' || token == '-';
+        }
 
-        bool Contains(const std::string& source, const char key);
+        inline bool Contains(const std::string& source, const char key)
+        {
+            return source.find(key) != std::string::npos;
+        }
     }
 }
 

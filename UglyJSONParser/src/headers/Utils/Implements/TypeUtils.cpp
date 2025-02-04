@@ -1,11 +1,5 @@
 #include "..\TypeUtils.hpp"
 
-
-bool UglyJSONParser::TypeUtils::StrToBool(const std::string& data)
-{
-    return !data.compare("true");
-}
-
 std::string UglyJSONParser::TypeUtils::BoolToString(bool data)
 {
     if (data)
@@ -16,26 +10,6 @@ std::string UglyJSONParser::TypeUtils::BoolToString(bool data)
     {
         return "false";
     }
-}
-
-bool UglyJSONParser::TypeUtils::IsItJsonString(const std::string& key)
-{
-    return (key.front() == '"' && key.back() == '"');
-}
-
-bool UglyJSONParser::TypeUtils::IsItJsonValue(const std::string& key)
-{
-    return (
-        IsItJsonString(key) ||
-        (StringUtils::IsItDigit(key.front()) || StringUtils::IsItSign(key.front())) ||
-        IsItJsonBool(key) ||
-        StringUtils::CompareString(key,"null",0)
-        );
-}
-
-bool UglyJSONParser::TypeUtils::IsItJsonBool(const std::string& key)
-{
-    return !key.compare("true") || !key.compare("false");
 }
 
 UglyJSONParser::NodeType UglyJSONParser::TypeUtils::GetNodeTypeOfToken(const std::string& token)
@@ -52,7 +26,7 @@ UglyJSONParser::NodeType UglyJSONParser::TypeUtils::GetNodeTypeOfToken(const std
     {
         return NodeType::Null;
     }
-    else if (IsItJsonValue(token) && token.compare("null"))
+    else if (IsItSingleJsonValue(token) && token.compare("null"))
     {
         return NodeType::SingleValue;
     }
@@ -61,11 +35,3 @@ UglyJSONParser::NodeType UglyJSONParser::TypeUtils::GetNodeTypeOfToken(const std
         return NodeType::Error;
     }
 }
-/*
-Null = 0,
-Object = 1,
-Array = 2,
-SingleValue = 3,
-Root = 4,
-Error = -1
-*/

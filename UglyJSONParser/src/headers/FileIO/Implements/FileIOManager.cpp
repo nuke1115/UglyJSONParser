@@ -1,20 +1,14 @@
 #include "..\FileIOManager.hpp"
 
-bool FileIOManager::IsFileExist(const string& filePath) const
-{
-    return (!filePath.empty()) && std::filesystem::exists(filePath);
-}
 
 bool FileIOManager::LoadTextFromFile(string& destination, const string& filePath)
 {
     std::ostringstream oss;
 
-
     if (!IsFileExist(filePath))
     {
         return false;
     }
-
 
     std::ifstream iStream(filePath,std::ios::in);
 
@@ -32,7 +26,7 @@ bool FileIOManager::LoadTextFromFile(string& destination, const string& filePath
     return true;
 }
 
-bool FileIOManager::ClearFile(const string& filePath) const
+bool FileIOManager::ClearFile(const string& filePath)
 {
 
     if (!IsFileExist(filePath))
@@ -46,9 +40,9 @@ bool FileIOManager::ClearFile(const string& filePath) const
 }
 
 
-bool FileIOManager::WriteTextToFile(const string& data, const string& filePath) const
+bool FileIOManager::WriteTextToFile(const string& data, const string& filePath, std::ios::openmode openMode)
 {
-    std::ofstream oStream(filePath,std::ios::out);
+    std::ofstream oStream(filePath,openMode);
 
     if (!oStream.is_open())
     {
@@ -56,6 +50,6 @@ bool FileIOManager::WriteTextToFile(const string& data, const string& filePath) 
     }
 
     oStream << data;
-
+    
     return oStream.good();
 }
