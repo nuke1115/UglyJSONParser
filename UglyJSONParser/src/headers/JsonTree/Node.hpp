@@ -7,7 +7,6 @@
 #include "..\Utils\TypeUtils.hpp"
 
 
-
 namespace UglyJSONParser
 {
     class NodeFactory
@@ -15,7 +14,6 @@ namespace UglyJSONParser
     public:
         BaseNode* CreateNode(NodeType type, std::string name);
     };
-
 
     class SingleValueNode : public BaseNode
     {
@@ -55,9 +53,10 @@ namespace UglyJSONParser
         void CreateNewNode(NodeType type, string strKey) override;
         void CreateNewNode(NodeType type) override;
 
+        virtual size_t GetChildNodeCount() const override;
+
         ~SingleValueNode();
     };
-
 
     class ObjectNode : public BaseNode
     {
@@ -96,6 +95,8 @@ namespace UglyJSONParser
 
         void CreateNewNode(NodeType type, string strKey) override;
         void CreateNewNode(NodeType type) override;
+
+        virtual size_t GetChildNodeCount() const override;
 
         ~ObjectNode();
 
@@ -139,6 +140,8 @@ namespace UglyJSONParser
         void CreateNewNode(NodeType type, string strKey) override;
         void CreateNewNode(NodeType type) override;
 
+        virtual size_t GetChildNodeCount() const override;
+
         ~ArrayNode();
     };
 
@@ -179,6 +182,8 @@ namespace UglyJSONParser
 
         void CreateNewNode(NodeType type, string strKey) override;
         void CreateNewNode(NodeType type) override;
+
+        virtual size_t GetChildNodeCount() const override;
 
 
         ~NullNode();
@@ -222,14 +227,13 @@ namespace UglyJSONParser
         void CreateNewNode(NodeType type, string strKey) override;
         void CreateNewNode(NodeType type) override;
 
+        virtual size_t GetChildNodeCount() const override;
+
         bool SetRoot(BaseNode* node);
         bool SetType(NodeType type);
-
 
         ~RootNode();
     };
 }
-
-
 
 #endif // !UGLY_JSON_PARSER_NODES_HEADER

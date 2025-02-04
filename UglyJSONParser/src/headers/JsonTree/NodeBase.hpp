@@ -24,11 +24,11 @@ namespace UglyJSONParser
         BaseNode(const BaseNode&) = delete;
         BaseNode(BaseNode&&) = delete;
 
-
-        inline NodeType GetNodeType() const //이거 두개 다 virtual 로 바꿔야된다 조졌다 ㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋ
+        inline NodeType GetNodeType() const
         {
             return _nodeType;
         }
+
 
         inline const string& GetName() const
         {
@@ -56,7 +56,6 @@ namespace UglyJSONParser
 
         virtual std::vector<BaseNode*>& GetChildNodeVector() = 0;
 
-        //array나 object의 모든 원소를 삭제한다.
         virtual void Clear() = 0;
 
         virtual void DeleteChildNode(const string& strKey) = 0;
@@ -64,6 +63,9 @@ namespace UglyJSONParser
 
         virtual void CreateNewNode(NodeType type, string strKey) = 0;
         virtual void CreateNewNode(NodeType type) = 0;
+
+
+        virtual size_t GetChildNodeCount() const = 0;
 
         virtual ~BaseNode();
     };
@@ -110,6 +112,6 @@ null처리를 어떻게 해야될까?
 가상소멸자가 없으면 부모노드 포인터로 자식노드 접근했을때 자식노드 소멸자 호출 안됨
 이거때문에 자식노드의 소멸자가 정상적으로 호출이 안되서, 지속적으로 메모리상에 인스턴스 일부가 남아있었다.
 부모노드에 가상소멸자 만들어줌으로써 해결
-시간=>1시간 30분 ㅅㅂ
+시간=>1시간 30분
 
 */

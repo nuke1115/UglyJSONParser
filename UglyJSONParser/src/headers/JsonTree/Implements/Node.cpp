@@ -1,7 +1,6 @@
 #include "..\Node.hpp"
 
 
-
 #pragma region Constructors
 
 UglyJSONParser::SingleValueNode::SingleValueNode(string name) : BaseNode(std::move(name), NodeType::SingleValue)
@@ -30,7 +29,6 @@ UglyJSONParser::RootNode::RootNode() : BaseNode("root", NodeType::Root)
 }
 
 #pragma endregion
-
 
 #pragma region Destructors
 
@@ -69,12 +67,6 @@ UglyJSONParser::RootNode::~RootNode()
     }
 }
 #pragma endregion
-
-/*
-
-에초에 " 자체는 string 표현하려고 한거고, 문자열로 처리되는 "는 \"형태로 들어온다.
-
-*/
 
 #pragma region SingleValueNode
 
@@ -183,10 +175,14 @@ void UglyJSONParser::SingleValueNode::CreateNewNode(NodeType type)
     return;
 }
 
+size_t UglyJSONParser::SingleValueNode::GetChildNodeCount() const
+{
+    return 0;
+}
+
 
 
 #pragma endregion
-
 
 #pragma region ObjectNode
 
@@ -336,8 +332,12 @@ void UglyJSONParser::ObjectNode::CreateNewNode(NodeType type)
     return;
 }
 
-#pragma endregion
+size_t UglyJSONParser::ObjectNode::GetChildNodeCount() const
+{
+    return _childNodeVector.size();
+}
 
+#pragma endregion
 
 #pragma region ArrayNode
 
@@ -472,8 +472,12 @@ void UglyJSONParser::ArrayNode::CreateNewNode(NodeType type)
     }
 }
 
-#pragma endregion
+size_t UglyJSONParser::ArrayNode::GetChildNodeCount() const
+{
+    return _childNodeVector.size();
+}
 
+#pragma endregion
 
 #pragma region NullNode
 
@@ -569,6 +573,11 @@ void UglyJSONParser::NullNode::CreateNewNode(NodeType type, string strKey)
 void UglyJSONParser::NullNode::CreateNewNode(NodeType type)
 {
     return;
+}
+
+size_t UglyJSONParser::NullNode::GetChildNodeCount() const
+{
+    return 0;
 }
 
 #pragma endregion
@@ -686,10 +695,14 @@ void UglyJSONParser::RootNode::CreateNewNode(NodeType type)
     _entryPoint->CreateNewNode(type);
 }
 
+size_t UglyJSONParser::RootNode::GetChildNodeCount() const
+{
+    return _entryPoint->GetChildNodeCount();
+}
+
 #pragma endregion
 
 #pragma region NodeFactory
-
 
 UglyJSONParser::BaseNode* UglyJSONParser::NodeFactory::CreateNode(NodeType type, std::string name)
 {
@@ -724,90 +737,3 @@ UglyJSONParser::BaseNode* UglyJSONParser::NodeFactory::CreateNode(NodeType type,
 }
 
 #pragma endregion
-
-/*
-
-std::string UglyJSONParser::SingleValueNode::GetJsonTreeByString()
-{
-
-}
-
-const std::string& UglyJSONParser::SingleValueNode::AsString() const
-{
-
-}
-
-int UglyJSONParser::SingleValueNode::AsInt() const
-{
-
-}
-
-bool UglyJSONParser::SingleValueNode::AsBool() const
-{
-
-}
-
-
-BaseNode& UglyJSONParser::SingleValueNode::operator[](const string& strKey)
-{
-
-}
-
-BaseNode& UglyJSONParser::SingleValueNode::operator[](const int intKey)
-{
-
-}
-
-
-void UglyJSONParser::SingleValueNode::operator=(const string& strData)
-{
-
-}
-
-void UglyJSONParser::SingleValueNode::operator=(const int intData)
-{
-
-}
-
-void UglyJSONParser::SingleValueNode::operator=(const bool boolData)
-{
-
-}
-
-
-
-std::vector<BaseNode*>& UglyJSONParser::SingleValueNode::GetChildNodeVector()
-{
-
-}
-
-
-
-void UglyJSONParser::SingleValueNode::Clear()
-{
-
-}
-
-
-void UglyJSONParser::SingleValueNode::DeleteChildNode(const string& strKey)
-{
-
-}
-
-void UglyJSONParser::SingleValueNode::DeleteChildNode(int intKey)
-{
-
-}
-
-
-void UglyJSONParser::SingleValueNode::CreateNewNode(NodeType type, string strKey)
-{
-
-}
-
-void UglyJSONParser::SingleValueNode::CreateNewNode(NodeType type)
-{
-
-}
-
-*/
