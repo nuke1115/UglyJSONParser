@@ -219,7 +219,18 @@ namespace UglyJSONParser
 
         virtual size_t GetChildNodeCount() const override;
 
+        /// <summary>
+        /// if entrypoint is nullptr, set entrypoint of json tree to root node.
+        /// </summary>
+        /// <param name="node"></param>
+        /// <returns></returns>
         bool SetRoot(BaseNode* node);
+
+        /// <summary>
+        /// if node type is Root, set node type to this
+        /// </summary>
+        /// <param name="type"></param>
+        /// <returns></returns>
         bool SetType(NodeType type);
 
         ~RootNode();

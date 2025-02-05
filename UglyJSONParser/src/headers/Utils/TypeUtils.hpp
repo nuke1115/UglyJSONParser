@@ -11,25 +11,45 @@ namespace UglyJSONParser
 {
     namespace TypeUtils
     {
+        /// <summary>
+        /// Converts input string to bool data
+        /// </summary>
+        /// <param name="data"></param>
+        /// <returns></returns>
         inline bool StrToBool(const std::string& data)
         {
             return !data.compare(Tokens::TokenTrue);
         }
 
+        /// <summary>
+        /// Converts input bool data to string
+        /// </summary>
+        /// <param name="data"></param>
+        /// <returns></returns>
         std::string BoolToString(bool data);
 
+        /// <summary>
+        /// Checking input is json type bool
+        /// </summary>
+        /// <param name="key"></param>
+        /// <returns></returns>
         inline bool IsItJsonBool(const std::string& key)
         {
             return !key.compare(Tokens::TokenTrue) || !key.compare(Tokens::TokenFalse);
         }
 
+        /// <summary>
+        /// Checking input is json type string
+        /// </summary>
+        /// <param name="key"></param>
+        /// <returns></returns>
         inline bool IsItJsonString(const std::string& key)
         {
             return (key.front() == Tokens::TokenQuotationMark && key.back() == Tokens::TokenQuotationMark);
         }
 
         /// <summary>
-        /// only checks boolean,number,null. not array, object
+        /// Checking input is single json value(bool,null,string,number)
         /// </summary>
         /// <param name="key"></param>
         /// <returns></returns>
@@ -37,12 +57,17 @@ namespace UglyJSONParser
         {
             return (
                 IsItJsonString(key) ||
-                (StringUtils::IsItDigit(key.front()) || StringUtils::IsItSign(key.front())) ||
+                ((StringUtils::IsItDigit(key.front()) || StringUtils::IsItSign(key.front())) && StringUtils::IsItDigit(key.back())) ||
                 IsItJsonBool(key) ||
                 StringUtils::CompareString(key, Tokens::TokenNull, 0)
                 );
         }
 
+        /// <summary>
+        /// Returns node type of token
+        /// </summary>
+        /// <param name="token"></param>
+        /// <returns></returns>
         NodeType GetNodeTypeOfToken(const std::string& token);
     }
 }

@@ -27,7 +27,12 @@ namespace UglyJSONParser
         void AssignValue(BaseNode& TargetNodeRef, const std::string& str);
 
     public:
-
+        /// <summary>
+        /// builds json tree with tokens to rootNode
+        /// </summary>
+        /// <param name="rootNode"></param>
+        /// <param name="tokens"></param>
+        /// <returns></returns>
         bool BuildJSONTree(RootNode& rootNode, const std::list<std::string>& tokens);
 
     };
