@@ -158,12 +158,16 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="src\headers\Tokenizer\Tokenizer.hpp" />
+    <ClInclude Include="src\headers\Tokenizer\Tokens.hpp" />
     <ClInclude Include="src\headers\Utils\StringUtils.hpp" />
     <ClInclude Include="src\headers\Utils\TypeUtils.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\..\..\새 폴더 (2)\json.json" />
     <None Include="..\.gitignore" />
-    <None Include="test.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="dummy\구상의 흔적들.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

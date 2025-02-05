@@ -5,22 +5,18 @@
 
 UglyJSONParser::SingleValueNode::SingleValueNode(string name) : BaseNode(std::move(name), NodeType::SingleValue)
 {
-
 }
 
 UglyJSONParser::ObjectNode::ObjectNode(string name) : BaseNode(std::move(name), NodeType::Object)
 {
-
 }
 
 UglyJSONParser::ArrayNode::ArrayNode(string name) : BaseNode(std::move(name), NodeType::Array)
 {
-
 }
 
 UglyJSONParser::NullNode::NullNode(string name) : BaseNode(name, NodeType::Null)
 {
-
 }
 
 UglyJSONParser::RootNode::RootNode() : BaseNode("root", NodeType::Root)
@@ -35,26 +31,20 @@ UglyJSONParser::RootNode::RootNode() : BaseNode("root", NodeType::Root)
 
 UglyJSONParser::SingleValueNode::~SingleValueNode()
 {
-
 }
 
 UglyJSONParser::ObjectNode::~ObjectNode()
 {
-    
     Clear();
-
 }
 
 UglyJSONParser::ArrayNode::~ArrayNode()
 {
-    
     Clear();
-
 }
 
 UglyJSONParser::NullNode::~NullNode()
 {
-
 }
 
 UglyJSONParser::RootNode::~RootNode()
@@ -72,17 +62,18 @@ UglyJSONParser::RootNode::~RootNode()
 
 std::string UglyJSONParser::SingleValueNode::GetJsonTreeByString()
 {
-    std::ostringstream oss;
+    std::ostringstream buffer;
+
     if (_isStringData)
     {
-        oss << '\"' << _data << '\"';
+        buffer << Tokens::TokenQuotationMark << _data << Tokens::TokenQuotationMark;
     }
     else
     {
-        oss << _data;
+        buffer << _data;
     }
 
-    return std::move(oss.str());
+    return buffer.str();
 }
 
 const std::string& UglyJSONParser::SingleValueNode::AsString() const
@@ -152,27 +143,27 @@ std::vector<UglyJSONParser::BaseNode*>& UglyJSONParser::SingleValueNode::GetChil
 
 void UglyJSONParser::SingleValueNode::Clear()
 {
-    return;
+    throw std::logic_error("tried to delete child node in leaf node");
 }
 
 void UglyJSONParser::SingleValueNode::DeleteChildNode(const string& strKey)
 {
-    return;
+    throw std::logic_error("tried to delete child node in leaf node");
 }
 
 void UglyJSONParser::SingleValueNode::DeleteChildNode(int intKey)
 {
-    return;
+    throw std::logic_error("tried to delete child node in leaf node");
 }
 
-void UglyJSONParser::SingleValueNode::CreateNewNode(NodeType type, string strKey)
+bool UglyJSONParser::SingleValueNode::CreateNewNode(NodeType type, string strKey)
 {
-    return;
+    throw std::logic_error("tried to create child node in leaf node");
 }
 
-void UglyJSONParser::SingleValueNode::CreateNewNode(NodeType type)
+bool UglyJSONParser::SingleValueNode::CreateNewNode(NodeType type)
 {
-    return;
+    throw std::logic_error("tried to create child node in leaf node");
 }
 
 size_t UglyJSONParser::SingleValueNode::GetChildNodeCount() const
@@ -188,25 +179,25 @@ size_t UglyJSONParser::SingleValueNode::GetChildNodeCount() const
 
 std::string UglyJSONParser::ObjectNode::GetJsonTreeByString()
 {
-    std::ostringstream oss;
+    std::ostringstream buffer;
 
-    oss << '{';
+    buffer << Tokens::TokenObjectStart;
 
     for (BaseNode* i : _childNodeVector)
     {
-        oss << "\"" << i->GetName() << "\"" << ':';
+        buffer << Tokens::TokenQuotationMark << i->GetName() << Tokens::TokenQuotationMark << Tokens::TokenColon;
 
-        oss << (i->GetJsonTreeByString());
+        buffer << (i->GetJsonTreeByString());
 
         if (i != _childNodeVector.back())
         {
-            oss << ',';
+            buffer << Tokens::TokenComma;
         }
     }
 
-    oss << '}';
+    buffer << Tokens::TokenObjectEnd;
 
-    return std::move(oss.str());
+    return buffer.str();
 }
 
 const std::string& UglyJSONParser::ObjectNode::AsString() const
@@ -249,27 +240,27 @@ UglyJSONParser::BaseNode& UglyJSONParser::ObjectNode::operator[](const int intKe
 
 void UglyJSONParser::ObjectNode::operator=(const char* strData)
 {
-    return;
+    throw std::logic_error("tried to insert data in parent node");
 }
 
 void UglyJSONParser::ObjectNode::operator=(const string& strData)
 {
-    return;
+    throw std::logic_error("tried to insert data in parent node");
 }
 
 void UglyJSONParser::ObjectNode::operator=(const long long intData)
 {
-    return;
+    throw std::logic_error("tried to insert data in parent node");
 }
 
 void UglyJSONParser::ObjectNode::operator=(const bool boolData)
 {
-    return;
+    throw std::logic_error("tried to insert data in parent node");
 }
 
 void UglyJSONParser::ObjectNode::operator=(const double doubleData)
 {
-    return;
+    throw std::logic_error("tried to insert data in parent node");
 }
 
 std::vector<UglyJSONParser::BaseNode*>& UglyJSONParser::ObjectNode::GetChildNodeVector()
@@ -281,7 +272,7 @@ void UglyJSONParser::ObjectNode::Clear()
 {
     for (BaseNode* i : _childNodeVector)
     {
-        if (i->GetNodeType() != NodeType::SingleValue)
+        if (i->GetNodeType() != NodeType::SingleValue && i->GetNodeType() != NodeType::Null)
         {
             i->Clear();
         }
@@ -306,30 +297,34 @@ void UglyJSONParser::ObjectNode::DeleteChildNode(const string& strKey)
 
 void UglyJSONParser::ObjectNode::DeleteChildNode(int intKey)
 {
-    return;
+    throw std::logic_error("tried to access by int index in object node");
 }
 
-void UglyJSONParser::ObjectNode::CreateNewNode(NodeType type, string strKey)
+bool UglyJSONParser::ObjectNode::CreateNewNode(NodeType type, string strKey)
 {
     for (BaseNode* i : _childNodeVector)
     {
         if (!(i->GetName().compare(strKey)))
         {
-            return;
+            return false;
         }
     }
 
     BaseNode* newNode = _factory.CreateNode(type, std::move(strKey));
 
-    if (newNode != nullptr)
+    if (newNode == nullptr)
     {
-        _childNodeVector.push_back(newNode);
+        return false;
     }
+
+    _childNodeVector.push_back(newNode);
+
+    return true;
 }
 
-void UglyJSONParser::ObjectNode::CreateNewNode(NodeType type)
+bool UglyJSONParser::ObjectNode::CreateNewNode(NodeType type)
 {
-    return;
+    return false;
 }
 
 size_t UglyJSONParser::ObjectNode::GetChildNodeCount() const
@@ -343,24 +338,24 @@ size_t UglyJSONParser::ObjectNode::GetChildNodeCount() const
 
 std::string UglyJSONParser::ArrayNode::GetJsonTreeByString()
 {
-    std::ostringstream oss;
+    std::ostringstream buffer;
 
-    oss << '[';
+    buffer << Tokens::TokenArrayStart;
 
     for (BaseNode* i : _childNodeVector)
     {
 
-        oss << (i->GetJsonTreeByString());
+        buffer << (i->GetJsonTreeByString());
 
         if (i != _childNodeVector.back())
         {
-            oss << ',';
+            buffer << Tokens::TokenComma;
         }
     }
 
-    oss << ']';
+    buffer << Tokens::TokenArrayEnd;
 
-    return std::move(oss.str());
+    return buffer.str();
 }
 
 const std::string& UglyJSONParser::ArrayNode::AsString() const
@@ -399,27 +394,27 @@ UglyJSONParser::BaseNode& UglyJSONParser::ArrayNode::operator[](const int intKey
 
 void UglyJSONParser::ArrayNode::operator=(const char* strData)
 {
-    return;
+    throw std::logic_error("tried to insert data in parent node");
 }
 
 void UglyJSONParser::ArrayNode::operator=(const string& strData)
 {
-    return;
+    throw std::logic_error("tried to insert data in parent node");
 }
 
 void UglyJSONParser::ArrayNode::operator=(const long long intData)
 {
-    return;
+    throw std::logic_error("tried to insert data in parent node");
 }
 
 void UglyJSONParser::ArrayNode::operator=(const bool boolData)
 {
-    return;
+    throw std::logic_error("tried to insert data in parent node");
 }
 
 void UglyJSONParser::ArrayNode::operator=(const double doubleData)
 {
-    return;
+    throw std::logic_error("tried to insert data in parent node");
 }
 
 std::vector<UglyJSONParser::BaseNode*>& UglyJSONParser::ArrayNode::GetChildNodeVector()
@@ -431,7 +426,7 @@ void UglyJSONParser::ArrayNode::Clear()
 {
     for (BaseNode* i : _childNodeVector)
     {
-        if (i->GetNodeType() != NodeType::SingleValue)
+        if (i->GetNodeType() != NodeType::SingleValue && i->GetNodeType() != NodeType::Null)
         {
             i->Clear();
         }
@@ -443,7 +438,7 @@ void UglyJSONParser::ArrayNode::Clear()
 
 void UglyJSONParser::ArrayNode::DeleteChildNode(const string& strKey)
 {
-    return;
+    throw std::logic_error("tried to access by string index in array node");
 }
 
 void UglyJSONParser::ArrayNode::DeleteChildNode(int intKey)
@@ -457,19 +452,22 @@ void UglyJSONParser::ArrayNode::DeleteChildNode(int intKey)
     _childNodeVector.erase(_childNodeVector.begin() + intKey);
 }
 
-void UglyJSONParser::ArrayNode::CreateNewNode(NodeType type, string strKey)
+bool UglyJSONParser::ArrayNode::CreateNewNode(NodeType type, string strKey)
 {
-    CreateNewNode(type);
+    return CreateNewNode(type);
 }
 
-void UglyJSONParser::ArrayNode::CreateNewNode(NodeType type)
+bool UglyJSONParser::ArrayNode::CreateNewNode(NodeType type)
 {
     BaseNode* tmp = _factory.CreateNode(type, "nullName");
 
-    if (tmp != nullptr)
+    if (tmp == nullptr)
     {
-        _childNodeVector.push_back(tmp);
+        return false;   
     }
+
+    _childNodeVector.push_back(tmp);
+    return true;
 }
 
 size_t UglyJSONParser::ArrayNode::GetChildNodeCount() const
@@ -483,11 +481,7 @@ size_t UglyJSONParser::ArrayNode::GetChildNodeCount() const
 
 std::string UglyJSONParser::NullNode::GetJsonTreeByString()
 {
-    std::ostringstream oss;
-    
-    oss << "null";
-
-    return std::move(oss.str());
+    return Tokens::TokenNull;
 }
 
 const std::string& UglyJSONParser::NullNode::AsString() const
@@ -522,27 +516,27 @@ UglyJSONParser::BaseNode& UglyJSONParser::NullNode::operator[](const int intKey)
 
 void UglyJSONParser::NullNode::operator=(const char* strData)
 {
-    return;
+    throw std::logic_error("tried to insert data in null node");
 }
 
 void UglyJSONParser::NullNode::operator=(const string& strData)
 {
-    return;
+    throw std::logic_error("tried to insert data in null node");
 }
 
 void UglyJSONParser::NullNode::operator=(const long long intData)
 {
-    return;
+    throw std::logic_error("tried to insert data in null node");
 }
 
 void UglyJSONParser::NullNode::operator=(const bool boolData)
 {
-    return;
+    throw std::logic_error("tried to insert data in null node");
 }
 
 void UglyJSONParser::NullNode::operator=(const double doubleData)
 {
-    return;
+    throw std::logic_error("tried to insert data in null node");
 }
 
 std::vector<UglyJSONParser::BaseNode*>& UglyJSONParser::NullNode::GetChildNodeVector()
@@ -552,27 +546,27 @@ std::vector<UglyJSONParser::BaseNode*>& UglyJSONParser::NullNode::GetChildNodeVe
 
 void UglyJSONParser::NullNode::Clear()
 {
-    return;
+    throw std::logic_error("tried to delete child node in null node");
 }
 
 void UglyJSONParser::NullNode::DeleteChildNode(const string& strKey)
 {
-    return;
+    throw std::logic_error("tried to delete child node in null node");
 }
 
 void UglyJSONParser::NullNode::DeleteChildNode(int intKey)
 {
-    return;
+    throw std::logic_error("tried to delete child node in null node");
 }
 
-void UglyJSONParser::NullNode::CreateNewNode(NodeType type, string strKey)
+bool UglyJSONParser::NullNode::CreateNewNode(NodeType type, string strKey)
 {
-    return;
+    throw std::logic_error("tried to create child node in null node");
 }
 
-void UglyJSONParser::NullNode::CreateNewNode(NodeType type)
+bool UglyJSONParser::NullNode::CreateNewNode(NodeType type)
 {
-    return;
+    throw std::logic_error("tried to create child node in null node");
 }
 
 size_t UglyJSONParser::NullNode::GetChildNodeCount() const
@@ -606,7 +600,7 @@ bool UglyJSONParser::RootNode::SetType(NodeType type)
 
 std::string UglyJSONParser::RootNode::GetJsonTreeByString()
 {
-    return std::move(_entryPoint->GetJsonTreeByString());
+    return _entryPoint->GetJsonTreeByString();
 }
 
 const std::string& UglyJSONParser::RootNode::AsString() const
@@ -672,7 +666,6 @@ std::vector<UglyJSONParser::BaseNode*>& UglyJSONParser::RootNode::GetChildNodeVe
 void UglyJSONParser::RootNode::Clear()
 {
     _entryPoint->Clear();
-    _entryPoint = nullptr;
 }
 
 void UglyJSONParser::RootNode::DeleteChildNode(const string& strKey)
@@ -685,14 +678,14 @@ void UglyJSONParser::RootNode::DeleteChildNode(int intKey)
     _entryPoint->DeleteChildNode(intKey);
 }
 
-void UglyJSONParser::RootNode::CreateNewNode(NodeType type, string strKey)
+bool UglyJSONParser::RootNode::CreateNewNode(NodeType type, string strKey)
 {
-    _entryPoint->CreateNewNode(type, strKey);
+    return _entryPoint->CreateNewNode(type, strKey);
 }
 
-void UglyJSONParser::RootNode::CreateNewNode(NodeType type)
+bool UglyJSONParser::RootNode::CreateNewNode(NodeType type)
 {
-    _entryPoint->CreateNewNode(type);
+    return _entryPoint->CreateNewNode(type);
 }
 
 size_t UglyJSONParser::RootNode::GetChildNodeCount() const
@@ -706,12 +699,12 @@ size_t UglyJSONParser::RootNode::GetChildNodeCount() const
 
 UglyJSONParser::BaseNode* UglyJSONParser::NodeFactory::CreateNode(NodeType type, std::string name)
 {
-    if (name.front() == '\"')
+    if (name.front() == Tokens::TokenQuotationMark)
     {
         name.erase(0, 1);
     }
     
-    if (name.back() == '\"')
+    if (name.back() == Tokens::TokenQuotationMark)
     {
         name.pop_back();
     }
@@ -732,7 +725,6 @@ UglyJSONParser::BaseNode* UglyJSONParser::NodeFactory::CreateNode(NodeType type,
 
     default:
         return nullptr;
-
     }
 }
 

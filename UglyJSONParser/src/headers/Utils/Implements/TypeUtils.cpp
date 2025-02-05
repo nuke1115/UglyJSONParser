@@ -4,29 +4,29 @@ std::string UglyJSONParser::TypeUtils::BoolToString(bool data)
 {
     if (data)
     {
-        return "true";
+        return Tokens::TokenTrue;
     }
     else
     {
-        return "false";
+        return Tokens::TokenFalse;
     }
 }
 
 UglyJSONParser::NodeType UglyJSONParser::TypeUtils::GetNodeTypeOfToken(const std::string& token)
 {
-    if (token.front() == '{')
+    if (token.front() == Tokens::TokenObjectStart)
     {
         return NodeType::Object;
     }
-    else if (token.front() == '[')
+    else if (token.front() == Tokens::TokenArrayStart)
     {
         return NodeType::Array;
     }
-    else if (!token.compare("null"))
+    else if (!token.compare(Tokens::TokenNull))
     {
         return NodeType::Null;
     }
-    else if (IsItSingleJsonValue(token) && token.compare("null"))
+    else if (IsItSingleJsonValue(token) && token.compare(Tokens::TokenNull))
     {
         return NodeType::SingleValue;
     }

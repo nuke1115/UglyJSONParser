@@ -1,7 +1,6 @@
 #ifndef UGLY_JSON_PARSER_NODE_TYPES_HEADER
 #define UGLY_JSON_PARSER_NODE_TYPES_HEADER
 
-
 namespace UglyJSONParser
 {
     enum class NodeType
@@ -14,6 +13,5 @@ namespace UglyJSONParser
         Error = -1
     };
 }
-
 
 #endif // !UGLY_JSON_PARSER_NODE_TYPES_HEADER

@@ -1,5 +1,6 @@
 #ifndef UGLY_JSON_PARSER_JSON_TREE_BUILDER_HEADER
 #define UGLY_JSON_PARSER_JSON_TREE_BUILDER_HEADER
+
 #include <string>
 #include <list>
 #include <stack>
@@ -9,6 +10,7 @@
 #include ".\Node.hpp"
 #include "..\Utils\StringUtils.hpp"
 #include "..\Utils\TypeUtils.hpp"
+#include "..\Tokenizer\Tokens.hpp"
 
 
 namespace UglyJSONParser
@@ -18,23 +20,7 @@ namespace UglyJSONParser
     private:
         NodeFactory _factory;
 
-        const char* _TokenTrue = "true";
-        const char* _TokenFalse = "false";
-        const char* _TokenNull = "null";
         const char* _FirstNodeName = "root";
-
-        const char _TokenQuotationMark = '"';
-        const char _TokenObjectStart = '{';
-        const char _TokenObjectEnd = '}';
-        const char _TokenArrayStart = '[';
-        const char _TokenArrayEnd = ']';
-        const char _TokenPlus = '+';
-        const char _TokenMinus = '-';
-        const char _TokenColon = ':';
-        const char _TokenComma = ',';
-        const char _TokenExponentUpper = 'E';
-        const char _TokenExponentLower = 'e';
-        const char TokenDecimalPoint = '.';
 
         BaseNode* CreateFirstNode(const std::string& token);
 

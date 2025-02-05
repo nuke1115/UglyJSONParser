@@ -23,9 +23,8 @@ namespace UglyJSONParser
         bool CheckTokenizedNumber(const string& numString, size_t exponentCnt, size_t signCnt, size_t pointCnt);
         bool TokenizeBool(const string& sourceString, std::list<string>& outTokenizedStrings, size_t& index);
         bool TokenizeNull(const string& sourceString, std::list<string>& outTokenizedStrings, size_t& index);
-        bool CheckTokenizedTokens(const std::list<string>& tokenizedStrings);
-
     public:
+        bool CheckTokenizedTokens(const std::list<string>& tokenizedStrings);
         bool Tokenize(const string& sourceString, std::list<string>& outTokenizedStrings);
     };
 }

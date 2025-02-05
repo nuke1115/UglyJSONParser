@@ -3,6 +3,7 @@
 
 #include <string>
 #include <xstring>
+#include "..\Tokenizer\Tokens.hpp"
 
 namespace UglyJSONParser
 {
@@ -12,22 +13,22 @@ namespace UglyJSONParser
 
         inline bool IsItDigit(const char token)
         {
-            return '0' <= token && '9' >= token;
+            return Tokens::NumRangeStart <= token && Tokens::NumRangeEnd >= token;
         }
 
         inline bool IsItOpeningToken(const char token)
         {
-            return token == '{' || token == '[';
+            return token == Tokens::TokenObjectStart || token == Tokens::TokenArrayStart;
         }
 
         inline bool IsItClosingToken(const char token)
         {
-            return token == '}' || token == ']';
+            return token == Tokens::TokenObjectEnd || token == Tokens::TokenArrayEnd;
         }
 
         inline bool IsItSign(const char token)
         {
-            return token == '+' || token == '-';
+            return token == Tokens::TokenPlus || token == Tokens::TokenMinus;
         }
 
         inline bool Contains(const std::string& source, const char key)

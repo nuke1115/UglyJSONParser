@@ -4,6 +4,7 @@
 #include <string>
 #include "..\JsonTree\NodeTypes.hpp"
 #include ".\StringUtils.hpp"
+#include "..\Tokenizer\Tokens.hpp"
 
 
 namespace UglyJSONParser
@@ -12,19 +13,19 @@ namespace UglyJSONParser
     {
         inline bool StrToBool(const std::string& data)
         {
-            return !data.compare("true");
+            return !data.compare(Tokens::TokenTrue);
         }
 
         std::string BoolToString(bool data);
 
         inline bool IsItJsonBool(const std::string& key)
         {
-            return !key.compare("true") || !key.compare("false");
+            return !key.compare(Tokens::TokenTrue) || !key.compare(Tokens::TokenFalse);
         }
 
         inline bool IsItJsonString(const std::string& key)
         {
-            return (key.front() == '"' && key.back() == '"');
+            return (key.front() == Tokens::TokenQuotationMark && key.back() == Tokens::TokenQuotationMark);
         }
 
         /// <summary>
@@ -38,7 +39,7 @@ namespace UglyJSONParser
                 IsItJsonString(key) ||
                 (StringUtils::IsItDigit(key.front()) || StringUtils::IsItSign(key.front())) ||
                 IsItJsonBool(key) ||
-                StringUtils::CompareString(key, "null", 0)
+                StringUtils::CompareString(key, Tokens::TokenNull, 0)
                 );
         }
 
