@@ -2,30 +2,25 @@
 #include<iostream>
 #include <fstream>
 
-#include ".\src\headers\JsonTree\Node.hpp"
-#include ".\src\headers\FileIO\FileIOManager.hpp"
-#include ".\src\headers\Tokenizer\Tokenizer.hpp"
-#include ".\src\headers\JsonTree\JSONTreeBuilder.hpp"
 
+#include ".\src\headers\UglyJSONParserInclude.hpp"
 using namespace UglyJSONParser;
 
 
 void run()
 {
     std::string str, jsonFilePath = "E:\\새 폴더 (2)\\json.json";
-    std::list<std::string> tokens;
-    FileIOManager mgr;
     RootNode root;
-    Tokenizer tokenizer;
-    JSONTreeBuilder builder;
 
-    mgr.LoadTextFromFile(str, jsonFilePath);
-    std::cout << tokenizer.Tokenize(str, tokens) << '\n';
-    std::cout << builder.BuildJSONTree(root,tokens) << '\n';
-    
-    std::cout << root.GetJsonTreeByString();
+    JSONParser parser;
 
-    mgr.WriteTextToFile(root.GetJsonTreeByString(), jsonFilePath);
+    std::cout << parser.BuildJSONTreeFromFile(jsonFilePath, root) << '\n';
+
+
+    std::cout << root.GetJsonTreeByString() << '\n';
+
+
+    std::cout << parser.SaveJSONTreeToFile(jsonFilePath, root) << '\n';
 
 }
 
@@ -46,9 +41,33 @@ int main()
 
 }
 /*
-utils => ok 
-fileio => ok
-tokenizer => ok
-jsonTree => (Nodetypes,nodeBase,node,>jsonTreeBuilder )todo=
+todo
+------
+난 이걸 정적라이브러리로 배포하고싶다. (dll은 해줘야될 작업이 좀 너무 많음)
+저거 헤더들을 한번에 include가능하도록 뭐 하기
+전부 include라는 폴더에 위치해있다.
+src하고 include하고 따로 나뉘어져있다.
+그러면 github에 올릴때, include버전하고 src버전하고 폴더를 나눌까?
+----------
+
+include 폴더 구조:
+
+
+include
+{
+    UglyJSONParserInclude.hpp
+
+    FileIO.hpp
+    JSONTree.hpp
+    Tokenizer.hpp
+    JSONParser.hpp
+    Utils.hpp
+
+    libs
+    {
+        lib
+    }
+}
+
 
 */

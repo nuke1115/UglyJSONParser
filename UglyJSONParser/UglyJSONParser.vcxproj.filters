@@ -40,6 +40,12 @@
     <Filter Include="헤더 파일\Tokenizer">
       <UniqueIdentifier>{6035d0b5-6c03-470f-9233-1e6b2ac108fe}</UniqueIdentifier>
     </Filter>
+    <Filter Include="헤더 파일\JSONParser">
+      <UniqueIdentifier>{aa07ee68-299c-4787-ae21-0a8111e7fc40}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\JSONParser">
+      <UniqueIdentifier>{8cb84a45-d9cf-485c-b017-885013d77420}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="testing.cpp">
@@ -65,6 +71,9 @@
     </ClCompile>
     <ClCompile Include="src\headers\JsonTree\Implements\JSONTreeBuilder.cpp">
       <Filter>소스 파일\JsonTree</Filter>
+    </ClCompile>
+    <ClCompile Include="src\headers\JSONParser\Implements\JSONParser.cpp">
+      <Filter>소스 파일\JSONParser</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -94,6 +103,12 @@
     </ClInclude>
     <ClInclude Include="src\headers\Tokenizer\Tokens.hpp">
       <Filter>헤더 파일\Tokenizer</Filter>
+    </ClInclude>
+    <ClInclude Include="src\headers\UglyJSONParserInclude.hpp">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="src\headers\JSONParser\JSONParser.hpp">
+      <Filter>헤더 파일\JSONParser</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
