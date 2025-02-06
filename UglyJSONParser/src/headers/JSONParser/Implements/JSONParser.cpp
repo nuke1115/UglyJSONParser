@@ -1,19 +1,14 @@
 #include "..\JSONParser.hpp"
 
-bool UglyJSONParser::JSONParser::BuildJSONTreeFromFile(const string& FilePath, RootNode& rootNode)
+
+bool UglyJSONParser::JSONParser::BuildJSONFromString(const string& sourceString, RootNode& rootNode)
 {
-    if (_fileIOMgr.IsFileExist(FilePath) == false)
+    if (sourceString.empty())
     {
         return false;
     }
 
-    string sourceString;
     std::list<string> tokens;
-
-    if (_fileIOMgr.LoadTextFromFile(sourceString, FilePath) == false)
-    {
-        return false;
-    }
 
     if (_tokenizer.Tokenize(sourceString, tokens) == false)
     {
@@ -30,6 +25,24 @@ bool UglyJSONParser::JSONParser::BuildJSONTreeFromFile(const string& FilePath, R
     }
 
     return true;
+}
+
+bool UglyJSONParser::JSONParser::BuildJSONTreeFromFile(const string& FilePath, RootNode& rootNode)
+{
+    if (_fileIOMgr.IsFileExist(FilePath) == false)
+    {
+        return false;
+    }
+
+    string sourceString;
+    std::list<string> tokens;
+
+    if (_fileIOMgr.LoadTextFromFile(sourceString, FilePath) == false)
+    {
+        return false;
+    }
+
+    return BuildJSONFromString(sourceString, rootNode);
 }
 
 bool UglyJSONParser::JSONParser::SaveJSONTreeToFile(const string& FilePath, RootNode& rootNode)

@@ -2,17 +2,22 @@
 
 bool UglyJSONParser::Tokenizer::TokenizeString(const string& sourceString, std::list<string>& outTokenizedStrings, size_t& index)
 {
+    //size()는 끝의 \0을 제외한 char들의 갯수(길이)를 반환한다. 그렇다면 마지막 char의 index는 size()-1이다.
     //만약 null을 제외한 문자의 길이에서 1을 뺀것이 현제 인덱스와 길이가 같다면, 여는 따옴표 하나만 나오고 끝나는거니까, 잘못된 문자열이다.
     if (index >= sourceString.size() - 1)
     {
         return false;
     }
 
-    std::ostringstream oss;
+    std::string str = "";
 
-    oss << sourceString[index];
+    str.push_back(sourceString[index]);
     index++;
 
+    // backslash는 자신 바로 뒤의 문자를 이스케이프처리한다.
+    // \"는 이스케이프 처리된 문자이기에, 이런 형태의 "에서는 종료를 하면 안된다.
+    // 하지만 \\" 는 이스케이프된 backslash에 "가 붙은것이기에, 이것은 정상적으로 종료처리를 해야된다.
+    // 저런 이스케이프된 backslash는 무조건 짝수개로 연속되서 나오기에, 이 변수가 짝수일때+지금 토큰이 "때를 루프 중도 종료조건으로 설정했다.
     size_t consecutiveBackslashCnt = 0;
 
     for (char nowChar;index < sourceString.size(); index++)
@@ -20,9 +25,9 @@ bool UglyJSONParser::Tokenizer::TokenizeString(const string& sourceString, std::
         nowChar = sourceString[index];
         if (nowChar == Tokens::TokenQuotationMark && (consecutiveBackslashCnt % 2 == 0)) // => consecutiveBackslashCnt ^ 1 <= 가독성때문에 바꿈
         {
-            oss << nowChar;
+            str.push_back(nowChar);
 
-            outTokenizedStrings.emplace_back(oss.str());
+            outTokenizedStrings.push_back(str);
 
             return true;
         }
@@ -36,7 +41,7 @@ bool UglyJSONParser::Tokenizer::TokenizeString(const string& sourceString, std::
             consecutiveBackslashCnt = 0;
         }
 
-        oss << nowChar;
+        str.push_back(nowChar);
     }
 
     return false;
@@ -44,18 +49,18 @@ bool UglyJSONParser::Tokenizer::TokenizeString(const string& sourceString, std::
 
 bool UglyJSONParser::Tokenizer::CheckTokenizedNumber(const string& numString, size_t exponentCnt, size_t signCnt, size_t pointCnt)
 {
-    if (exponentCnt > 1 || signCnt > 2 || pointCnt > 1)
+    if (exponentCnt > 1 || signCnt > 2 || pointCnt > 1 || numString.empty())
     {
         return false;
     }
     
-    //부호와 수 둘 다 아닐때 true가 되야한다.
+    //시작은 부호와 수 둘 다 아닐때 true가 되야한다.
     if (!(StringUtils::IsItDigit(numString.front()) || StringUtils::IsItSign(numString.front())))
     {
         return false;
     }
 
-    //수가 아닐때 true가 되야한다.
+    //끝은 수가 아닐때 true가 되야한다.
     if (!StringUtils::IsItDigit(numString.back()))
     {
         return false;
@@ -68,7 +73,7 @@ bool UglyJSONParser::Tokenizer::CheckTokenizedNumber(const string& numString, si
         {
             //위치가 0이 아닌 부호는 앞에는 무조건 e 또는 E가 와야하고, 뒤에는 무조건 수가 와야한다.
             //=> 위치가 0이 아닌 부호는 뒤에 수가 없거나, 앞에 지수가 없다면 잘못된 문법이다.
-            if (!StringUtils::IsItDigit(numString[i + 1]) || !(numString[i - 1] == Tokens::TokenExponentUpper || numString[i - 1] == Tokens::TokenExponentLower))
+            if (!(numString[i - 1] == Tokens::TokenExponentUpper || numString[i - 1] == Tokens::TokenExponentLower) || !StringUtils::IsItDigit(numString[i + 1]))
             {
                 return false;
             }
@@ -84,7 +89,7 @@ bool UglyJSONParser::Tokenizer::CheckTokenizedNumber(const string& numString, si
         else if (numString[i] == Tokens::TokenExponentUpper || numString[i] == Tokens::TokenExponentLower) //지수기호일때
         {
             //지수의 경우는 앞에는 무조건 수가 와야하고, 뒤에는 부호 또는 수가 와야한다.
-            //=> 지수의 경우 앞의 토큰이 수가 아니거나, 뒤에 오는 토큰이 부호와 수 둘 다 아니면 잘못된 문법이다.//(numString[i + 1] != TokenPlus && numString[i + 1] != TokenMinus)
+            //=> 지수의 경우 앞의 토큰이 수가 아니거나, 뒤에 오는 토큰이 부호와 수 둘 다 아니면 잘못된 문법이다.
             if (!StringUtils::IsItDigit(numString[i - 1]) || !(StringUtils::IsItDigit(numString[i + 1]) || StringUtils::IsItSign(numString[i + 1])))
             {
                 return false;
@@ -102,13 +107,13 @@ bool UglyJSONParser::Tokenizer::TokenizeNumber(const string& sourceString, std::
 
     size_t exponentCnt = 0, signCnt = 0, decimalPointCnt = 0;
 
-    for (char nowChar; index < sourceString.size(); index++)
+    for (; index < sourceString.size(); index++)
     {
-        nowChar = sourceString[index];
+        char nowChar = sourceString[index];
         
         if (StringUtils::IsItClosingToken(nowChar) || nowChar == Tokens::TokenComma || nowChar == Tokens::TokenSpace || nowChar == Tokens::TokenLineFeed || nowChar == Tokens::TokenCarriageReturn || nowChar == Tokens::TokenHorizontalTab)
         {
-            index--;
+            index--; //numbers에 들어가지 않는 문자를 루프 종료조건으로 하고있는데, 이 함수를 탈출하면 index++이 for에서 호출된다. 그러면 지금 읽은 이 문자는 버려지기에 그걸 방지하고자 이렇게 썼다.
             break;
         }
         
@@ -136,7 +141,7 @@ bool UglyJSONParser::Tokenizer::TokenizeNumber(const string& sourceString, std::
 
     if (result)
     {
-        outTokenizedStrings.emplace_back(numberString);
+        outTokenizedStrings.push_back(numberString);
     }
 
     return result;
@@ -146,13 +151,13 @@ bool UglyJSONParser::Tokenizer::TokenizeBool(const string& sourceString, std::li
 {
     if (StringUtils::CompareString(sourceString, Tokens::TokenTrue, index))
     {
-        outTokenizedStrings.emplace_back(Tokens::TokenTrue);
+        outTokenizedStrings.push_back(Tokens::TokenTrue);
         index += 3;
         return true;
     }
     else if (StringUtils::CompareString(sourceString, Tokens::TokenFalse, index))
     {
-        outTokenizedStrings.emplace_back(Tokens::TokenFalse);
+        outTokenizedStrings.push_back(Tokens::TokenFalse);
         index += 4;
         return true;
     }
@@ -167,7 +172,7 @@ bool UglyJSONParser::Tokenizer::TokenizeNull(const string& sourceString, std::li
         return false;
     }
     
-    outTokenizedStrings.emplace_back(Tokens::TokenNull);
+    outTokenizedStrings.push_back(Tokens::TokenNull);
     index += 3;
 
     return true;
@@ -284,42 +289,37 @@ bool UglyJSONParser::Tokenizer::Tokenize(const string& sourceString, std::list<s
     }
 
     bool result = true;
+    outTokenizedStrings.clear();
 
     for (size_t i = 0; i < sourceString.size() && result; i++)
     {
-        if (StringUtils::IsItOpeningToken(sourceString[i]) || StringUtils::IsItClosingToken(sourceString[i]) || sourceString[i] == Tokens::TokenComma || sourceString[i] == Tokens::TokenColon)
+        char nowChar = sourceString[i];
+        if (StringUtils::IsItOpeningToken(nowChar) || StringUtils::IsItClosingToken(nowChar) || nowChar == Tokens::TokenComma || nowChar == Tokens::TokenColon)
         {
-            outTokenizedStrings.emplace_back(1, sourceString[i]);
+            outTokenizedStrings.push_back(string(1,nowChar));// 이게 더 읽기는 편할거같아서 이렇게 씁니다. 컴파일러야 힘내라!//emplace_back(1, nowChar); old
         }
-        else if (sourceString[i] == Tokens::TokenQuotationMark)
+        else if (nowChar == Tokens::TokenQuotationMark)
         {
             result = TokenizeString(sourceString, outTokenizedStrings, i);
         }
-        else if ( StringUtils::IsItSign(sourceString[i]) || StringUtils::IsItDigit(sourceString[i]))
+        else if ( StringUtils::IsItSign(nowChar) || StringUtils::IsItDigit(nowChar))
         {
             result = TokenizeNumber(sourceString, outTokenizedStrings, i);
         }
-        else if (sourceString[i] == Tokens::TokenTrue[0] || sourceString[i] == Tokens::TokenFalse[0])
+        else if (nowChar == Tokens::TokenTrue[0] || nowChar == Tokens::TokenFalse[0])
         {
             result = TokenizeBool(sourceString, outTokenizedStrings, i);
         }
-        else if (sourceString[i] == Tokens::TokenNull[0])
+        else if (nowChar == Tokens::TokenNull[0])
         {
             result = TokenizeNull(sourceString, outTokenizedStrings, i);
         }
     }
 
-    if (result)
-    {
-        result = CheckTokenizedTokens(outTokenizedStrings);
-    }
-
     if (result == false)
     {
         outTokenizedStrings.clear();
-        return false;
     }
 
-    return true;
+    return CheckTokenizedTokens(outTokenizedStrings);
 }
-//만약 c++에 gc가 있다면 실행하자마자 삭제될듯 ㅋㅋ

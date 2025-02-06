@@ -5,7 +5,7 @@ bool FileIOManager::LoadTextFromFile(string& destination, const string& filePath
 {
     std::ostringstream oss;
 
-    if (!IsFileExist(filePath))
+    if (IsFileExist(filePath) == false)
     {
         return false;
     }
@@ -29,7 +29,7 @@ bool FileIOManager::LoadTextFromFile(string& destination, const string& filePath
 bool FileIOManager::ClearFile(const string& filePath)
 {
 
-    if (!IsFileExist(filePath))
+    if (IsFileExist(filePath) == false)
     {
         return false;
     }

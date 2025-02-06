@@ -21,6 +21,15 @@ namespace UglyJSONParser
         using string = std::string;
 
     public:
+
+        /// <summary>
+        /// Builds json tree to root node from string
+        /// </summary>
+        /// <param name="FilePath"></param>
+        /// <param name="rootNode"></param>
+        /// <returns></returns>
+        bool BuildJSONFromString(const string& sourceString, RootNode& rootNode);
+
         /// <summary>
         /// Builds json tree to root node from file
         /// </summary>
@@ -29,6 +38,12 @@ namespace UglyJSONParser
         /// <returns></returns>
         bool BuildJSONTreeFromFile(const string& FilePath, RootNode& rootNode);
 
+        /// <summary>
+        /// Serializes json tree, and saves it to file
+        /// </summary>
+        /// <param name="FilePath"></param>
+        /// <param name="rootNode"></param>
+        /// <returns></returns>
         bool SaveJSONTreeToFile(const string& FilePath, RootNode& rootNode);
     };
 }

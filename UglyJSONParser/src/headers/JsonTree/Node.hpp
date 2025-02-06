@@ -34,7 +34,7 @@ namespace UglyJSONParser
         double AsDouble() const override;
 
         BaseNode& operator[](const string& strKey) override;
-        BaseNode& operator[](const int intKey) override;
+        BaseNode& operator[](const size_t intKey) override;
 
         void operator=(const char* strData) override;
         void operator=(const string& strData) override;
@@ -47,7 +47,7 @@ namespace UglyJSONParser
         void Clear() override;
 
         void DeleteChildNode(const string& strKey) override;
-        void DeleteChildNode(int intKey) override;
+        void DeleteChildNode(size_t intKey) override;
 
         bool CreateNewNode(NodeType type, string strKey) override;
         bool CreateNewNode(NodeType type) override;
@@ -75,7 +75,7 @@ namespace UglyJSONParser
         double AsDouble() const override;
 
         BaseNode& operator[](const string& strKey) override;
-        BaseNode& operator[](const int intKey) override;
+        BaseNode& operator[](const size_t intKey) override;
 
         void operator=(const char* strData) override;
         void operator=(const string& strData) override;
@@ -88,7 +88,7 @@ namespace UglyJSONParser
         void Clear() override;
 
         void DeleteChildNode(const string& strKey) override;
-        void DeleteChildNode(int intKey) override;
+        void DeleteChildNode(size_t intKey) override;
 
         bool CreateNewNode(NodeType type, string strKey) override;
         bool CreateNewNode(NodeType type) override;
@@ -116,7 +116,7 @@ namespace UglyJSONParser
         double AsDouble() const override;
 
         BaseNode& operator[](const string& strKey) override;
-        BaseNode& operator[](const int intKey) override;
+        BaseNode& operator[](const size_t intKey) override;
 
         void operator=(const char* strData) override;
         void operator=(const string& strData) override;
@@ -129,7 +129,7 @@ namespace UglyJSONParser
         void Clear() override;
 
         void DeleteChildNode(const string& strKey) override;
-        void DeleteChildNode(int intKey) override;
+        void DeleteChildNode(size_t intKey) override;
 
         bool CreateNewNode(NodeType type, string strKey) override;
         bool CreateNewNode(NodeType type) override;
@@ -157,7 +157,7 @@ namespace UglyJSONParser
         double AsDouble() const override;
 
         BaseNode& operator[](const string& strKey) override;
-        BaseNode& operator[](const int intKey) override;
+        BaseNode& operator[](const size_t intKey) override;
 
         void operator=(const char* strData) override;
         void operator=(const string& strData) override;
@@ -170,7 +170,7 @@ namespace UglyJSONParser
         void Clear() override;
 
         void DeleteChildNode(const string& strKey) override;
-        void DeleteChildNode(int intKey) override;
+        void DeleteChildNode(size_t intKey) override;
 
         bool CreateNewNode(NodeType type, string strKey) override;
         bool CreateNewNode(NodeType type) override;
@@ -184,7 +184,9 @@ namespace UglyJSONParser
     class RootNode : public BaseNode
     {
     private:
+        const char* _FirstNodeName = "root";
         BaseNode* _entryPoint = nullptr;
+        NodeFactory _factory;
     public:
 
         RootNode();
@@ -199,7 +201,7 @@ namespace UglyJSONParser
         double AsDouble() const override;
 
         BaseNode& operator[](const string& strKey) override;
-        BaseNode& operator[](const int intKey) override;
+        BaseNode& operator[](const size_t intKey) override;
 
         void operator=(const char* strData) override;
         void operator=(const string& strData) override;
@@ -212,26 +214,14 @@ namespace UglyJSONParser
         void Clear() override;
 
         void DeleteChildNode(const string& strKey) override;
-        void DeleteChildNode(int intKey) override;
+        void DeleteChildNode(size_t intKey) override;
 
         bool CreateNewNode(NodeType type, string strKey) override;
         bool CreateNewNode(NodeType type) override;
 
         virtual size_t GetChildNodeCount() const override;
 
-        /// <summary>
-        /// if entrypoint is nullptr, set entrypoint of json tree to root node.
-        /// </summary>
-        /// <param name="node"></param>
-        /// <returns></returns>
-        bool SetRoot(BaseNode* node);
-
-        /// <summary>
-        /// if node type is Root, set node type to this
-        /// </summary>
-        /// <param name="type"></param>
-        /// <returns></returns>
-        bool SetType(NodeType type);
+        bool CreateRootNode(NodeType nodeType);
 
         ~RootNode();
     };

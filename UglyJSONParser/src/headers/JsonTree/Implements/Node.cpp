@@ -88,7 +88,7 @@ long long UglyJSONParser::SingleValueNode::AsInt() const
 
 bool UglyJSONParser::SingleValueNode::AsBool() const
 {
-    return TypeUtils::StrToBool(_data);
+    return TypeUtils::ConvertStringToBool(_data);
 }
 
 double UglyJSONParser::SingleValueNode::AsDouble() const
@@ -101,7 +101,7 @@ UglyJSONParser::BaseNode& UglyJSONParser::SingleValueNode::operator[](const stri
     throw std::logic_error("tried to access child node in leaf node");
 }
 
-UglyJSONParser::BaseNode& UglyJSONParser::SingleValueNode::operator[](const int intKey)
+UglyJSONParser::BaseNode& UglyJSONParser::SingleValueNode::operator[](const size_t intKey)
 {
     throw std::logic_error("tried to access child node in leaf node");
 }
@@ -127,7 +127,7 @@ void UglyJSONParser::SingleValueNode::operator=(const long long intData)
 void UglyJSONParser::SingleValueNode::operator=(const bool boolData)
 {
     _isStringData = false;
-    _data = std::move(TypeUtils::BoolToString(boolData));
+    _data = std::move(TypeUtils::ConvertBoolToString(boolData));
 }
 
 void UglyJSONParser::SingleValueNode::operator=(const double doubleData)
@@ -151,7 +151,7 @@ void UglyJSONParser::SingleValueNode::DeleteChildNode(const string& strKey)
     throw std::logic_error("tried to delete child node in leaf node");
 }
 
-void UglyJSONParser::SingleValueNode::DeleteChildNode(int intKey)
+void UglyJSONParser::SingleValueNode::DeleteChildNode(size_t intKey)
 {
     throw std::logic_error("tried to delete child node in leaf node");
 }
@@ -170,8 +170,6 @@ size_t UglyJSONParser::SingleValueNode::GetChildNodeCount() const
 {
     return 0;
 }
-
-
 
 #pragma endregion
 
@@ -233,7 +231,7 @@ UglyJSONParser::BaseNode& UglyJSONParser::ObjectNode::operator[](const string& s
     throw std::logic_error("item not found");
 }
 
-UglyJSONParser::BaseNode& UglyJSONParser::ObjectNode::operator[](const int intKey)
+UglyJSONParser::BaseNode& UglyJSONParser::ObjectNode::operator[](const size_t intKey)
 {
     throw std::logic_error("tried to access by int index in object node");
 }
@@ -295,7 +293,7 @@ void UglyJSONParser::ObjectNode::DeleteChildNode(const string& strKey)
     }
 }
 
-void UglyJSONParser::ObjectNode::DeleteChildNode(int intKey)
+void UglyJSONParser::ObjectNode::DeleteChildNode(size_t intKey)
 {
     throw std::logic_error("tried to access by int index in object node");
 }
@@ -383,7 +381,7 @@ UglyJSONParser::BaseNode& UglyJSONParser::ArrayNode::operator[](const string& st
     throw std::logic_error("tried to access by string index in array node");
 }
 
-UglyJSONParser::BaseNode& UglyJSONParser::ArrayNode::operator[](const int intKey)
+UglyJSONParser::BaseNode& UglyJSONParser::ArrayNode::operator[](const size_t intKey)
 {
     if (intKey >= _childNodeVector.size())
     {
@@ -441,7 +439,7 @@ void UglyJSONParser::ArrayNode::DeleteChildNode(const string& strKey)
     throw std::logic_error("tried to access by string index in array node");
 }
 
-void UglyJSONParser::ArrayNode::DeleteChildNode(int intKey)
+void UglyJSONParser::ArrayNode::DeleteChildNode(size_t intKey)
 {
     if (intKey >= _childNodeVector.size())
     {
@@ -509,7 +507,7 @@ UglyJSONParser::BaseNode& UglyJSONParser::NullNode::operator[](const string& str
     throw std::logic_error("tried to get child node in null node");
 }
 
-UglyJSONParser::BaseNode& UglyJSONParser::NullNode::operator[](const int intKey)
+UglyJSONParser::BaseNode& UglyJSONParser::NullNode::operator[](const size_t intKey)
 {
     throw std::logic_error("tried to get child node in null node");
 }
@@ -554,7 +552,7 @@ void UglyJSONParser::NullNode::DeleteChildNode(const string& strKey)
     throw std::logic_error("tried to delete child node in null node");
 }
 
-void UglyJSONParser::NullNode::DeleteChildNode(int intKey)
+void UglyJSONParser::NullNode::DeleteChildNode(size_t intKey)
 {
     throw std::logic_error("tried to delete child node in null node");
 }
@@ -578,24 +576,23 @@ size_t UglyJSONParser::NullNode::GetChildNodeCount() const
 
 #pragma region RootNode
 
-bool UglyJSONParser::RootNode::SetRoot(BaseNode* node)
+bool UglyJSONParser::RootNode::CreateRootNode(NodeType nodeType)
 {
-    if (_entryPoint == nullptr && node != nullptr)
+    if (nodeType == NodeType::Error || nodeType == NodeType::Root || !(_nodeType == NodeType::Root && _entryPoint == nullptr))
     {
-        _entryPoint = node;
-        return true;
+        return false;
     }
-    return false;
-}
 
-bool UglyJSONParser::RootNode::SetType(NodeType type)
-{
-    if (_nodeType == NodeType::Root)
+    _entryPoint = _factory.CreateNode(nodeType, _FirstNodeName);
+
+    if (_entryPoint == nullptr)
     {
-        _nodeType = type;
-        return true;
+        return false;
     }
-    return false;
+
+    _nodeType = nodeType;
+
+    return true;
 }
 
 std::string UglyJSONParser::RootNode::GetJsonTreeByString()
@@ -628,7 +625,7 @@ UglyJSONParser::BaseNode& UglyJSONParser::RootNode::operator[](const string& str
     return (*_entryPoint)[strKey];
 }
 
-UglyJSONParser::BaseNode& UglyJSONParser::RootNode::operator[](const int intKey)
+UglyJSONParser::BaseNode& UglyJSONParser::RootNode::operator[](const size_t intKey)
 {
     return (*_entryPoint)[intKey];
 }
@@ -673,7 +670,7 @@ void UglyJSONParser::RootNode::DeleteChildNode(const string& strKey)
     _entryPoint->DeleteChildNode(strKey);
 }
 
-void UglyJSONParser::RootNode::DeleteChildNode(int intKey)
+void UglyJSONParser::RootNode::DeleteChildNode(size_t intKey)
 {
     _entryPoint->DeleteChildNode(intKey);
 }

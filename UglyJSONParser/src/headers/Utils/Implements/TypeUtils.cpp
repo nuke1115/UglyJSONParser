@@ -1,6 +1,6 @@
 #include "..\TypeUtils.hpp"
 
-std::string UglyJSONParser::TypeUtils::BoolToString(bool data)
+std::string UglyJSONParser::TypeUtils::ConvertBoolToString(bool data)
 {
     if (data)
     {

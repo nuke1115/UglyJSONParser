@@ -71,7 +71,7 @@ namespace UglyJSONParser
         virtual double AsDouble() const = 0;
 
         virtual BaseNode& operator[](const string& strKey) = 0;
-        virtual BaseNode& operator[](const int intKey) = 0;
+        virtual BaseNode& operator[](const size_t intKey) = 0;
 
         virtual void operator=(const string& strData) = 0;
         virtual void operator=(const char* strData) = 0;
@@ -101,7 +101,7 @@ namespace UglyJSONParser
         /// Delete this node's child node by int index.
         /// </summary>
         /// <returns></returns>
-        virtual void DeleteChildNode(int intKey) = 0;
+        virtual void DeleteChildNode(size_t intKey) = 0;
 
         /// <summary>
         /// Create new child node to this node.

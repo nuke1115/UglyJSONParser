@@ -16,7 +16,7 @@ namespace UglyJSONParser
         /// </summary>
         /// <param name="data"></param>
         /// <returns></returns>
-        inline bool StrToBool(const std::string& data)
+        inline bool ConvertStringToBool(const std::string& data)
         {
             return !data.compare(Tokens::TokenTrue);
         }
@@ -26,7 +26,7 @@ namespace UglyJSONParser
         /// </summary>
         /// <param name="data"></param>
         /// <returns></returns>
-        std::string BoolToString(bool data);
+        std::string ConvertBoolToString(bool data);
 
         /// <summary>
         /// Checking input is json type bool

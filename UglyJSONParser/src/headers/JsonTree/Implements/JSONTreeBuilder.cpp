@@ -1,18 +1,5 @@
 #include "..\JSONTreeBuilder.hpp"
 
-UglyJSONParser::BaseNode* UglyJSONParser::JSONTreeBuilder::CreateFirstNode(const std::string& token)
-{
-    NodeType type = TypeUtils::GetNodeTypeOfToken(token);
-    
-    if (type == NodeType::Error)
-    {
-        return nullptr;
-    }
-
-    return _factory.CreateNode(type, _FirstNodeName);
-
-}
-
 void UglyJSONParser::JSONTreeBuilder::AssignValue(BaseNode& TargetNodeRef, const std::string& str)
 {
     if (StringUtils::IsItDigit(str.front()) || StringUtils::IsItSign(str.front()))
@@ -28,7 +15,7 @@ void UglyJSONParser::JSONTreeBuilder::AssignValue(BaseNode& TargetNodeRef, const
     }
     else if (TypeUtils::IsItJsonBool(str))
     {
-        TargetNodeRef = static_cast<bool>(TypeUtils::StrToBool(str));
+        TargetNodeRef = static_cast<bool>(TypeUtils::ConvertStringToBool(str));
     }
     else if (TypeUtils::IsItJsonString(str))
     {
@@ -48,7 +35,6 @@ void UglyJSONParser::JSONTreeBuilder::AssignValue(BaseNode& TargetNodeRef, const
     }
 }
 
-
 bool UglyJSONParser::JSONTreeBuilder::BuildJSONTree(RootNode& rootNode, const std::list<std::string>& tokens)
 {
     if (tokens.empty())
@@ -56,9 +42,9 @@ bool UglyJSONParser::JSONTreeBuilder::BuildJSONTree(RootNode& rootNode, const st
         return false;
     }
 
-    BaseNode* firstNodeTmpPtr = CreateFirstNode(tokens.front());
+    NodeType type = TypeUtils::GetNodeTypeOfToken(tokens.front());
 
-    if (firstNodeTmpPtr == nullptr || !rootNode.SetRoot(firstNodeTmpPtr) || !rootNode.SetType(firstNodeTmpPtr->GetNodeType()))
+    if (type == NodeType::Error || rootNode.CreateRootNode(type) == false)
     {
         return false;
     }

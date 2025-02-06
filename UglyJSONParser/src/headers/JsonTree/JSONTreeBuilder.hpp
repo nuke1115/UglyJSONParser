@@ -20,10 +20,6 @@ namespace UglyJSONParser
     private:
         NodeFactory _factory;
 
-        const char* _FirstNodeName = "root";
-
-        BaseNode* CreateFirstNode(const std::string& token);
-
         void AssignValue(BaseNode& TargetNodeRef, const std::string& str);
 
     public:
