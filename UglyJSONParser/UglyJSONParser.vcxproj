@@ -119,6 +119,8 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <LanguageStandard_C>stdc17</LanguageStandard_C>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -128,49 +130,40 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="src\headers\FileIO\Implements\FileIOManager.cpp" />
-    <ClCompile Include="src\headers\JSONParser\Implements\JSONParser.cpp" />
-    <ClCompile Include="src\headers\JsonTree\Implements\JSONTreeBuilder.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
-    </ClCompile>
-    <ClCompile Include="src\headers\JsonTree\Implements\NodeBase.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
-    </ClCompile>
-    <ClCompile Include="src\headers\JsonTree\Implements\Node.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
-    </ClCompile>
-    <ClCompile Include="src\headers\Tokenizer\Implements\Tokenizer.cpp" />
-    <ClCompile Include="src\headers\Utils\Implements\StringUtils.cpp" />
-    <ClCompile Include="src\headers\Utils\Implements\TypeUtils.cpp" />
+    <ClCompile Include="src\FileIO\FileIOManager.cpp" />
+    <ClCompile Include="src\JSONParser\JSONParser.cpp" />
+    <ClCompile Include="src\JSONTree\JSONTreeBuilder.cpp" />
+    <ClCompile Include="src\JSONTree\Node.cpp" />
+    <ClCompile Include="src\JSONTree\NodeBase.cpp" />
+    <ClCompile Include="src\Tokenizer\Tokenizer.cpp" />
+    <ClCompile Include="src\Utils\StringUtils.cpp" />
+    <ClCompile Include="src\Utils\TypeUtils.cpp" />
     <ClCompile Include="testing.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\headers\FileIO\FileIOManager.hpp" />
-    <ClInclude Include="src\headers\JSONParser\JSONParser.hpp" />
-    <ClInclude Include="src\headers\JsonTree\JSONTreeBuilder.hpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
-    </ClInclude>
-    <ClInclude Include="src\headers\JsonTree\Node.hpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
-    </ClInclude>
-    <ClInclude Include="src\headers\JsonTree\NodeBase.hpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
-    </ClInclude>
-    <ClInclude Include="src\headers\JsonTree\NodeTypes.hpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
-    </ClInclude>
-    <ClInclude Include="src\headers\Tokenizer\Tokenizer.hpp" />
-    <ClInclude Include="src\headers\Tokenizer\Tokens.hpp" />
-    <ClInclude Include="src\headers\UglyJSONParserInclude.hpp" />
-    <ClInclude Include="src\headers\Utils\StringUtils.hpp" />
-    <ClInclude Include="src\headers\Utils\TypeUtils.hpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="..\..\..\새 폴더 (2)\json.json" />
     <None Include="..\.gitignore" />
+    <None Include="testingFiles\json.json" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="dummy\구상의 흔적들.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Include\UglyJSONParser\FileIOInclude.hpp" />
+    <ClInclude Include="Include\UglyJSONParser\FileIO\FileIOManager.hpp" />
+    <ClInclude Include="Include\UglyJSONParser\JSONParserInclude.hpp" />
+    <ClInclude Include="Include\UglyJSONParser\JSONParser\JSONParser.hpp" />
+    <ClInclude Include="Include\UglyJSONParser\JSONTreeInclude.hpp" />
+    <ClInclude Include="Include\UglyJSONParser\JsonTree\JSONTreeBuilder.hpp" />
+    <ClInclude Include="Include\UglyJSONParser\JsonTree\Node.hpp" />
+    <ClInclude Include="Include\UglyJSONParser\JsonTree\NodeBase.hpp" />
+    <ClInclude Include="Include\UglyJSONParser\JsonTree\NodeTypes.hpp" />
+    <ClInclude Include="Include\UglyJSONParser\TokenizerInclude.hpp" />
+    <ClInclude Include="Include\UglyJSONParser\Tokenizer\Tokenizer.hpp" />
+    <ClInclude Include="Include\UglyJSONParser\Tokenizer\Tokens.hpp" />
+    <ClInclude Include="Include\UglyJSONParser\UglyJSONParserIncludeHeader.hpp" />
+    <ClInclude Include="Include\UglyJSONParser\UtilsInclude.hpp" />
+    <ClInclude Include="Include\UglyJSONParser\Utils\StringUtils.hpp" />
+    <ClInclude Include="Include\UglyJSONParser\Utils\TypeUtils.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

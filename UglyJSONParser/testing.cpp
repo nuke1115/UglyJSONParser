@@ -2,14 +2,14 @@
 #include<iostream>
 #include <fstream>
 
+#include ".\Include\UglyJSONParser\UglyJSONParserIncludeHeader.hpp"
 
-#include ".\src\headers\UglyJSONParserInclude.hpp"
+
 using namespace UglyJSONParser;
-
 
 void run()
 {
-    std::string str, jsonFilePath = "E:\\»õ Æú´õ (2)\\json.json";
+    std::string str, jsonFilePath = ".\\testingFiles\\json.json";
     RootNode root;
 
     JSONParser parser;
@@ -21,7 +21,6 @@ void run()
 
 
     std::cout << parser.SaveJSONTreeToFile(jsonFilePath, root) << '\n';
-
 }
 
 int main()

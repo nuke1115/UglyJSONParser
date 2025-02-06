@@ -1,4 +1,4 @@
-#include "..\JSONTreeBuilder.hpp"
+#include "..\..\Include\UglyJSONParser\JsonTree\JSONTreeBuilder.hpp"
 
 void UglyJSONParser::JSONTreeBuilder::AssignValue(BaseNode& TargetNodeRef, const std::string& str)
 {

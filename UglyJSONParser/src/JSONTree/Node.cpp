@@ -1,4 +1,4 @@
-#include "..\Node.hpp"
+#include "..\..\Include\UglyJSONParser\JsonTree\Node.hpp"
 
 
 #pragma region Constructors

@@ -19,9 +19,6 @@
     <Filter Include="소스 파일\Utils">
       <UniqueIdentifier>{b67f6f66-6534-4b65-88ac-c7168ed6ab76}</UniqueIdentifier>
     </Filter>
-    <Filter Include="헤더 파일\JsonTree">
-      <UniqueIdentifier>{36558988-48c3-4620-b563-01c5a2ad4e18}</UniqueIdentifier>
-    </Filter>
     <Filter Include="헤더 파일\Utils">
       <UniqueIdentifier>{8cba4bcf-00c6-4f29-8c44-98458cd2175f}</UniqueIdentifier>
     </Filter>
@@ -46,76 +43,44 @@
     <Filter Include="소스 파일\JSONParser">
       <UniqueIdentifier>{8cb84a45-d9cf-485c-b017-885013d77420}</UniqueIdentifier>
     </Filter>
+    <Filter Include="헤더 파일\JSONTree">
+      <UniqueIdentifier>{36558988-48c3-4620-b563-01c5a2ad4e18}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="testing.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="src\headers\JsonTree\Implements\NodeBase.cpp">
-      <Filter>소스 파일\JsonTree</Filter>
+    <ClCompile Include="src\Utils\StringUtils.cpp">
+      <Filter>소스 파일\Utils</Filter>
     </ClCompile>
-    <ClCompile Include="src\headers\JsonTree\Implements\Node.cpp">
-      <Filter>소스 파일\JsonTree</Filter>
+    <ClCompile Include="src\Utils\TypeUtils.cpp">
+      <Filter>소스 파일\Utils</Filter>
     </ClCompile>
-    <ClCompile Include="src\headers\FileIO\Implements\FileIOManager.cpp">
-      <Filter>소스 파일\FileIO</Filter>
-    </ClCompile>
-    <ClCompile Include="src\headers\Tokenizer\Implements\Tokenizer.cpp">
+    <ClCompile Include="src\Tokenizer\Tokenizer.cpp">
       <Filter>소스 파일\Tokenizer</Filter>
     </ClCompile>
-    <ClCompile Include="src\headers\Utils\Implements\TypeUtils.cpp">
-      <Filter>소스 파일\Utils</Filter>
-    </ClCompile>
-    <ClCompile Include="src\headers\Utils\Implements\StringUtils.cpp">
-      <Filter>소스 파일\Utils</Filter>
-    </ClCompile>
-    <ClCompile Include="src\headers\JsonTree\Implements\JSONTreeBuilder.cpp">
+    <ClCompile Include="src\JSONTree\Node.cpp">
       <Filter>소스 파일\JsonTree</Filter>
     </ClCompile>
-    <ClCompile Include="src\headers\JSONParser\Implements\JSONParser.cpp">
+    <ClCompile Include="src\JSONTree\NodeBase.cpp">
+      <Filter>소스 파일\JsonTree</Filter>
+    </ClCompile>
+    <ClCompile Include="src\JSONTree\JSONTreeBuilder.cpp">
+      <Filter>소스 파일\JsonTree</Filter>
+    </ClCompile>
+    <ClCompile Include="src\JSONParser\JSONParser.cpp">
       <Filter>소스 파일\JSONParser</Filter>
     </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="src\headers\JsonTree\Node.hpp">
-      <Filter>헤더 파일\JsonTree</Filter>
-    </ClInclude>
-    <ClInclude Include="src\headers\JsonTree\NodeBase.hpp">
-      <Filter>헤더 파일\JsonTree</Filter>
-    </ClInclude>
-    <ClInclude Include="src\headers\JsonTree\NodeTypes.hpp">
-      <Filter>헤더 파일\JsonTree</Filter>
-    </ClInclude>
-    <ClInclude Include="src\headers\FileIO\FileIOManager.hpp">
-      <Filter>헤더 파일\FileIO</Filter>
-    </ClInclude>
-    <ClInclude Include="src\headers\Tokenizer\Tokenizer.hpp">
-      <Filter>헤더 파일\Tokenizer</Filter>
-    </ClInclude>
-    <ClInclude Include="src\headers\Utils\TypeUtils.hpp">
-      <Filter>헤더 파일\Utils</Filter>
-    </ClInclude>
-    <ClInclude Include="src\headers\Utils\StringUtils.hpp">
-      <Filter>헤더 파일\Utils</Filter>
-    </ClInclude>
-    <ClInclude Include="src\headers\JsonTree\JSONTreeBuilder.hpp">
-      <Filter>헤더 파일\JsonTree</Filter>
-    </ClInclude>
-    <ClInclude Include="src\headers\Tokenizer\Tokens.hpp">
-      <Filter>헤더 파일\Tokenizer</Filter>
-    </ClInclude>
-    <ClInclude Include="src\headers\UglyJSONParserInclude.hpp">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="src\headers\JSONParser\JSONParser.hpp">
-      <Filter>헤더 파일\JSONParser</Filter>
-    </ClInclude>
+    <ClCompile Include="src\FileIO\FileIOManager.cpp">
+      <Filter>소스 파일\FileIO</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\.gitignore">
       <Filter>Git</Filter>
     </None>
-    <None Include="..\..\..\새 폴더 (2)\json.json">
+    <None Include="testingFiles\json.json">
       <Filter>리소스 파일</Filter>
     </None>
   </ItemGroup>
@@ -123,5 +88,55 @@
     <Text Include="dummy\구상의 흔적들.txt">
       <Filter>리소스 파일</Filter>
     </Text>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Include\UglyJSONParser\FileIO\FileIOManager.hpp">
+      <Filter>헤더 파일\FileIO</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\UglyJSONParser\JSONParser\JSONParser.hpp">
+      <Filter>헤더 파일\JSONParser</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\UglyJSONParser\JsonTree\JSONTreeBuilder.hpp">
+      <Filter>헤더 파일\JSONTree</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\UglyJSONParser\JsonTree\Node.hpp">
+      <Filter>헤더 파일\JSONTree</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\UglyJSONParser\JsonTree\NodeBase.hpp">
+      <Filter>헤더 파일\JSONTree</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\UglyJSONParser\JsonTree\NodeTypes.hpp">
+      <Filter>헤더 파일\JSONTree</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\UglyJSONParser\Tokenizer\Tokenizer.hpp">
+      <Filter>헤더 파일\Tokenizer</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\UglyJSONParser\Tokenizer\Tokens.hpp">
+      <Filter>헤더 파일\Tokenizer</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\UglyJSONParser\Utils\StringUtils.hpp">
+      <Filter>헤더 파일\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\UglyJSONParser\Utils\TypeUtils.hpp">
+      <Filter>헤더 파일\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\UglyJSONParser\UglyJSONParserIncludeHeader.hpp">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\UglyJSONParser\FileIOInclude.hpp">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\UglyJSONParser\JSONParserInclude.hpp">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\UglyJSONParser\JSONTreeInclude.hpp">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\UglyJSONParser\TokenizerInclude.hpp">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\UglyJSONParser\UtilsInclude.hpp">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
