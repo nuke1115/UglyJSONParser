@@ -28,7 +28,7 @@ namespace UglyJSONParser
         /// <param name="FilePath"></param>
         /// <param name="rootNode"></param>
         /// <returns></returns>
-        bool BuildJSONFromString(const string& sourceString, RootNode& rootNode);
+        bool BuildJSONTreeFromString(const string& sourceString, RootNode& rootNode);
 
         /// <summary>
         /// Builds json tree to root node from file

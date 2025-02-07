@@ -1,7 +1,7 @@
 #include "..\..\Include\UglyJSONParser\JSONParser\JSONParser.hpp"
 
 
-bool UglyJSONParser::JSONParser::BuildJSONFromString(const string& sourceString, RootNode& rootNode)
+bool UglyJSONParser::JSONParser::BuildJSONTreeFromString(const string& sourceString, RootNode& rootNode)
 {
     if (sourceString.empty())
     {
@@ -42,7 +42,7 @@ bool UglyJSONParser::JSONParser::BuildJSONTreeFromFile(const string& FilePath, R
         return false;
     }
 
-    return BuildJSONFromString(sourceString, rootNode);
+    return BuildJSONTreeFromString(sourceString, rootNode);
 }
 
 bool UglyJSONParser::JSONParser::SaveJSONTreeToFile(const string& FilePath, RootNode& rootNode)
