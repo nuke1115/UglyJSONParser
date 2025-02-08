@@ -16,15 +16,14 @@ namespace UglyJSONParser
         BaseNode* CreateNode(NodeType type, std::string name);
     };
 
-    class SingleValueNode : public BaseNode
+    class StringNode : public BaseNode
     {
     private:
-        string _data = "DefaultStringValue";
-        bool _isStringData = true;
+        string _stringData = "DefaultStringValue";
     public:
-        SingleValueNode(string name);
-        SingleValueNode(const SingleValueNode&) = delete;
-        SingleValueNode(SingleValueNode&&) = delete;
+        StringNode(string name);
+        StringNode(const StringNode&) = delete;
+        StringNode(StringNode&&) = delete;
 
         string GetJsonTreeByString() override;
 
@@ -54,8 +53,90 @@ namespace UglyJSONParser
 
         virtual size_t GetChildNodeCount() const override;
 
-        ~SingleValueNode();
+        ~StringNode();
     };
+
+    class NumberNode : public BaseNode
+    {
+    private:
+        double _doubleData = 0.0;
+        long long _intData = 0;
+        bool _isItDouble = false;
+    public:
+        NumberNode(string name);
+        NumberNode(const NumberNode&) = delete;
+        NumberNode(NumberNode&&) = delete;
+
+        string GetJsonTreeByString() override;
+
+        const string& AsString() const override;
+        long long AsInt() const override;
+        bool AsBool() const override;
+        double AsDouble() const override;
+
+        BaseNode& operator[](const string& strKey) override;
+        BaseNode& operator[](const size_t intKey) override;
+
+        void operator=(const char* strData) override;
+        void operator=(const string& strData) override;
+        void operator=(const long long intData) override;
+        void operator=(const bool boolData) override;
+        void operator=(const double doubleData) override;
+
+        std::vector<BaseNode*>& GetChildNodeVector() override;
+
+        void Clear() override;
+
+        void DeleteChildNode(const string& strKey) override;
+        void DeleteChildNode(size_t intKey) override;
+
+        bool CreateNewNode(NodeType type, string strKey) override;
+        bool CreateNewNode(NodeType type) override;
+
+        virtual size_t GetChildNodeCount() const override;
+
+        ~NumberNode();
+    };
+
+    class BoolNode : public BaseNode
+    {
+    private:
+        bool _boolData = false;
+    public:
+        BoolNode(string name);
+        BoolNode(const BoolNode&) = delete;
+        BoolNode(BoolNode&&) = delete;
+
+        string GetJsonTreeByString() override;
+
+        const string& AsString() const override;
+        long long AsInt() const override;
+        bool AsBool() const override;
+        double AsDouble() const override;
+
+        BaseNode& operator[](const string& strKey) override;
+        BaseNode& operator[](const size_t intKey) override;
+
+        void operator=(const char* strData) override;
+        void operator=(const string& strData) override;
+        void operator=(const long long intData) override;
+        void operator=(const bool boolData) override;
+        void operator=(const double doubleData) override;
+
+        std::vector<BaseNode*>& GetChildNodeVector() override;
+
+        void Clear() override;
+
+        void DeleteChildNode(const string& strKey) override;
+        void DeleteChildNode(size_t intKey) override;
+
+        bool CreateNewNode(NodeType type, string strKey) override;
+        bool CreateNewNode(NodeType type) override;
+
+        virtual size_t GetChildNodeCount() const override;
+
+        ~BoolNode();
+    };    
 
     class ObjectNode : public BaseNode
     {

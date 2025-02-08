@@ -3,7 +3,15 @@
 
 #pragma region Constructors
 
-UglyJSONParser::SingleValueNode::SingleValueNode(string name) : BaseNode(std::move(name), NodeType::SingleValue)
+UglyJSONParser::StringNode::StringNode(string name) : BaseNode(std::move(name), NodeType::String)
+{
+}
+
+UglyJSONParser::NumberNode::NumberNode(string name) : BaseNode(std::move(name), NodeType::Number)
+{
+}
+
+UglyJSONParser::BoolNode::BoolNode(string name) : BaseNode(std::move(name), NodeType::Bool)
 {
 }
 
@@ -28,8 +36,15 @@ UglyJSONParser::RootNode::RootNode() : BaseNode("root", NodeType::Root)
 
 #pragma region Destructors
 
+UglyJSONParser::StringNode::~StringNode()
+{
+}
 
-UglyJSONParser::SingleValueNode::~SingleValueNode()
+UglyJSONParser::NumberNode::~NumberNode()
+{
+}
+
+UglyJSONParser::BoolNode::~BoolNode()
 {
 }
 
@@ -58,115 +73,324 @@ UglyJSONParser::RootNode::~RootNode()
 }
 #pragma endregion
 
-#pragma region SingleValueNode
+#pragma region StringNode
 
-std::string UglyJSONParser::SingleValueNode::GetJsonTreeByString()
+std::string UglyJSONParser::StringNode::GetJsonTreeByString()
 {
     std::ostringstream buffer;
 
-    if (_isStringData)
-    {
-        buffer << Tokens::TokenQuotationMark << _data << Tokens::TokenQuotationMark;
-    }
-    else
-    {
-        buffer << _data;
-    }
+    buffer << Tokens::TokenQuotationMark << _stringData << Tokens::TokenQuotationMark;
 
     return buffer.str();
 }
 
-const std::string& UglyJSONParser::SingleValueNode::AsString() const
+const std::string& UglyJSONParser::StringNode::AsString() const
 {
-    return _data;
+    return _stringData;
 }
 
-long long UglyJSONParser::SingleValueNode::AsInt() const
+long long UglyJSONParser::StringNode::AsInt() const
 {
-    return std::stoll(_data);
+    throw std::logic_error("tried to convert string data to number data");
 }
 
-bool UglyJSONParser::SingleValueNode::AsBool() const
+bool UglyJSONParser::StringNode::AsBool() const
 {
-    return TypeUtils::ConvertStringToBool(_data);
+    throw std::logic_error("tried to convert string data to bool data");
 }
 
-double UglyJSONParser::SingleValueNode::AsDouble() const
+double UglyJSONParser::StringNode::AsDouble() const
 {
-    return std::stod(_data);
+    throw std::logic_error("tried to convert string data to number data");
 }
 
-UglyJSONParser::BaseNode& UglyJSONParser::SingleValueNode::operator[](const string& strKey)
-{
-    throw std::logic_error("tried to access child node in leaf node");
-}
-
-UglyJSONParser::BaseNode& UglyJSONParser::SingleValueNode::operator[](const size_t intKey)
+UglyJSONParser::BaseNode& UglyJSONParser::StringNode::operator[](const string& strKey)
 {
     throw std::logic_error("tried to access child node in leaf node");
 }
 
-void UglyJSONParser::SingleValueNode::operator=(const char* strData)
+UglyJSONParser::BaseNode& UglyJSONParser::StringNode::operator[](const size_t intKey)
 {
-    _isStringData = true;
-    _data = strData;
+    throw std::logic_error("tried to access child node in leaf node");
 }
 
-void UglyJSONParser::SingleValueNode::operator=(const string& strData)
+void UglyJSONParser::StringNode::operator=(const char* strData)
 {
-    _isStringData = true;
-    _data = strData;
+    _stringData = strData;
 }
 
-void UglyJSONParser::SingleValueNode::operator=(const long long intData)
+void UglyJSONParser::StringNode::operator=(const string& strData)
 {
-    _isStringData = false;
-    _data = std::move(std::to_string(intData));
+    _stringData = strData;
 }
 
-void UglyJSONParser::SingleValueNode::operator=(const bool boolData)
+void UglyJSONParser::StringNode::operator=(const long long intData)
 {
-    _isStringData = false;
-    _data = std::move(TypeUtils::ConvertBoolToString(boolData));
+    throw std::logic_error("tried to set number data to string node");
 }
 
-void UglyJSONParser::SingleValueNode::operator=(const double doubleData)
+void UglyJSONParser::StringNode::operator=(const bool boolData)
 {
-    _isStringData = false;
-    _data = std::move(std::to_string(doubleData));
+    throw std::logic_error("tried to set bool data to string node");
 }
 
-std::vector<UglyJSONParser::BaseNode*>& UglyJSONParser::SingleValueNode::GetChildNodeVector()
+void UglyJSONParser::StringNode::operator=(const double doubleData)
+{
+    throw std::logic_error("tried to set number data to string node");
+}
+
+std::vector<UglyJSONParser::BaseNode*>& UglyJSONParser::StringNode::GetChildNodeVector()
 {
     throw std::logic_error("tried to get child node vector in leaf node");
 }
 
-void UglyJSONParser::SingleValueNode::Clear()
+void UglyJSONParser::StringNode::Clear()
 {
     throw std::logic_error("tried to delete child node in leaf node");
 }
 
-void UglyJSONParser::SingleValueNode::DeleteChildNode(const string& strKey)
+void UglyJSONParser::StringNode::DeleteChildNode(const string& strKey)
 {
     throw std::logic_error("tried to delete child node in leaf node");
 }
 
-void UglyJSONParser::SingleValueNode::DeleteChildNode(size_t intKey)
+void UglyJSONParser::StringNode::DeleteChildNode(size_t intKey)
 {
     throw std::logic_error("tried to delete child node in leaf node");
 }
 
-bool UglyJSONParser::SingleValueNode::CreateNewNode(NodeType type, string strKey)
+bool UglyJSONParser::StringNode::CreateNewNode(NodeType type, string strKey)
 {
     throw std::logic_error("tried to create child node in leaf node");
 }
 
-bool UglyJSONParser::SingleValueNode::CreateNewNode(NodeType type)
+bool UglyJSONParser::StringNode::CreateNewNode(NodeType type)
 {
     throw std::logic_error("tried to create child node in leaf node");
 }
 
-size_t UglyJSONParser::SingleValueNode::GetChildNodeCount() const
+size_t UglyJSONParser::StringNode::GetChildNodeCount() const
+{
+    return 0;
+}
+
+#pragma endregion
+
+#pragma region NumberNode
+
+std::string UglyJSONParser::NumberNode::GetJsonTreeByString()
+{
+    if (_isItDouble)
+    {
+        return std::to_string(_doubleData);
+    }
+    else
+    {
+        return std::to_string(_intData);
+    }
+}
+
+const std::string& UglyJSONParser::NumberNode::AsString() const
+{
+    throw std::logic_error("tried to convert number data to string data");
+}
+
+long long UglyJSONParser::NumberNode::AsInt() const
+{
+    if (_isItDouble)
+    {
+        return static_cast<long long>(_doubleData);
+    }
+    else
+    {
+        return _intData;
+    }
+}
+
+bool UglyJSONParser::NumberNode::AsBool() const
+{
+    throw std::logic_error("tried to convert number data to bool data");
+}
+
+double UglyJSONParser::NumberNode::AsDouble() const
+{
+    if (_isItDouble)
+    {
+        return _doubleData;
+    }
+    else
+    {
+        return static_cast<double>(_intData);
+    }
+}
+
+UglyJSONParser::BaseNode& UglyJSONParser::NumberNode::operator[](const string& strKey)
+{
+    throw std::logic_error("tried to access child node in leaf node");
+}
+
+UglyJSONParser::BaseNode& UglyJSONParser::NumberNode::operator[](const size_t intKey)
+{
+    throw std::logic_error("tried to access child node in leaf node");
+}
+
+void UglyJSONParser::NumberNode::operator=(const char* strData)
+{
+    throw std::logic_error("tried to set string data to number node");
+}
+
+void UglyJSONParser::NumberNode::operator=(const string& strData)
+{
+    throw std::logic_error("tried to set string data to number node");
+}
+
+void UglyJSONParser::NumberNode::operator=(const long long intData)
+{
+    _isItDouble = false;
+    _intData = intData;
+}
+
+void UglyJSONParser::NumberNode::operator=(const bool boolData)
+{
+    throw std::logic_error("tried to set bool data to number node");
+}
+
+void UglyJSONParser::NumberNode::operator=(const double doubleData)
+{
+    _isItDouble = true;
+    _doubleData = doubleData;
+}
+
+std::vector<UglyJSONParser::BaseNode*>& UglyJSONParser::NumberNode::GetChildNodeVector()
+{
+    throw std::logic_error("tried to get child node vector in leaf node");
+}
+
+void UglyJSONParser::NumberNode::Clear()
+{
+    throw std::logic_error("tried to delete child node in leaf node");
+}
+
+void UglyJSONParser::NumberNode::DeleteChildNode(const string& strKey)
+{
+    throw std::logic_error("tried to delete child node in leaf node");
+}
+
+void UglyJSONParser::NumberNode::DeleteChildNode(size_t intKey)
+{
+    throw std::logic_error("tried to delete child node in leaf node");
+}
+
+bool UglyJSONParser::NumberNode::CreateNewNode(NodeType type, string strKey)
+{
+    throw std::logic_error("tried to create child node in leaf node");
+}
+
+bool UglyJSONParser::NumberNode::CreateNewNode(NodeType type)
+{
+    throw std::logic_error("tried to create child node in leaf node");
+}
+
+size_t UglyJSONParser::NumberNode::GetChildNodeCount() const
+{
+    return 0;
+}
+
+#pragma endregion
+
+#pragma region BoolNode
+
+std::string UglyJSONParser::BoolNode::GetJsonTreeByString()
+{
+    return TypeUtils::ConvertBoolToString(_boolData);
+}
+
+const std::string& UglyJSONParser::BoolNode::AsString() const
+{
+    throw std::logic_error("tried to convert bool data to string data");
+}
+
+long long UglyJSONParser::BoolNode::AsInt() const
+{
+    throw std::logic_error("tried to convert bool data to number data");
+}
+
+bool UglyJSONParser::BoolNode::AsBool() const
+{
+    return _boolData;
+}
+
+double UglyJSONParser::BoolNode::AsDouble() const
+{
+    throw std::logic_error("tried to convert bool data to number data");
+}
+
+UglyJSONParser::BaseNode& UglyJSONParser::BoolNode::operator[](const string& strKey)
+{
+    throw std::logic_error("tried to access child node in leaf node");
+}
+
+UglyJSONParser::BaseNode& UglyJSONParser::BoolNode::operator[](const size_t intKey)
+{
+    throw std::logic_error("tried to access child node in leaf node");
+}
+
+void UglyJSONParser::BoolNode::operator=(const char* strData)
+{
+    throw std::logic_error("tried to set string data to bool node");
+}
+
+void UglyJSONParser::BoolNode::operator=(const string& strData)
+{
+    throw std::logic_error("tried to set string data to bool node");
+}
+
+void UglyJSONParser::BoolNode::operator=(const long long intData)
+{
+    throw std::logic_error("tried to set number data to bool node");
+}
+
+void UglyJSONParser::BoolNode::operator=(const bool boolData)
+{
+    _boolData = boolData;
+}
+
+void UglyJSONParser::BoolNode::operator=(const double doubleData)
+{
+    throw std::logic_error("tried to set number data to bool node");
+}
+
+std::vector<UglyJSONParser::BaseNode*>& UglyJSONParser::BoolNode::GetChildNodeVector()
+{
+    throw std::logic_error("tried to get child node vector in leaf node");
+}
+
+void UglyJSONParser::BoolNode::Clear()
+{
+    throw std::logic_error("tried to delete child node in leaf node");
+}
+
+void UglyJSONParser::BoolNode::DeleteChildNode(const string& strKey)
+{
+    throw std::logic_error("tried to delete child node in leaf node");
+}
+
+void UglyJSONParser::BoolNode::DeleteChildNode(size_t intKey)
+{
+    throw std::logic_error("tried to delete child node in leaf node");
+}
+
+bool UglyJSONParser::BoolNode::CreateNewNode(NodeType type, string strKey)
+{
+    throw std::logic_error("tried to create child node in leaf node");
+}
+
+bool UglyJSONParser::BoolNode::CreateNewNode(NodeType type)
+{
+    throw std::logic_error("tried to create child node in leaf node");
+}
+
+size_t UglyJSONParser::BoolNode::GetChildNodeCount() const
 {
     return 0;
 }
@@ -270,7 +494,7 @@ void UglyJSONParser::ObjectNode::Clear()
 {
     for (BaseNode* i : _childNodeVector)
     {
-        if (i->GetNodeType() != NodeType::SingleValue && i->GetNodeType() != NodeType::Null)
+        if (i->GetNodeType() == NodeType::Object || i->GetNodeType() == NodeType::Array)//null, string, bool, number면 안된다
         {
             i->Clear();
         }
@@ -424,7 +648,7 @@ void UglyJSONParser::ArrayNode::Clear()
 {
     for (BaseNode* i : _childNodeVector)
     {
-        if (i->GetNodeType() != NodeType::SingleValue && i->GetNodeType() != NodeType::Null)
+        if (i->GetNodeType() == NodeType::Object || i->GetNodeType() == NodeType::Array)
         {
             i->Clear();
         }
@@ -714,8 +938,14 @@ UglyJSONParser::BaseNode* UglyJSONParser::NodeFactory::CreateNode(NodeType type,
     case NodeType::Array:
         return new ArrayNode(std::move(name));
 
-    case NodeType::SingleValue:
-        return new SingleValueNode(std::move(name));
+    case NodeType::String:
+        return new StringNode(std::move(name));
+
+    case NodeType::Number:
+        return new NumberNode(std::move(name));
+
+    case NodeType::Bool:
+        return new BoolNode(std::move(name));
 
     case NodeType::Null:
         return new NullNode(std::move(name));

@@ -26,9 +26,17 @@ UglyJSONParser::NodeType UglyJSONParser::TypeUtils::GetNodeTypeOfToken(const std
     {
         return NodeType::Null;
     }
-    else if (IsItSingleJsonValue(token) && token.compare(Tokens::TokenNull))
+    else if (IsItJsonBool(token))
     {
-        return NodeType::SingleValue;
+        return NodeType::Bool;
+    }
+    else if (IsItJsonString(token))
+    {
+        return NodeType::String;
+    }
+    else if ((StringUtils::IsItDigit(token.front()) || StringUtils::IsItSign(token.front())) && StringUtils::IsItDigit(token.back()))
+    {
+        return NodeType::Number;
     }
     else
     {

@@ -8,8 +8,10 @@ namespace UglyJSONParser
         Null = 0,
         Object = 1,
         Array = 2,
-        SingleValue = 3,
-        Root = 4,
+        String = 3,
+        Number = 4,
+        Bool = 5,
+        Root = 6,
         Error = -1
     };
 }

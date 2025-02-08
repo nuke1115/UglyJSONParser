@@ -46,6 +46,9 @@
     <Filter Include="헤더 파일\JSONTree">
       <UniqueIdentifier>{36558988-48c3-4620-b563-01c5a2ad4e18}</UniqueIdentifier>
     </Filter>
+    <Filter Include="문서">
+      <UniqueIdentifier>{74c98400-f03a-4e42-b0aa-102febd4c0c3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="testing.cpp">
@@ -82,6 +85,9 @@
     </None>
     <None Include="testingFiles\json.json">
       <Filter>리소스 파일</Filter>
+    </None>
+    <None Include="..\README.md">
+      <Filter>문서</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
