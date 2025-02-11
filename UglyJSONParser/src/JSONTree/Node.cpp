@@ -515,6 +515,7 @@ void UglyJSONParser::ObjectNode::DeleteChildNode(const string& strKey)
             return;
         }
     }
+    throw std::logic_error("item not found");
 }
 
 void UglyJSONParser::ObjectNode::DeleteChildNode(size_t intKey)
