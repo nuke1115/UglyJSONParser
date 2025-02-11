@@ -52,6 +52,7 @@ namespace UglyJSONParser
         /// <returns></returns>
         virtual const string& AsString() const = 0;
 
+
         /// <summary>
         /// returns data as int(long long)
         /// </summary>
@@ -120,6 +121,13 @@ namespace UglyJSONParser
         /// </summary>
         /// <returns></returns>
         virtual size_t GetChildNodeCount() const = 0;
+
+        /// <summary>
+        /// Returns whether childNodeVector contains node which name is same to key
+        /// </summary>
+        /// <param name="key"></param>
+        /// <returns></returns>
+        virtual bool Contains(const string& key) const = 0;
 
         virtual ~BaseNode();
     };

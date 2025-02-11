@@ -51,7 +51,9 @@ namespace UglyJSONParser
         bool CreateNewNode(NodeType type, string strKey) override;
         bool CreateNewNode(NodeType type) override;
 
-        virtual size_t GetChildNodeCount() const override;
+        size_t GetChildNodeCount() const override;
+
+        bool Contains(const string& key) const override;
 
         ~StringNode();
     };
@@ -93,7 +95,9 @@ namespace UglyJSONParser
         bool CreateNewNode(NodeType type, string strKey) override;
         bool CreateNewNode(NodeType type) override;
 
-        virtual size_t GetChildNodeCount() const override;
+        size_t GetChildNodeCount() const override;
+
+        bool Contains(const string& key) const override;
 
         ~NumberNode();
     };
@@ -133,7 +137,9 @@ namespace UglyJSONParser
         bool CreateNewNode(NodeType type, string strKey) override;
         bool CreateNewNode(NodeType type) override;
 
-        virtual size_t GetChildNodeCount() const override;
+        size_t GetChildNodeCount() const override;
+
+        bool Contains(const string& key) const override;
 
         ~BoolNode();
     };    
@@ -174,7 +180,9 @@ namespace UglyJSONParser
         bool CreateNewNode(NodeType type, string strKey) override;
         bool CreateNewNode(NodeType type) override;
 
-        virtual size_t GetChildNodeCount() const override;
+        size_t GetChildNodeCount() const override;
+
+        bool Contains(const string& key) const override;
 
         ~ObjectNode();
     };
@@ -215,7 +223,9 @@ namespace UglyJSONParser
         bool CreateNewNode(NodeType type, string strKey) override;
         bool CreateNewNode(NodeType type) override;
 
-        virtual size_t GetChildNodeCount() const override;
+        size_t GetChildNodeCount() const override;
+
+        bool Contains(const string& key) const override;
 
         ~ArrayNode();
     };
@@ -256,8 +266,9 @@ namespace UglyJSONParser
         bool CreateNewNode(NodeType type, string strKey) override;
         bool CreateNewNode(NodeType type) override;
 
-        virtual size_t GetChildNodeCount() const override;
+        size_t GetChildNodeCount() const override;
 
+        bool Contains(const string& key) const override;
 
         ~NullNode();
     };
@@ -300,7 +311,9 @@ namespace UglyJSONParser
         bool CreateNewNode(NodeType type, string strKey) override;
         bool CreateNewNode(NodeType type) override;
 
-        virtual size_t GetChildNodeCount() const override;
+        size_t GetChildNodeCount() const override;
+
+        bool Contains(const string& key) const override;
 
         bool CreateRootNode(NodeType nodeType);
 

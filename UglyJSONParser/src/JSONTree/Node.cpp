@@ -174,6 +174,11 @@ size_t UglyJSONParser::StringNode::GetChildNodeCount() const
     return 0;
 }
 
+bool UglyJSONParser::StringNode::Contains(const string& key) const
+{
+    return false;
+}
+
 #pragma endregion
 
 #pragma region NumberNode
@@ -296,6 +301,11 @@ size_t UglyJSONParser::NumberNode::GetChildNodeCount() const
     return 0;
 }
 
+bool UglyJSONParser::NumberNode::Contains(const string& key) const
+{
+    return false;
+}
+
 #pragma endregion
 
 #pragma region BoolNode
@@ -393,6 +403,11 @@ bool UglyJSONParser::BoolNode::CreateNewNode(NodeType type)
 size_t UglyJSONParser::BoolNode::GetChildNodeCount() const
 {
     return 0;
+}
+
+bool UglyJSONParser::BoolNode::Contains(const string& key) const
+{
+    return false;
 }
 
 #pragma endregion
@@ -506,7 +521,7 @@ void UglyJSONParser::ObjectNode::Clear()
 
 void UglyJSONParser::ObjectNode::DeleteChildNode(const string& strKey)
 {
-    for (int i = 0; i < _childNodeVector.size(); i++)
+    for (size_t i = 0; i < _childNodeVector.size(); i++)
     {
         if (!(_childNodeVector[i]->GetName().compare(strKey)))
         {
@@ -553,6 +568,18 @@ bool UglyJSONParser::ObjectNode::CreateNewNode(NodeType type)
 size_t UglyJSONParser::ObjectNode::GetChildNodeCount() const
 {
     return _childNodeVector.size();
+}
+
+bool UglyJSONParser::ObjectNode::Contains(const string& key) const
+{
+    for (BaseNode* i : _childNodeVector)
+    {
+        if (!(i->GetName().compare(key)))
+        {
+            return true;
+        }
+    }
+    return false;
 }
 
 #pragma endregion
@@ -698,6 +725,11 @@ size_t UglyJSONParser::ArrayNode::GetChildNodeCount() const
     return _childNodeVector.size();
 }
 
+bool UglyJSONParser::ArrayNode::Contains(const string& key) const
+{
+    return false;
+}
+
 #pragma endregion
 
 #pragma region NullNode
@@ -795,6 +827,11 @@ bool UglyJSONParser::NullNode::CreateNewNode(NodeType type)
 size_t UglyJSONParser::NullNode::GetChildNodeCount() const
 {
     return 0;
+}
+
+bool UglyJSONParser::NullNode::Contains(const string& key) const
+{
+    return false;
 }
 
 #pragma endregion
@@ -913,6 +950,11 @@ bool UglyJSONParser::RootNode::CreateNewNode(NodeType type)
 size_t UglyJSONParser::RootNode::GetChildNodeCount() const
 {
     return _entryPoint->GetChildNodeCount();
+}
+
+bool UglyJSONParser::RootNode::Contains(const string& key) const
+{
+    return _entryPoint->Contains(key);
 }
 
 #pragma endregion
