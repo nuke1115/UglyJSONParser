@@ -66,7 +66,11 @@ UglyJSONParser::RootNode::~RootNode()
 {
     if (_entryPoint != nullptr)
     {
-        _entryPoint->Clear();
+        if (_entryPoint->GetNodeType() == NodeType::Object || _entryPoint->GetNodeType() == NodeType::Array)
+        {
+            _entryPoint->Clear();
+        }
+
         delete _entryPoint;
         _entryPoint = nullptr;
     }
