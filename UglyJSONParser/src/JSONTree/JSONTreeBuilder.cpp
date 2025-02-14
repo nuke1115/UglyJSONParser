@@ -74,7 +74,13 @@ bool UglyJSONParser::JSONTreeBuilder::BuildJSONTree(RootNode& rootNode, const st
 
     std::stack<BaseNode*> indentationStack;
 
-    for (auto iter = std::next(tokens.begin()); iter != tokens.end(); iter++)
+
+    if (!(nowNode->GetNodeType() == NodeType::Array || nowNode->GetNodeType() == NodeType::Object))
+    {
+        AssignValue(*nowNode, tokens.front());
+    }
+
+    for (auto iter = std::next(tokens.begin()); iter != tokens.end(); iter++)//여기서 첫번째값은 넣지를 못하네
     {
         if (!indentationStack.empty() && StringUtils::IsItClosingToken(iter->front()))
         {
