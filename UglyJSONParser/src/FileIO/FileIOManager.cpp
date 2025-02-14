@@ -42,6 +42,11 @@ bool FileIOManager::ClearFile(const string& filePath)
 
 bool FileIOManager::WriteTextToFile(const string& data, const string& filePath, std::ios::openmode openMode)
 {
+    if (IsFileExist(filePath) == false)
+    {
+        return false;
+    }
+
     std::ofstream oStream(filePath,openMode);
 
     if (!oStream.is_open())
@@ -51,5 +56,30 @@ bool FileIOManager::WriteTextToFile(const string& data, const string& filePath, 
 
     oStream << data;
     
+    return oStream.good();
+}
+
+
+bool FileIOManager::CreateFile(const string& filePath, const string& fileName, const string& fileExtension)
+{
+    std::string tmp;
+    tmp.reserve(filePath.size() + fileName.size() + fileExtension.size());
+
+    tmp.append(filePath);
+    tmp.append(fileName);
+    tmp.append(fileExtension);
+
+    return CreateFile(tmp);
+}
+
+bool FileIOManager::CreateFile(const string& fullFilePath)
+{
+    if (IsFileExist(fullFilePath))
+    {
+        return false;
+    }
+
+    std::ofstream oStream(fullFilePath);
+
     return oStream.good();
 }

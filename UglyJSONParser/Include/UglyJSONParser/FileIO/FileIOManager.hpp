@@ -52,6 +52,24 @@ public:
     /// <returns></returns>
     bool WriteTextToFile(const string& data, const string& filePath, std::ios::openmode openMode = std::ios::out | std::ios::trunc);
 
+    /// <summary>
+    /// Create new file with input fullFilePath. FullFilePath must contains file's name and extension
+    /// </summary>
+    /// <param name="fullFilePath"></param>
+    /// <returns></returns>
+    bool CreateFile(const string& fullFilePath);
+
+    /// <summary>
+    /// Create new file with input filePath, fileName, and fileExtension. FilePath must ends with (\), and fileExtension must starts with (.).
+    /// </summary>
+    /// <param name="filePath"></param>
+    /// <param name="fileName"></param>
+    /// <param name="fileExtension"></param>
+    /// <returns></returns>
+    bool CreateFile(const string& filePath, const string& fileName, const string& fileExtension);
+
+    ~FileIOManager() = default;
+
 };
 
 #endif // !UGLY_JSON_PARSER_FILE_IO_MANAGER_HEADER
