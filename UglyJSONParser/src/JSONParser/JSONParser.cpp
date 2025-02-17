@@ -1,4 +1,4 @@
-#include "..\..\Include\UglyJSONParser\JSONParser\JSONParser.hpp"
+#include "../../Include/UglyJSONParser/JSONParser/JSONParser.hpp"
 
 
 bool UglyJSONParser::JSONParser::BuildJSONTreeFromString(const string& sourceString, RootNode& rootNode)

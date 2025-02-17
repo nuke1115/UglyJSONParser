@@ -2,9 +2,9 @@
 #define UGLY_JSON_PARSER_TYPE_UTILS_HEADER
 
 #include <string>
-#include "..\JsonTree\NodeTypes.hpp"
-#include ".\StringUtils.hpp"
-#include "..\Tokenizer\Tokens.hpp"
+#include "../JsonTree/NodeTypes.hpp"
+#include "./StringUtils.hpp"
+#include "../Tokenizer/Tokens.hpp"
 
 
 namespace UglyJSONParser

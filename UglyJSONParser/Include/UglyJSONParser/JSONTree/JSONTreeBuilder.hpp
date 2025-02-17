@@ -7,10 +7,10 @@
 #include <algorithm>
 #include <exception>
 #include <xutility>
-#include ".\Node.hpp"
-#include "..\Utils\StringUtils.hpp"
-#include "..\Utils\TypeUtils.hpp"
-#include "..\Tokenizer\Tokens.hpp"
+#include "./Node.hpp"
+#include "../Utils/StringUtils.hpp"
+#include "../Utils/TypeUtils.hpp"
+#include "../Tokenizer/Tokens.hpp"
 
 
 namespace UglyJSONParser

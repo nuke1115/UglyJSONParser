@@ -2,10 +2,10 @@
 #define UGLY_JSON_PARSER_NODE_HEADER
 
 #include <utility>
-#include ".\NodeBase.hpp"
-#include ".\NodeTypes.hpp"
-#include "..\Utils\TypeUtils.hpp"
-#include "..\Tokenizer\Tokens.hpp"
+#include "./NodeBase.hpp"
+#include "./NodeTypes.hpp"
+#include "../Utils/TypeUtils.hpp"
+#include "../Tokenizer/Tokens.hpp"
 
 
 namespace UglyJSONParser

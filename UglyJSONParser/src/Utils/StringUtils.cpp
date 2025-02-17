@@ -1,4 +1,4 @@
-#include "..\..\Include\UglyJSONParser\Utils\StringUtils.hpp"
+#include "../../Include/UglyJSONParser/Utils/StringUtils.hpp"
 
 bool UglyJSONParser::StringUtils::CompareString(const std::string& target, const std::string& key, size_t targetStringStartIndex)
 {

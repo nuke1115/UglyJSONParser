@@ -3,7 +3,7 @@
 
 #include <string>
 #include <xstring>
-#include "..\Tokenizer\Tokens.hpp"
+#include "../Tokenizer/Tokens.hpp"
 
 namespace UglyJSONParser
 {

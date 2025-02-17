@@ -6,7 +6,7 @@
 #include <exception>
 #include <sstream>
 #include <stdlib.h>
-#include ".\NodeTypes.hpp"
+#include "./NodeTypes.hpp"
 
 namespace UglyJSONParser
 {

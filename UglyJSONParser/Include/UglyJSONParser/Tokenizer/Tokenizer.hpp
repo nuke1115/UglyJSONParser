@@ -6,9 +6,9 @@
 #include <xutility>
 #include <stack>
 #include <sstream>
-#include "..\Utils\StringUtils.hpp"
-#include "..\Utils\TypeUtils.hpp"
-#include ".\Tokens.hpp"
+#include "../Utils/StringUtils.hpp"
+#include "../Utils/TypeUtils.hpp"
+#include "./Tokens.hpp"
 
 namespace UglyJSONParser
 {

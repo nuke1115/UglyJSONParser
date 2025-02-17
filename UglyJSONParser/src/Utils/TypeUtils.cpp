@@ -1,4 +1,4 @@
-#include "..\..\Include\UglyJSONParser\Utils\TypeUtils.hpp"
+#include "../../Include/UglyJSONParser/Utils/TypeUtils.hpp"
 
 std::string UglyJSONParser::TypeUtils::ConvertBoolToString(bool data)
 {

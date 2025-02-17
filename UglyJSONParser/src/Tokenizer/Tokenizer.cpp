@@ -1,4 +1,4 @@
-#include "..\..\Include\UglyJSONParser\Tokenizer\Tokenizer.hpp"
+#include "../../Include/UglyJSONParser/Tokenizer/Tokenizer.hpp"
 
 bool UglyJSONParser::Tokenizer::TokenizeString(const string& sourceString, std::list<string>& outTokenizedStrings, size_t& index)
 {

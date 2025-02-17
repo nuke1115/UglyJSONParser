@@ -1,4 +1,4 @@
-#include "..\..\Include\UglyJSONParser\JsonTree\JSONTreeBuilder.hpp"
+#include "../../Include/UglyJSONParser/JsonTree/JSONTreeBuilder.hpp"
 
 void AssignExponentValueToNumberNode(UglyJSONParser::BaseNode& TargetNodeRef, size_t index,const std::string& str)
 {
