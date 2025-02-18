@@ -2,7 +2,6 @@
 #define UGLY_JSON_PARSER_STRING_UTILS_HEADER
 
 #include <string>
-#include <xstring>
 #include "../Tokenizer/Tokens.hpp"
 
 namespace UglyJSONParser
