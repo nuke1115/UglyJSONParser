@@ -35,6 +35,7 @@
 Windows SDK 버전 : 10.0
 
 런타임 라이브러리 : Release => MD , Debug => MDd
+
 최소 다시 빌드 기능 : Gm- 고정
 
 종류 : Release 구성용 => UglyJSONParser.lib , Debug 구성용 => UglyJSONParser-d.lib
