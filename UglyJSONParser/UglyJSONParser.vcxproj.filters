@@ -89,6 +89,9 @@
     <None Include="..\README.md">
       <Filter>문서</Filter>
     </None>
+    <None Include="testingFiles\test.json">
+      <Filter>리소스 파일</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Text Include="dummy\구상의 흔적들.txt">

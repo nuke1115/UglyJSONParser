@@ -9,6 +9,14 @@ Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
 		Debug|x86 = Debug|x86
+		md,gm-|x64 = md,gm-|x64
+		md,gm-|x86 = md,gm-|x86
+		mdd,gm-|x64 = mdd,gm-|x64
+		mdd,gm-|x86 = mdd,gm-|x86
+		mt,gm-|x64 = mt,gm-|x64
+		mt,gm-|x86 = mt,gm-|x86
+		mtd,gm-|x64 = mtd,gm-|x64
+		mtd,gm-|x86 = mtd,gm-|x86
 		Release|x64 = Release|x64
 		Release|x86 = Release|x86
 	EndGlobalSection
@@ -17,6 +25,22 @@ Global
 		{2F32BB18-F7BE-45B7-BC17-66548CF1EC1F}.Debug|x64.Build.0 = Debug|x64
 		{2F32BB18-F7BE-45B7-BC17-66548CF1EC1F}.Debug|x86.ActiveCfg = Debug|Win32
 		{2F32BB18-F7BE-45B7-BC17-66548CF1EC1F}.Debug|x86.Build.0 = Debug|Win32
+		{2F32BB18-F7BE-45B7-BC17-66548CF1EC1F}.md,gm-|x64.ActiveCfg = md-gm-|x64
+		{2F32BB18-F7BE-45B7-BC17-66548CF1EC1F}.md,gm-|x64.Build.0 = md-gm-|x64
+		{2F32BB18-F7BE-45B7-BC17-66548CF1EC1F}.md,gm-|x86.ActiveCfg = md-gm-|Win32
+		{2F32BB18-F7BE-45B7-BC17-66548CF1EC1F}.md,gm-|x86.Build.0 = md-gm-|Win32
+		{2F32BB18-F7BE-45B7-BC17-66548CF1EC1F}.mdd,gm-|x64.ActiveCfg = mdd-gm-|x64
+		{2F32BB18-F7BE-45B7-BC17-66548CF1EC1F}.mdd,gm-|x64.Build.0 = mdd-gm-|x64
+		{2F32BB18-F7BE-45B7-BC17-66548CF1EC1F}.mdd,gm-|x86.ActiveCfg = mdd-gm-|Win32
+		{2F32BB18-F7BE-45B7-BC17-66548CF1EC1F}.mdd,gm-|x86.Build.0 = mdd-gm-|Win32
+		{2F32BB18-F7BE-45B7-BC17-66548CF1EC1F}.mt,gm-|x64.ActiveCfg = mt-gm-|x64
+		{2F32BB18-F7BE-45B7-BC17-66548CF1EC1F}.mt,gm-|x64.Build.0 = mt-gm-|x64
+		{2F32BB18-F7BE-45B7-BC17-66548CF1EC1F}.mt,gm-|x86.ActiveCfg = mt-gm-|Win32
+		{2F32BB18-F7BE-45B7-BC17-66548CF1EC1F}.mt,gm-|x86.Build.0 = mt-gm-|Win32
+		{2F32BB18-F7BE-45B7-BC17-66548CF1EC1F}.mtd,gm-|x64.ActiveCfg = mtd-gm-|x64
+		{2F32BB18-F7BE-45B7-BC17-66548CF1EC1F}.mtd,gm-|x64.Build.0 = mtd-gm-|x64
+		{2F32BB18-F7BE-45B7-BC17-66548CF1EC1F}.mtd,gm-|x86.ActiveCfg = mtd-gm-|Win32
+		{2F32BB18-F7BE-45B7-BC17-66548CF1EC1F}.mtd,gm-|x86.Build.0 = mtd-gm-|Win32
 		{2F32BB18-F7BE-45B7-BC17-66548CF1EC1F}.Release|x64.ActiveCfg = Release|x64
 		{2F32BB18-F7BE-45B7-BC17-66548CF1EC1F}.Release|x64.Build.0 = Release|x64
 		{2F32BB18-F7BE-45B7-BC17-66548CF1EC1F}.Release|x86.ActiveCfg = Release|Win32
