@@ -752,10 +752,11 @@
   <ItemGroup>
     <None Include="..\.gitignore" />
     <None Include="..\README.md" />
-    <None Include="testingFiles\json.json" />
-    <None Include="testingFiles\test.json" />
+    <None Include="..\UglyJSONParser_Distribution\cmake\UglyJSONParser_CMake.zip" />
+    <None Include="..\UglyJSONParser_Distribution\lib_zips_for_windows_vs2022_v143\UglyJSONParser_Static_Libraries.zip" />
   </ItemGroup>
   <ItemGroup>
+    <Text Include="CMakeLists.txt" />
     <Text Include="dummy\구상의 흔적들.txt" />
   </ItemGroup>
   <ItemGroup>

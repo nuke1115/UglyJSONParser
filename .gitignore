@@ -405,6 +405,7 @@ FodyWeavers.xsd
 *.out
 *.app
 
-#documents
 
-/docs/
+#distributions
+
+UglyJSONParser_Distribution/
