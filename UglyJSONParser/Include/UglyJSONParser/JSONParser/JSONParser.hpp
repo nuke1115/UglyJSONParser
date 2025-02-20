@@ -5,8 +5,8 @@
 #include <list>
 #include "../FileIO/FileIOManager.hpp"
 #include "../Tokenizer/Tokenizer.hpp"
-#include "../JsonTree/Node.hpp"
-#include "../JsonTree/JSONTreeBuilder.hpp"
+#include "../JSONTree/Node.hpp"
+#include "../JSONTree/JSONTreeBuilder.hpp"
 
 
 namespace UglyJSONParser
