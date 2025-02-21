@@ -20,7 +20,7 @@
 10. [만들때 참고했던 자료들](#anchor-10)
 
 ---
-###### <details><summary></summary>anchor 0</details>
+<span id="anchor-0"></span>
 # 0. 라이브러리 정보: 
 
 ## 공통
@@ -53,7 +53,7 @@ Windows SDK 버전 : 10.0
 요구하는 최소 CMake 버전 : 3.20
 
 ---
-###### <details><summary></summary>anchor 1</details>
+<span id="anchor-1"></span>
 # 1. 개요
 
 ## UglyJSONParser는 무엇인가요?:
@@ -88,7 +88,7 @@ Windows SDK 버전 : 10.0
 3. v1.0 기준 스레드 안전을 보장하지 않는다.
 
 ---
-###### <details><summary></summary>anchor 2</details>
+<span id="anchor-2"></span>
 # 2. 라이브러리 설정법:
 
 ## CMake로 라이브러리를 빌드하는법(CMake 3.20)
@@ -157,14 +157,14 @@ Windows SDK 버전 : 10.0
 
 
 ---
-###### <details><summary></summary>anchor 3</details>
+<span id="anchor-3"></span>
 # 3. API 문서:
 
 [UglyJSONParser v1.0 API Documents](https://github.com/nuke1115/LibraryDocumentsStorage/blob/main/UglyJSONParserDocuments/API_AND_REFERENCES/v1.0/README_API_DOCUMENTS.md)
 
 
 ---
-###### <details><summary></summary>anchor 4</details>
+<span id="anchor-4"></span>
 # 4. 예제 코드:
 1. 파일에서 읽어오고 저장하기.
 
@@ -250,7 +250,7 @@ int main()
 ```
 
 ---
-###### <details><summary></summary>anchor 5</details>
+<span id="anchor-5"></span>
 # 5. 이슈 해결법
 
 **주의** : 이 문단은 제작자가 발견하지 못한 이슈에 대한 해결법은 작성되어있지 않습니다. 만약 새로운 이슈를 발견한다면 제작자에게 연락하거나, 해당 리포지토리에 new issue를 해준다면, 가능한 한 빠른 시일 내로 업데이트 될것입니다.
@@ -261,13 +261,13 @@ int main()
 2. 런타임 라이브러리가 일치합니까?
 
 ---
-###### <details><summary></summary>anchor 6</details>
+<span id="anchor-6"></span>
 # 6. 기여 가이드라인:
 
 (아직 준비되지 않았습니다.)
 
 ---
-###### <details><summary></summary>anchor 7</details>
+<span id="anchor-7"></span>
 # 7. 제작자:
 
 제작자: nuke1115
@@ -281,13 +281,13 @@ Discord : yellowsticker_ / 노란딱지#7701
 [github](https://github.com/nuke1115)
 
 ---
-###### <details><summary></summary>anchor 8</details>
+<span id="anchor-8"></span>
 # 8. 최근 버전:
 
 v1.0
 
 ---
-###### <details><summary></summary>anchor 9</details>
+<span id="anchor-9"></span>
 # 9. 라이선스
 
 License : MIT License
@@ -295,7 +295,7 @@ License : MIT License
 개인용도 이용, 상업용도 이용 모두 무료입니다.
 
 ---
-###### <details><summary></summary>anchor 10</details>
+<span id="anchor-10"></span>
 # 10. 만들때 참고했던 자료들:
 
 [json 공식 문서](json.org)
