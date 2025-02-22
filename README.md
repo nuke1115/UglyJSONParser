@@ -1,39 +1,77 @@
 # UglyJSONParser
 
+![GitHub License](https://img.shields.io/github/license/nuke1115/UglyJSONParser)
+![GitHub Release](https://img.shields.io/github/v/release/nuke1115/UglyJSONParser)
+CMake 3.20
+
+UglyJSONParser : C++에서 타입-안전하게 JSON을 파싱하고 사용하게 해주는 오픈소스 크로스 플랫폼 라이브러리.
+
 ## 목차:
 
-0. 라이브러리 정보
-1. 개요
-    + UglyJSONParser는 무엇인가요?
-    + 특징
-    + 한계
-2. 라이브러리 설정법
-    + CMake로 빌드하는법
-    + lib과 hpp를 프로젝트에 추가하는법(windows visual studio 2022)
-3. API 문서
-    + 구조
-    + 주요 클래스 및 함수들의 리스트와 기능들
-4. 레퍼런스 문서
-    + 각 클래스와 함수들 사용법
-5. 예제 코드
-6. 이슈 해결법
-7. 기여 가이드라인(준비되지 않음)
-8. 제작자
-9. 최근 버전
-10. 라이선스
-11. 만들때 참고했던 자료들
+1. [소개](#anchor-introduction)
+    + [UglyJSONParser란?](#anchor-what-is-UglyJSONParser)
+    + [UglyJSONParser의 특징](#anchor-UglyJSONParser-features)
+    + [UglyJSONParser의 한계](#anchor-UglyJSONParser-limitations)
+2. [설치](#anchor-UglyJSONParser-installation)
+    + [시스템 요구 사항](#anchor-UglyJSONParser-system-spec-required)
+    + [CMake로 UglyJSONParser를 빌드하기](#anchor-UglyJSONParser-with-CMake)
+    + [Visual Studio 2022에서 UglyJSONParser를 사용하기](#anchor-use-UglyJSONParser-in-vs-2022)
+    + [예제 코드](#anchor-UglyJSONParser-examples)
+3. [API 문서](#anchor-UglyJSONParser-API-docs)
+4. [자주 묻는 질문](#anchor-UglyJSONParser-FAQ)
+5. [부록](#anchor-UglyJSONParser-other-info)
+    + [기여 가이드라인(추후 추가 예정)](#anchor-UglyJSONParser-contribution-guide)
+    + [제작자](#anchor-UglyJSONParser-creator-info)
+    + [참고한 자료들](#anchor-UglyJSONParser-references)
+
+---
+<span id="anchor-introduction"></span>
+# 1. 소개
+
+<span id="anchor-what-is-UglyJSONParser"></span>
+## UglyJSONParser란?
+UglyJSONParser는
+1. C++용으로 개발된 오픈소스 JSON파서 라이브러리 입니다.
+2. 타입이 고정되어있어, 잘못된 타입으로 접근하는것을 거의 방지해줍니다.
+3. 사용이 간편합니다.
+4. 여러 플랫폼에서 사용 가능합니다.
+5. 상업/비상업적 이용 모두 무료입니다.
 
 ---
 
-# 0. 라이브러리 정보:
+<span id="anchor-UglyJSONParser-features"></span>
+## UglyJSONParser의 특징
 
-## 공통
+1. 고정된 타입.
+    + 노드의 각 타입이 고정돼있고, 각 타입간의 변환이 불가능하도록 설계하여, 잘못된 타입으로 접근하는것을 거의 방지합니다.
+    + 단, Number타입의 int와 double은 변환이 가능합니다.
+2. 크로스 플랫폼 지원.
+    + CMake로 라이브러리를 각 환경에 맞게 빌드 할 수 있도록 하여, 보다 많은 플랫폼에서 사용 가능합니다.
+3. 사용이 간편합니다.
+    + 복잡하게 노드에 접근할 필요 없이, []와 .As타입() 으로 간단하게 노드와 데이터에 접근 가능합니다.
+    + 파일 입출력을 도와주는 클래스를 내장하여, 파일을 쉽게 읽고 쓸 수 있습니다.
+    + 노드를 구축하는것을 도와주는 클래스가 있어, 사용자는 오로지 데이터에 접근하는것에만 신경쓸 수 있습니다.
+<span id="anchor-UglyJSONParser-limitations"></span>
+## UglyJSONParser의 한계
+
+1. 일부 이스케이프 문자 처리가 미흡하다.
+    + 현재 \\\\ , \\" 만 지원하며, 그 이외의 이스케이프 문자는 '들어온 그대로 저장됩니다'
+2. 스레드 안전이 보장되지 않습니다.
+    + 멀티 스레드 환경에서, 하나의 json트리를 공유한다면, 예상치 못한 동작이 있을 수 있습니다.
+3. 고정된 타입.
+    + json 고유의 유동성을 저해할 수 있습니다.
+
+---
+<span id="anchor-UglyJSONParser-installation"></span>
+# 2. 설치
+<span id="anchor-UglyJSONParser-system-spec-required"></span>
+## 시스템 요구 사항
+
+### 공통
 
 버전 : v1.0
 
 요구하는 최소 c++ 버전 : c++ 20
-
-스레드 안전 : 보장되지 않음.
 
 ---
 
@@ -57,51 +95,15 @@ Windows SDK 버전 : 10.0
 요구하는 최소 CMake 버전 : 3.20
 
 ---
-# 1. 개요
-
-## UglyJSONParser는 무엇인가요?:
-
-### UglyJSONParser는:
-1. C++용으로 개발된 무료 오픈소스 JSON파서 라이브러리 입니다.
-2. 타입이 고정되어있어, 잘못된 타입으로 접근하는걸 대부분 방지해줍니다.
-3. 사용이 어렵지 않습니다.
-4. 비상업/상업 용도 모두 무료입니다.
-5. 여러 플랫폼에서 사용 가능합니다.
-
-## 특징:
-
-1. 고정된 타입.
-    + UglyJSONParser는 Array,Object,Null,Number(long long,double),Bool,String,Root 로 구분되며, 각 타입간의 변환이 불가합니다.(Number 내에서의 변환은 가능)
-    + 이런 특징으로 인해 약간의 타입안정성을 챙겼습니다.
-    + 노드를 삭제한 후 다시 생성하는 방식으로 타입을 바꿀수 있으나, **이러한 사용은 권장되지 않습니다.**
-2. 사용이 어렵지 않다.
-    + 복잡하게 파일을 불러오고, 그걸 저장하고, 그걸 파서에 돌리고 할 필요가 없습니다.
-      
-      단순히 RootNode와 읽을 파일의 주소를 파서에 입력하면, JSONTree를 RootNode에 빌드해줍니다.
-    + 데이터에 접근하는것도 []로 접근하고, 접근하는 데이터 형식에 알맞은 .AsXXX() 로 접근하는게 끝입니다.
-3. 내장되어있는 파일 입출력 매니저.
-    + 라이브러리에 파일 입출력을 도와주는 클래스를 내장하여, 사용자가 오로지 json데이터를 다루는것에만 집중 가능하도록 도와줍니다.
-
-
-## 한계:
-1. 고정된 타입.
-    + 고정된 타입이라는 특징은 버그를 줄여주기도 하지만, 역으로 JSON의 자유로운 문법을 이용하지 못하도록 제한하는 역할을 하기도 합니다.
-2. v1.0 기준 유니코드를 지원하지 않는다.
-    + 업데이트를 할 계획이 있으나, v1.0기준으로 유니코드는 변환이 안되고, \uXXXX 형태로 들어온 그대로 저장됩니다.
-3. v1.0 기준 스레드 안전을 보장하지 않는다.
-
----
-
-# 2. 라이브러리 설정법:
-
-## CMake로 라이브러리를 빌드하는법(CMake 3.20)
+<span id="anchor-UglyJSONParser-with-CMake"></span>
+## CMake로 UglyJSONParser를 빌드하기
 
 <details>
 <summary>펼치기/접기</summary>
 
-1. 소스코드와 CMakeLists.txt가 있는 zip파일을 원하는 폴더에 압축해제합니다.
+1. 소스코드와 build폴더, CMakeLists.txt가 있는 UglyJSONParser_v1.0_CMake.zip 파일을 원하는 폴더에 압축해제합니다.
 
-2. 명령어를 실행 가능한 프로그램(ex. powershell ...)을 압축해제한 폴더 또는, 그냥 실행한 후, 해당 위치로 이동합니다.
+2. 명령어를 실행 가능한 프로그램(ex. powershell, shell, cmd ...)을 압축해제한 폴더 또는, 그냥 실행한 후, 해당 위치로 이동합니다.
 
 3. 압축 해제한 폴더의 build폴더로 이동합니다.
 
@@ -120,7 +122,9 @@ Windows SDK 버전 : 10.0
 
 </details>
 
-## lib과 hpp를 프로젝트에 추가하는법(windows visual studio 2022)
+---
+<span id="anchor-use-UglyJSONParser-in-vs-2022"></span>
+## Visual Studio 2022에서 UglyJSONParser를 사용하기
 
 <details>
 <summary>펼치기/접기</summary>
@@ -158,17 +162,10 @@ Windows SDK 버전 : 10.0
 
 </details>
 
-
 ---
+<span id="anchor-UglyJSONParser-examples"></span>
+## 예제 코드
 
-# 3. API 문서:
-
-[UglyJSONParser v1.0 API Documents](https://github.com/nuke1115/LibraryDocumentsStorage/blob/main/UglyJSONParserDocuments/API_AND_REFERENCES/v1.0/README_API_DOCUMENTS.md)
-
-
----
-
-# 5. 예제 코드:
 1. 파일에서 읽어오고 저장하기.
 
 json.json
@@ -253,23 +250,33 @@ int main()
 ```
 
 ---
-# 6. 이슈 해결법
+<span id="anchor-UglyJSONParser-API-docs"></span>
+# 3. API 문서
+
+[UglyJSONParser v1.0 API Documents](https://github.com/nuke1115/LibraryDocumentsStorage/blob/main/UglyJSONParserDocuments/API_AND_REFERENCES/v1.0/README_API_DOCUMENTS.md)
+
+---
+<span id="anchor-UglyJSONParser-FAQ"></span>
+# 4. 자주 묻는 질문
 
 **주의** : 이 문단은 제작자가 발견하지 못한 이슈에 대한 해결법은 작성되어있지 않습니다. 만약 새로운 이슈를 발견한다면 제작자에게 연락하거나, 해당 리포지토리에 new issue를 해준다면, 가능한 한 빠른 시일 내로 업데이트 될것입니다.
 
-### LNK 2038:
-다음을 확인해보십시오:
+Q: LNK 2038오류가 발생합니다.
+A: 다음을 확인해보십시오:
 1. 솔루션의 구성 : Debug 구성에서 Release 구성용 .lib을 사용했습니까?
 2. 런타임 라이브러리가 일치합니까?
 
 ---
-# 7. 기여 가이드라인:
-
+<span id="anchor-UglyJSONParser-other-info"></span>
+# 5. 부록
+<span id="anchor-UglyJSONParser-contribution-guide"></span>
+## 기여 가이드라인:
 (아직 준비되지 않았습니다.)
 
 ---
 
-# 8. 제작자:
+<span id="anchor-UglyJSONParser-creator-info"></span>
+## 제작자:
 
 제작자: nuke1115
 
@@ -282,19 +289,8 @@ Discord : yellowsticker_ / 노란딱지#7701
 [github](https://github.com/nuke1115)
 
 ---
-# 9. 최근 버전:
-
-v1.0
-
----
-# 10. 라이선스
-
-License : MIT License
-
-개인용도 이용, 상업용도 이용 모두 무료입니다.
-
----
-# 11. 만들때 참고했던 자료들:
+<span id="anchor-UglyJSONParser-references"></span>
+## 참고한 자료들
 
 [json 공식 문서](json.org)
 
