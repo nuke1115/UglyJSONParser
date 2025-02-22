@@ -1,4 +1,5 @@
 # UglyJSONParser
+
 ![GitHub License](https://img.shields.io/github/license/nuke1115/UglyJSONParser)
 ![GitHub Release](https://img.shields.io/github/v/release/nuke1115/UglyJSONParser)
 CMake 3.20
