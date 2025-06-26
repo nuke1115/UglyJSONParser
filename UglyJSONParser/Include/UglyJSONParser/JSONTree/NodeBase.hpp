@@ -6,7 +6,9 @@
 #include <exception>
 #include <sstream>
 #include <stdlib.h>
+#include <format>
 #include "./NodeTypes.hpp"
+#include "../Utils/TypeUtils.hpp"
 
 namespace UglyJSONParser
 {
@@ -50,84 +52,84 @@ namespace UglyJSONParser
         /// returns data as string
         /// </summary>
         /// <returns></returns>
-        virtual const string& AsString() const = 0;
+        virtual const string& AsString() const;
 
 
         /// <summary>
         /// returns data as int(long long)
         /// </summary>
         /// <returns></returns>
-        virtual long long AsInt() const = 0;
+        virtual long long AsInt() const;
 
         /// <summary>
         /// returns data as bool
         /// </summary>
         /// <returns></returns>
-        virtual bool AsBool() const = 0;
+        virtual bool AsBool() const;
 
         /// <summary>
         /// returns data as double
         /// </summary>
         /// <returns></returns>
-        virtual double AsDouble() const = 0;
+        virtual double AsDouble() const;
 
-        virtual BaseNode& operator[](const string& strKey) = 0;
-        virtual BaseNode& operator[](const size_t intKey) = 0;
+        virtual BaseNode& operator[](const string& strKey);
+        virtual BaseNode& operator[](const size_t intKey);
 
-        virtual void operator=(const string& strData) = 0;
-        virtual void operator=(const char* strData) = 0;
-        virtual void operator=(const long long intData) = 0;
-        virtual void operator=(const bool boolData) = 0;
-        virtual void operator=(const double doubleData) = 0;
+        virtual void operator=(const string& strData);
+        virtual void operator=(const char* strData);
+        virtual void operator=(const long long intData);
+        virtual void operator=(const bool boolData);
+        virtual void operator=(const double doubleData);
 
         /// <summary>
         /// returns reference of node's childeNodeVector
         /// </summary>
         /// <returns></returns>
-        virtual std::vector<BaseNode*>& GetChildNodeVector() = 0;
+        virtual std::vector<BaseNode*>& GetChildNodeVector();
 
         /// <summary>
         /// Clears all child node of this node
         /// </summary>
         /// <returns></returns>
-        virtual void Clear() = 0;
+        virtual void Clear();
 
         /// <summary>
         /// Delete this node's child node by string.
         /// </summary>
         /// <returns></returns>
-        virtual void DeleteChildNode(const string& strKey) = 0;
+        virtual void DeleteChildNode(const string& strKey);
 
         /// <summary>
         /// Delete this node's child node by int index.
         /// </summary>
         /// <returns></returns>
-        virtual void DeleteChildNode(size_t intKey) = 0;
+        virtual void DeleteChildNode(size_t intKey);
 
         /// <summary>
         /// Create new child node to this node.
         /// </summary>
         /// <returns></returns>
-        virtual bool CreateNewNode(NodeType type, string strKey) = 0;
+        virtual bool CreateNewNode(NodeType type, string strKey);
 
         /// <summary>
         /// Create new child node to this node.
         /// </summary>
         /// <returns></returns>
-        virtual bool CreateNewNode(NodeType type) = 0;
+        virtual bool CreateNewNode(NodeType type);
 
         /// <summary>
         /// Returns child node count of this node
         /// </summary>
         /// <returns></returns>
-        virtual size_t GetChildNodeCount() const = 0;
+        virtual size_t GetChildNodeCount() const;
 
         /// <summary>
         /// Returns whether childNodeVector contains node which name is same to key
         /// </summary>
         /// <param name="key"></param>
         /// <returns></returns>
-        virtual bool Contains(const string& key) const = 0;
+        virtual bool Contains(const string& key) const;
 
         virtual ~BaseNode();
     };
