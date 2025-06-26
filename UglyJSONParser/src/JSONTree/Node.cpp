@@ -102,17 +102,6 @@ void UglyJSONParser::StringNode::operator=(const string& strData)
 {
     _stringData = strData;
 }
-
-size_t UglyJSONParser::StringNode::GetChildNodeCount() const
-{
-    return 0;
-}
-
-bool UglyJSONParser::StringNode::Contains(const string& key) const
-{
-    return false;
-}
-
 #pragma endregion
 
 #pragma region NumberNode
@@ -165,16 +154,6 @@ void UglyJSONParser::NumberNode::operator=(const double doubleData)
     _doubleData = doubleData;
 }
 
-size_t UglyJSONParser::NumberNode::GetChildNodeCount() const
-{
-    return 0;
-}
-
-bool UglyJSONParser::NumberNode::Contains(const string& key) const
-{
-    return false;
-}
-
 #pragma endregion
 
 #pragma region BoolNode
@@ -193,17 +172,6 @@ void UglyJSONParser::BoolNode::operator=(const bool boolData)
 {
     _boolData = boolData;
 }
-
-size_t UglyJSONParser::BoolNode::GetChildNodeCount() const
-{
-    return 0;
-}
-
-bool UglyJSONParser::BoolNode::Contains(const string& key) const
-{
-    return false;
-}
-
 #pragma endregion
 
 #pragma region ObjectNode
@@ -422,16 +390,6 @@ bool UglyJSONParser::ArrayNode::Contains(const string& key) const
 std::string UglyJSONParser::NullNode::GetJsonTreeByString()
 {
     return Tokens::TokenNull;
-}
-
-size_t UglyJSONParser::NullNode::GetChildNodeCount() const
-{
-    return 0;
-}
-
-bool UglyJSONParser::NullNode::Contains(const string& key) const
-{
-    return false;
 }
 
 #pragma endregion

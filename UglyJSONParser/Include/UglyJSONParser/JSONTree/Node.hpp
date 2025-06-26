@@ -32,10 +32,6 @@ namespace UglyJSONParser
         void operator=(const char* strData) override;
         void operator=(const string& strData) override;
 
-        size_t GetChildNodeCount() const override;
-
-        bool Contains(const string& key) const override;
-
         ~StringNode();
     };
 
@@ -58,10 +54,6 @@ namespace UglyJSONParser
         void operator=(const long long intData) override;
         void operator=(const double doubleData) override;
 
-        size_t GetChildNodeCount() const override;
-
-        bool Contains(const string& key) const override;
-
         ~NumberNode();
     };
 
@@ -79,10 +71,6 @@ namespace UglyJSONParser
         bool AsBool() const override;
 
         void operator=(const bool boolData) override;
-
-        size_t GetChildNodeCount() const override;
-
-        bool Contains(const string& key) const override;
 
         ~BoolNode();
     };    
@@ -158,10 +146,6 @@ namespace UglyJSONParser
         NullNode(NullNode&&) = delete;
 
         string GetJsonTreeByString() override;
-
-        size_t GetChildNodeCount() const override;
-
-        bool Contains(const string& key) const override;
 
         ~NullNode();
     };
