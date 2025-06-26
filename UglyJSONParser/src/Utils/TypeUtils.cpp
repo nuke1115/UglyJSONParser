@@ -43,3 +43,28 @@ UglyJSONParser::NodeType UglyJSONParser::TypeUtils::GetNodeTypeOfToken(const std
         return NodeType::Error;
     }
 }
+
+const char* UglyJSONParser::TypeUtils::GetNodeTypeName(NodeType nodeType)
+{
+    switch (nodeType)
+    {
+    case NodeType::Null:
+        return "Null";
+    case NodeType::Object:
+        return "Object";
+    case NodeType::Array:
+        return "Array";
+    case NodeType::String:
+        return "String";
+    case NodeType::Number:
+        return "Number";
+    case NodeType::Bool:
+        return "Bool";
+    case NodeType::Root:
+        return "Root";
+    case NodeType::Error:
+        return "Error";
+    default:
+        return "Invalid";
+    }
+}

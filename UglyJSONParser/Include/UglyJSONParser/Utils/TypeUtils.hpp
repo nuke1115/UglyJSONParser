@@ -69,6 +69,13 @@ namespace UglyJSONParser
         /// <param name="token"></param>
         /// <returns></returns>
         NodeType GetNodeTypeOfToken(const std::string& token);
+
+        /// <summary>
+        /// Returns name of node type
+        /// </summary>
+        /// <param name="nodeType"></param>
+        /// <returns></returns>
+        const char* GetNodeTypeName(NodeType nodeType);
     }
 }
 
