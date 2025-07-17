@@ -26,9 +26,7 @@ void print(bool content)
 void print(long long content)
 {
     std::cout << content << '\n';
-}
-#include <SFML/Graphics.hpp>
-
+}   
 
 /*
 버그수정 및 기능 추가 기록
@@ -69,10 +67,108 @@ public:
 };
 
 
+#include <optional>
+#include <assert.h>
 
+//template<typename ValueType>
+//class UglyRefResult
+//{
+//private:
+//    std::string _errInfo;
+//    std::optional<ValueType*> _value;
+//public:
+//
+//    UglyRefResult(ValueType* value) : _errInfo("no error")
+//    {
+//        if (value == nullptr)
+//        {
+//            _errInfo = "entered nullptr";
+//            _value = std::nullopt;
+//        }
+//        else
+//        {
+//            _value = value;
+//        }
+//    }
+//
+//    UglyRefResult(const char* errInfo) : _errInfo(errInfo)
+//    {
+//        _value = std::nullopt;
+//    }
+//
+//    inline bool HasValue() const
+//    {
+//        return _value.has_value();
+//    }
+//
+//    inline const std::string& GetErrorInfo() const
+//    {
+//        return _errInfo;
+//    }
+//
+//    inline ValueType& GetValue()
+//    {
+//        return *(_value.value());
+//    }
+//
+//    inline const ValueType& GetConstRef() const
+//    {
+//        return *(_value.value());
+//    }
+//};
+//
+//template<typename ValueType>
+//class UglyNonRefResult
+//{
+//private:
+//    std::string _errInfo;
+//    std::optional<ValueType> _value;
+//public:
+//
+//    UglyNonRefResult(ValueType value) : _errInfo("no error"), _value(value)
+//    {
+//    }
+//
+//    UglyNonRefResult(const char* errInfo) : _errInfo(errInfo)
+//    {
+//        _value = std::nullopt;
+//    }
+//
+//    inline bool HasValue() const
+//    {
+//        return _value.has_value();
+//    }
+//
+//    inline const std::string& GetErrorInfo() const
+//    {
+//        return _errInfo;
+//    }
+//
+//    inline ValueType GetValue()
+//    {
+//        return _value.value();
+//    }
+//
+//    inline const ValueType& GetConstRef()
+//    {
+//        return _value.value();
+//    }
+//};
+
+/*
+공부할 것:
+string_view란?
+*/
+
+#include"Include/UglyJSONParser/Result/UglyRefResult.hpp"
 void run()
 {
+    int a = 10;
+    UglyRefResult<int> res(&a);
+    UglyRefResult<int> res2("sor");
 
+    printf("%d %d\n",res.HasValue(), res2.HasValue());
+    printf("%d %d\n", res.GetConstRef(), res.GetValueRef());
 }
 /*
 
