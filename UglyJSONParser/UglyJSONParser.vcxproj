@@ -754,6 +754,9 @@
     <None Include="..\README.md" />
     <None Include="..\UglyJSONParser_Distribution\cmake\UglyJSONParser_CMake.zip" />
     <None Include="..\UglyJSONParser_Distribution\lib_zips_for_windows_vs2022_v143\UglyJSONParser_Static_Libraries.zip" />
+    <ClInclude Include="Include\UglyJSONParser\Result\UglyNonRefResult.hpp" />
+    <ClInclude Include="src\Result\UglyNonRefResultINL.hpp" />
+    <ClInclude Include="src\Result\UglyNonRefResultTPP.hpp" />
     <ClInclude Include="src\Result\UglyRefResultINL.hpp" />
     <ClInclude Include="src\Result\UglyRefResultTPP.hpp">
       <FileType>Document</FileType>

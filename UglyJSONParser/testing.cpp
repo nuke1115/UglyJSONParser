@@ -160,15 +160,42 @@ public:
 string_view¶õ?
 */
 
+#include"Include/UglyJSONParser/Result/UglyNonRefResult.hpp"
 #include"Include/UglyJSONParser/Result/UglyRefResult.hpp"
+
+
+UglyNonRefResult<int> testFun(bool br)
+{
+    if (br)
+    {
+        return UglyNonRefResult<int>("break");
+    }
+    else
+    {
+        return UglyNonRefResult<int>(6974);
+    }
+}
+int test_ver = 100;
+UglyRefResult<int> testFun2(bool br)
+{
+    if (br)
+    {
+        return UglyRefResult<int>("break");
+    }
+    else
+    {
+        return UglyRefResult<int>(&test_ver);
+    }
+}
+
+
 void run()
 {
-    int a = 10;
-    UglyRefResult<int> res(&a);
-    UglyRefResult<int> res2("sor");
+    auto a = testFun2(true);
+    auto b = testFun2(false);
+    UglyJSONParser::UglyNonRefResult<int*> ffffffffff(&test_ver);
 
-    printf("%d %d\n",res.HasValue(), res2.HasValue());
-    printf("%d %d\n", res.GetConstRef(), res.GetValueRef());
+    int c = 10;
 }
 /*
 
