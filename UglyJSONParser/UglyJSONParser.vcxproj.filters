@@ -162,15 +162,6 @@
     <ClInclude Include="Include\UglyJSONParser\UtilsInclude.hpp">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="src\Result\UglyRefResultINL.hpp">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Result\UglyRefResultTPP.hpp">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\UglyJSONParser\Result\UglyRefResult.hpp">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
     <ClInclude Include="Include\UglyJSONParser\Result\UglyNonRefResult.hpp">
       <Filter>헤더 파일\Result</Filter>
     </ClInclude>
@@ -178,6 +169,15 @@
       <Filter>소스 파일\Result</Filter>
     </ClInclude>
     <ClInclude Include="src\Result\UglyNonRefResultINL.hpp">
+      <Filter>소스 파일\Result</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\UglyJSONParser\Result\UglyRefResult.hpp">
+      <Filter>헤더 파일\Result</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Result\UglyRefResultTPP.hpp">
+      <Filter>소스 파일\Result</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Result\UglyRefResultINL.hpp">
       <Filter>소스 파일\Result</Filter>
     </ClInclude>
   </ItemGroup>

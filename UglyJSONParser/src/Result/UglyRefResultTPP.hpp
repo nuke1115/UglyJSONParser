@@ -3,7 +3,7 @@
 
 
 template<typename ValueType>
-UglyRefResult<ValueType>::UglyRefResult(ValueType* value) : _errInfo("no error")
+UglyJSONParser::UglyRefResult<ValueType>::UglyRefResult(ValueType* value) : _errInfo("no error")
 {
     if (value == nullptr)
     {
@@ -17,7 +17,7 @@ UglyRefResult<ValueType>::UglyRefResult(ValueType* value) : _errInfo("no error")
 }
 
 template<typename ValueType>
-UglyRefResult<ValueType>::UglyRefResult(std::string_view errInfo) : _errInfo(errInfo)
+UglyJSONParser::UglyRefResult<ValueType>::UglyRefResult(std::string_view errInfo) : _errInfo(errInfo)
 {
     _value = std::nullopt;
 }

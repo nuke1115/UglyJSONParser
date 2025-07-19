@@ -5,30 +5,33 @@
 #include <string>
 #include <assert.h>
 
-/// <summary>
-/// std::optional's wrapper class. this doesn't manage life cycle
-/// </summary>
-/// <typeparam name="ValueType"></typeparam>
-template<typename ValueType>
-class UglyRefResult
+namespace UglyJSONParser
 {
-private:
-    std::string _errInfo;
-    std::optional<ValueType*> _value;
-public:
+    /// <summary>
+    /// std::optional's wrapper class. this doesn't manage life cycle
+    /// </summary>
+    /// <typeparam name="ValueType"></typeparam>
+    template<typename ValueType>
+    class UglyRefResult
+    {
+    private:
+        std::string _errInfo;
+        std::optional<ValueType*> _value;
+    public:
 
-    UglyRefResult(ValueType* value);
+        UglyRefResult(ValueType* value);
 
-    UglyRefResult(std::string_view errInfo);
+        UglyRefResult(std::string_view errInfo);
 
-    inline bool HasValue() const;
+        inline bool HasValue() const;
 
-    inline const std::string& GetErrorInfo() const;
+        inline const std::string& GetErrorInfo() const;
 
-    inline ValueType& GetValueRef();
+        inline ValueType& GetValueRef();
 
-    inline const ValueType& GetConstRef() const;
-};
+        inline const ValueType& GetConstRef() const;
+    };
+}
 
 #include "../../../src/Result/UglyRefResultINL.hpp"
 #include "../../../src/Result/UglyRefResultTPP.hpp"

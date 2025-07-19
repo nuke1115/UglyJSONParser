@@ -1,7 +1,7 @@
 #include "../../Include/UglyJSONParser/FileIO/FileIOManager.hpp"
 
 
-bool FileIOManager::LoadTextFromFile(string& destination, const string& filePath)
+bool UglyJSONParser::FileIOManager::LoadTextFromFile(string& destination, const string& filePath)
 {
     std::ostringstream oss;
 
@@ -26,7 +26,7 @@ bool FileIOManager::LoadTextFromFile(string& destination, const string& filePath
     return true;
 }
 
-bool FileIOManager::ClearFile(const string& filePath)
+bool UglyJSONParser::FileIOManager::ClearFile(const string& filePath)
 {
 
     if (IsFileExist(filePath) == false)
@@ -40,7 +40,7 @@ bool FileIOManager::ClearFile(const string& filePath)
 }
 
 
-bool FileIOManager::WriteTextToFile(const string& data, const string& filePath, std::ios::openmode openMode)
+bool UglyJSONParser::FileIOManager::WriteTextToFile(const string& data, const string& filePath, std::ios::openmode openMode)
 {
     if (IsFileExist(filePath) == false)
     {
@@ -60,7 +60,7 @@ bool FileIOManager::WriteTextToFile(const string& data, const string& filePath, 
 }
 
 
-bool FileIOManager::CreateFile(const string& filePath, const string& fileName, const string& fileExtension)
+bool UglyJSONParser::FileIOManager::CreateFile(const string& filePath, const string& fileName, const string& fileExtension)
 {
     std::string tmp;
     tmp.reserve(filePath.size() + fileName.size() + fileExtension.size());
@@ -72,7 +72,7 @@ bool FileIOManager::CreateFile(const string& filePath, const string& fileName, c
     return CreateFile(tmp);
 }
 
-bool FileIOManager::CreateFile(const string& fullFilePath)
+bool UglyJSONParser::FileIOManager::CreateFile(const string& fullFilePath)
 {
     if (IsFileExist(fullFilePath))
     {

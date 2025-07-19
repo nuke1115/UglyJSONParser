@@ -3,26 +3,26 @@
 
 
 template<typename ValueType>
-bool UglyRefResult<ValueType>::HasValue() const
+bool UglyJSONParser::UglyRefResult<ValueType>::HasValue() const
 {
     return _value.has_value();
 }
 
 template<typename ValueType>
-const std::string& UglyRefResult<ValueType>::GetErrorInfo() const
+const std::string& UglyJSONParser::UglyRefResult<ValueType>::GetErrorInfo() const
 {
     return _errInfo;
 }
 
 template<typename ValueType>
-ValueType& UglyRefResult<ValueType>::GetValueRef()
+ValueType& UglyJSONParser::UglyRefResult<ValueType>::GetValueRef()
 {
     assert(HasValue());
     return *(_value.value());
 }
 
 template<typename ValueType>
-const ValueType& UglyRefResult<ValueType>::GetConstRef() const
+const ValueType& UglyJSONParser::UglyRefResult<ValueType>::GetConstRef() const
 {
     assert(HasValue());
     return *(_value.value());
