@@ -180,5 +180,8 @@
     <ClInclude Include="src\Result\UglyRefResultINL.hpp">
       <Filter>소스 파일\Result</Filter>
     </ClInclude>
+    <ClInclude Include="Include\UglyJSONParser\ResultInclude.hpp">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
