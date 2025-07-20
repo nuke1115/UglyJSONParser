@@ -66,7 +66,7 @@ UglyJSONParser::RootNode::~RootNode()
 {
     if (_entryPoint != nullptr)
     {
-        if (static_cast<uint64_t>((NodeType::Array | NodeType::Object) & _entryPoint->GetNodeType()))
+        if (_entryPoint->GetNodeType() == NodeType::Object || _entryPoint->GetNodeType() == NodeType::Array)
         {
             _entryPoint->Clear();
         }
@@ -221,7 +221,7 @@ void UglyJSONParser::ObjectNode::Clear()
 {
     for (BaseNode* i : _childNodeVector)
     {
-        if(static_cast<uint64_t>((NodeType::Object | NodeType::Array) & i->GetNodeType()))//null, string, bool, number면 안된다
+        if (i->GetNodeType() == NodeType::Object || i->GetNodeType() == NodeType::Array)//null, string, bool, number면 안된다
         {
             i->Clear();
         }
@@ -334,7 +334,7 @@ void UglyJSONParser::ArrayNode::Clear()
 {
     for (BaseNode* i : _childNodeVector)
     {
-        if(static_cast<uint64_t>((NodeType::Object | NodeType::Array) & i->GetNodeType()))
+        if (i->GetNodeType() == NodeType::Object || i->GetNodeType() == NodeType::Array)
         {
             i->Clear();
         }
@@ -398,7 +398,7 @@ std::string UglyJSONParser::NullNode::GetJsonTreeByString()
 
 bool UglyJSONParser::RootNode::CreateRootNode(NodeType nodeType)
 {
-    if (((NodeType::Error | NodeType::Root) & nodeType) != NodeType::ZERO_VALUE || !((NodeType::Root & _nodeType) != NodeType::ZERO_VALUE && _entryPoint == nullptr))
+    if (nodeType == NodeType::Error || nodeType == NodeType::Root || !(_nodeType == NodeType::Root && _entryPoint == nullptr))
     {
         return false;
     }
