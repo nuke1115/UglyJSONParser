@@ -1,22 +1,24 @@
 #ifndef UGLY_JSON_PARSER_NODE_TYPES_HEADER
 #define UGLY_JSON_PARSER_NODE_TYPES_HEADER
+#include <stdint.h>
+#include <type_traits>
 
 namespace UglyJSONParser
 {
-    enum class NodeType : uint8_t
+    enum class NodeType : uint32_t
     {
         ZERO_VALUE = 0b0,
-        Null    = 0b00000001,
-        Object  = 0b00000010,
-        Array   = 0b00000100,
-        String  = 0b00001000,
-        Number  = 0b00010000,
-        Bool    = 0b00100000,
-        Root    = 0b01000000,
-        Error   = 0b10000000
+        Null    = 0b1<<0,
+        Object  = 0b1<<1,
+        Array   = 0b1<<2,
+        String  = 0b1<<3,
+        Number  = 0b1<<4,
+        Bool    = 0b1<<5,
+        Root    = 0b1<<6,
+        Error   = 0b1<<7
     };
 
-    //underlying_type_t<NodeType> == uint8_t
+    //underlying_type_t<NodeType> == uint32_t
     inline constexpr NodeType operator|(NodeType left, NodeType right) noexcept
     {
         using T = std::underlying_type_t<NodeType>;

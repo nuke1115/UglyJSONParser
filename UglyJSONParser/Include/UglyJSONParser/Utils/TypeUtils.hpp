@@ -2,7 +2,7 @@
 #define UGLY_JSON_PARSER_TYPE_UTILS_HEADER
 
 #include <string>
-#include "../JSONTree/NodeTypes.hpp"
+#include "../Enumerations/NodeTypes.hpp"
 #include "./StringUtils.hpp"
 #include "../Tokenizer/Tokens.hpp"
 

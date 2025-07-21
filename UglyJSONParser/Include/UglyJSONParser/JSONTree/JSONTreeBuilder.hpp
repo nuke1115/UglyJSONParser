@@ -8,6 +8,7 @@
 #include <algorithm>
 #include <exception>
 #include <utility>
+#include "../Enumerations/NodeTypes.hpp"
 #include "./Node.hpp"
 #include "../Utils/StringUtils.hpp"
 #include "../Utils/TypeUtils.hpp"

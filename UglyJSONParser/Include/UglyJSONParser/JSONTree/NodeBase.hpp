@@ -7,7 +7,7 @@
 #include <sstream>
 #include <stdlib.h>
 #include <format>
-#include "./NodeTypes.hpp"
+#include "../Enumerations/NodeTypes.hpp"
 #include "../Utils/TypeUtils.hpp"
 
 namespace UglyJSONParser

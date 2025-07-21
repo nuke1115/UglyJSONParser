@@ -160,9 +160,7 @@ public:
 string_view란?
 */
 
-#include"Include/UglyJSONParser/Result/UglyNonRefResult.hpp"
-#include"Include/UglyJSONParser/Result/UglyRefResult.hpp"
-
+#include "Include/UglyJSONParser/ResultInclude.hpp"
 
 UglyNonRefResult<int> testFun(bool br)
 {
@@ -188,14 +186,59 @@ UglyRefResult<int> testFun2(bool br)
     }
 }
 
+enum I_HATE_ENUM_CLASS
+{
+    asdhflkjsaljkfdvmblkhjeghiihuwehjlkndsvuukjlnregfvdcujnrfgbijnerfgbkjnefkjnefvkjnedfvkjnvefkjedfjkedfkjnedfkjnkdjfvnkejfkfjkdf = 1
+};
+
+/*
+비트마스킹으로 할거면, 비트를 구역으로 나눠서, 어디에 어떤 정보를 담을건지 정해야지
+일단, 노드 타입의 갯수가 8개:
+하위 8개 비트(1바이트)는 어떤 노드에서 발생한 오류인지
+
+null이 아닌 리프노드에서 뽑아올 수 있는 데이터는 총 4개:
+int, double, bool, string
+하위 1바이트 바로 다음의 4개 비트는 어떤 데이터 뽑아오다가 발생한 오류인지
+    
+오브젝트/어레이 노드에서 뽑아올 수 있는 데이터는 총 2개:
+노드 1개, 벡터에 담긴 묶음 1개
+하위 하위 1바이트+4개비트 바로 다음 2개 비트는 어떤 데이터 뽑아오다가 발생한 오류인지
+
+obj/arr노드의 경우 자식 노드로의 접근 수단은 총 2개:
+string,int
+하위 1바이트+4+2개 비트 바로 다음 2개 비트는 자식노드에 어떻게 접근했는지
+
+연산의 종류는 총 3개:
+값 넣기, 가져오기, 삭제하기
+하위 1바이트+4+2+2개 비트 바로 다음 3개 비트는 어떤 연산인지
+
+tot 19개
+
+
+하위 8비트 : 어디 노드에서 일어난거냐
+그 다음 6비트 : 뭐 뽑아오다가 일어난거냐
+그 다음 2비트 : obj/arr라면 뭐로 접근하다 일어난거냐
+그 다음 3비트 : 뭐 하다가 일어난거냐
+
+
+*/
 
 void run()
 {
-    auto a = testFun2(true);
-    auto b = testFun2(false);
-    UglyJSONParser::UglyNonRefResult<int*> ffffffffff(&test_ver);
+    //필요한 변수들 선언
+    UglyJSONParser::JSONParser parser;
+    UglyJSONParser::RootNode root;
+    std::string json = "{\"key\":\"value and this is \\\"value\\\"\",   \"arr\" : [1,1e+4,1.234]}";
 
-    int c = 10;
+    //string을 기반으로 JSONTree 생성
+    parser.BuildJSONTreeFromString(json, root);
+
+
+    //값 읽어오기
+    std::cout << "key : " << root["key"].AsString() << '\n';
+    std::cout << "arr 0 : " << root["arr"][0].AsInt() << '\n';
+    std::cout << "arr 1 : " << root["arr"][1].AsInt() << '\n';
+    std::cout << "arr 2 : " << root["arr"][2].AsDouble() << '\n';
 }
 /*
 
@@ -245,6 +288,13 @@ todo: 노드 문서들에서 사용 금지한거는 다 빼버리고 한문장으로 압축하기
 
 */
 
+/*
+enum class와 underlying_type_t에 대해서
+소신발언)enum class 저거 설계부터 잘못했다고 생각함
+그렇다고 생각하면 개추 ㅋㅋ
+*/
+
+#include <mutex>
 int main()
 {
 
@@ -269,6 +319,7 @@ int main()
     UglyJSONParser::NodeType::Bool;
     UglyJSONParser::NodeType::Root;
     UglyJSONParser::NodeType::Error;
+  
 }
 /*
 todo
@@ -398,5 +449,49 @@ include
 |반환|타입:bool<br>true:있다<br>false:없다|
 |매개변수|const std::string&<br>검사할 이름|
 
+
+*/
+/*
+7/20일자 고민
+Result클래스에서 굳이 복사,이동생성자를 남길 필요가 있을까?
+어차피 이 클래스의 용도는 리턴값과 에러여부를 묶어서 exception없이 안전하게 리턴하자가 목적이고,
+이렇게 사용하면 매우 자주 생성하고 파괴가 이루어져야 함
+또한, 값을 복사하면 되지, 굳이 리턴 클래스를 복사할 필요도 없다.
+그냥 저 클래스를 아주 잠깐 이용해서 값을 안전하게 가져오는게 목적이고
+그리고, RefRsult의 경우는 소유권의 문제가 생길수도 있고
+
+노드 내부에 저장하고, 데이터에 접근할 때 Result의 const참조를 반환
+노드에 데이터를 저장하면 Result 내부의 값만 바꿔서 저장
+
+근데, 이러면 또 멀티스레드가 문제네
+-----------
+아니면 이동생성자만 살려두고, 값 요청할때마다 Result를 생성해서 보내줄까
+
+복사하는 부분만 잘 해주면, 나중에 멀티스레딩 환경 대응도 될거같은데(<--근자감)
+
+근데, 이러면 복사 오버헤드가 있지 않을까
+
+enum bitfield로 하고, 그걸 문자열로 바꾸는 함수를 만들어서 복사 오버헤드를 최소한으로?
+마침 노드타입도 8개라서 한 바이트 단위로 저장하기도 좋은데
+-------------
+일단 지금 생각중인 구조는 그냥 바로 값 리턴하기 대신
+데이터를 가져오는 함수 호출마다 stack에 Result클래스를 생성해서 데이터와 기타 오류 정보(오류 발생시만)넘겨준다(이동이돈, 복사든)
+이 방식의 장점은 
+{
+exception 대신 Result를 반환해서 성능저하를 줄인다
+어떤 오류인지 명확히 파악 가능하고, 개발자가 명시적으로 오류 처리를 관리 가능하다
+}
+이 방식의 단점은
+{
+Result의 생성과 이동의 오버헤드가 있다
+}
+(멀티스레드 환경에서 안전이 보장되지 않는건 이 라이브러리 전체가 그러니까 넘기고)
+
+만약, 저 구조로 갈거라면, Result 생성과 이동에 드는 비용을 최대한 줄여야 한다.
+지금 구조는 string으로 오류 정보 저장하고, optional로 오류 여부와 값을 동시에 저장하는 구조다
+일단, optional은 값을 아예 비워두는것도 생각해야 되기에, 이건 필수
+그러면, 줄일 수 있는게 string이다
+지금의 string은 복사할때의 비용이 상당히 비싸다
+그러나, 이걸 bitmask + Result 외부에 저걸 변환 가능한 함수 구조로 바꾸면, string에 비해 비용과 용량 상당히 적어진다
 
 */

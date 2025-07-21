@@ -754,6 +754,11 @@
     <None Include="..\README.md" />
     <None Include="..\UglyJSONParser_Distribution\cmake\UglyJSONParser_CMake.zip" />
     <None Include="..\UglyJSONParser_Distribution\lib_zips_for_windows_vs2022_v143\UglyJSONParser_Static_Libraries.zip" />
+    <ClInclude Include="Include\UglyJSONParser\EnumerationInclude.hpp" />
+    <ClInclude Include="Include\UglyJSONParser\Enumerations\AccessTypes.hpp" />
+    <ClInclude Include="Include\UglyJSONParser\Enumerations\DataTypes.hpp" />
+    <ClInclude Include="Include\UglyJSONParser\Enumerations\NodeTypes.hpp" />
+    <ClInclude Include="Include\UglyJSONParser\Enumerations\OperationTypes.hpp" />
     <ClInclude Include="Include\UglyJSONParser\ResultInclude.hpp" />
     <ClInclude Include="Include\UglyJSONParser\Result\UglyNonRefResult.hpp" />
     <ClInclude Include="src\Result\UglyNonRefResultINL.hpp" />
@@ -776,7 +781,6 @@
     <ClInclude Include="Include\UglyJSONParser\JsonTree\JSONTreeBuilder.hpp" />
     <ClInclude Include="Include\UglyJSONParser\JsonTree\Node.hpp" />
     <ClInclude Include="Include\UglyJSONParser\JsonTree\NodeBase.hpp" />
-    <ClInclude Include="Include\UglyJSONParser\JsonTree\NodeTypes.hpp" />
     <ClInclude Include="Include\UglyJSONParser\Result\UglyRefResult.hpp" />
     <ClInclude Include="Include\UglyJSONParser\TokenizerInclude.hpp" />
     <ClInclude Include="Include\UglyJSONParser\Tokenizer\Tokenizer.hpp" />

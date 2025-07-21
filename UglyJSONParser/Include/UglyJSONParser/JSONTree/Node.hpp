@@ -3,7 +3,7 @@
 
 #include <utility>
 #include "./NodeBase.hpp"
-#include "./NodeTypes.hpp"
+#include "../Enumerations/NodeTypes.hpp"
 #include "../Utils/TypeUtils.hpp"
 #include "../Tokenizer/Tokens.hpp"
 
