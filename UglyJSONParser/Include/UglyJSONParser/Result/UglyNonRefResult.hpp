@@ -4,6 +4,7 @@
 #include <optional>
 #include <string>
 #include <assert.h>
+#include <stdint.h>
 
 
 namespace UglyJSONParser
@@ -16,14 +17,14 @@ namespace UglyJSONParser
     class UglyNonRefResult
     {
     private:
-        std::string _errInfo;
+        uint32_t _errInfo;
         std::optional<ValueType> _value;
     public:
-        UglyNonRefResult(std::string_view errInfo);
+        UglyNonRefResult(uint32_t errInfoBitMask);
         UglyNonRefResult(ValueType value);
 
         inline bool HasValue() const;
-        inline const std::string& GetErrorInfo() const;
+        inline uint32_t GetErrorInfoMask() const;
         inline ValueType GetValue() const;
         inline const ValueType& GetConstRef() const;
 

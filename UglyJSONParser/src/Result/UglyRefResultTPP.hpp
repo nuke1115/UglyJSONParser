@@ -3,11 +3,12 @@
 
 
 template<typename ValueType>
-UglyJSONParser::UglyRefResult<ValueType>::UglyRefResult(ValueType* value) : _errInfo("no error")
+UglyJSONParser::UglyRefResult<ValueType>::UglyRefResult(ValueType* value)
 {
+    _errInfo = 0;
     if (value == nullptr)
     {
-        _errInfo = "entered nullptr";
+        _errInfo = static_cast<std::underlying_type_t<DetailedErrInfo>>(DetailedErrInfo::NULLPTR_TO_REF_RESULT);
         _value = std::nullopt;
     }
     else
@@ -17,8 +18,9 @@ UglyJSONParser::UglyRefResult<ValueType>::UglyRefResult(ValueType* value) : _err
 }
 
 template<typename ValueType>
-UglyJSONParser::UglyRefResult<ValueType>::UglyRefResult(std::string_view errInfo) : _errInfo(errInfo)
+UglyJSONParser::UglyRefResult<ValueType>::UglyRefResult(uint32_t errInfoBitMask)
 {
+    _errInfo = errInfoBitMask;
     _value = std::nullopt;
 }
 
