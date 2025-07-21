@@ -6,7 +6,6 @@
 #include <assert.h>
 #include <stdint.h>
 #include <type_traits>
-#include "../Enumerations/DetailedErrInfo.hpp"
 
 namespace UglyJSONParser
 {

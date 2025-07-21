@@ -8,7 +8,7 @@ UglyJSONParser::UglyRefResult<ValueType>::UglyRefResult(ValueType* value)
     _errInfo = 0;
     if (value == nullptr)
     {
-        _errInfo = static_cast<std::underlying_type_t<DetailedErrInfo>>(DetailedErrInfo::NULLPTR_TO_REF_RESULT);
+        _errInfo = 0;
         _value = std::nullopt;
     }
     else
