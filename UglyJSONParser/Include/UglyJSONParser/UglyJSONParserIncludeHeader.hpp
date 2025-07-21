@@ -6,5 +6,6 @@
 #include "./JSONTreeInclude.hpp"
 #include "./TokenizerInclude.hpp"
 #include "./UtilsInclude.hpp"
+#include "./ResultInclude.hpp"
 
 #endif // !UGLY_JSON_PARSER_UGLY_JSON_PARSER_INCLUDE_HEADER_HEADER

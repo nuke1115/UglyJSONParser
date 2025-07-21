@@ -55,6 +55,15 @@
     <Filter Include="CMake">
       <UniqueIdentifier>{52499422-eeba-4300-9877-9742a0374bf1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="소스 파일\Result">
+      <UniqueIdentifier>{3283df78-6f67-43a4-89a5-1c89fba14c17}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="헤더 파일\Enumerations">
+      <UniqueIdentifier>{c9a3b09d-44ee-4681-a3e7-013368ece99c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="헤더 파일\Result">
+      <UniqueIdentifier>{b2eb606e-552e-4474-9a3f-9e366b09d3ad}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="testing.cpp">
@@ -123,17 +132,11 @@
     <ClInclude Include="Include\UglyJSONParser\JsonTree\NodeBase.hpp">
       <Filter>헤더 파일\JSONTree</Filter>
     </ClInclude>
-    <ClInclude Include="Include\UglyJSONParser\JsonTree\NodeTypes.hpp">
-      <Filter>헤더 파일\JSONTree</Filter>
-    </ClInclude>
     <ClInclude Include="Include\UglyJSONParser\Tokenizer\Tokenizer.hpp">
       <Filter>헤더 파일\Tokenizer</Filter>
     </ClInclude>
     <ClInclude Include="Include\UglyJSONParser\Tokenizer\Tokens.hpp">
       <Filter>헤더 파일\Tokenizer</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\UglyJSONParser\Utils\StringUtils.hpp">
-      <Filter>헤더 파일\Utils</Filter>
     </ClInclude>
     <ClInclude Include="Include\UglyJSONParser\Utils\TypeUtils.hpp">
       <Filter>헤더 파일\Utils</Filter>
@@ -155,6 +158,48 @@
     </ClInclude>
     <ClInclude Include="Include\UglyJSONParser\UtilsInclude.hpp">
       <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\UglyJSONParser\Result\UglyNonRefResult.hpp">
+      <Filter>헤더 파일\Result</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Result\UglyNonRefResultTPP.hpp">
+      <Filter>소스 파일\Result</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Result\UglyNonRefResultINL.hpp">
+      <Filter>소스 파일\Result</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\UglyJSONParser\Result\UglyRefResult.hpp">
+      <Filter>헤더 파일\Result</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Result\UglyRefResultTPP.hpp">
+      <Filter>소스 파일\Result</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Result\UglyRefResultINL.hpp">
+      <Filter>소스 파일\Result</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\UglyJSONParser\ResultInclude.hpp">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\UglyJSONParser\Enumerations\AccessTypes.hpp">
+      <Filter>헤더 파일\Enumerations</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\UglyJSONParser\Enumerations\DataTypes.hpp">
+      <Filter>헤더 파일\Enumerations</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\UglyJSONParser\Enumerations\NodeTypes.hpp">
+      <Filter>헤더 파일\Enumerations</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\UglyJSONParser\Enumerations\OperationTypes.hpp">
+      <Filter>헤더 파일\Enumerations</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\UglyJSONParser\Utils\StringUtils.hpp">
+      <Filter>헤더 파일\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\UglyJSONParser\EnumerationInclude.hpp">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\UglyJSONParser\Enumerations\DetailedErrInfo.hpp">
+      <Filter>헤더 파일\Enumerations</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
