@@ -58,11 +58,11 @@
     <Filter Include="소스 파일\Result">
       <UniqueIdentifier>{3283df78-6f67-43a4-89a5-1c89fba14c17}</UniqueIdentifier>
     </Filter>
-    <Filter Include="헤더 파일\Result">
-      <UniqueIdentifier>{b2eb606e-552e-4474-9a3f-9e366b09d3ad}</UniqueIdentifier>
-    </Filter>
     <Filter Include="헤더 파일\Enumerations">
       <UniqueIdentifier>{c9a3b09d-44ee-4681-a3e7-013368ece99c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="헤더 파일\Result">
+      <UniqueIdentifier>{b2eb606e-552e-4474-9a3f-9e366b09d3ad}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -197,6 +197,9 @@
     </ClInclude>
     <ClInclude Include="Include\UglyJSONParser\EnumerationInclude.hpp">
       <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\UglyJSONParser\Enumerations\DetailedErrInfo.hpp">
+      <Filter>헤더 파일\Enumerations</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
