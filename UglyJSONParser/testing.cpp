@@ -166,7 +166,7 @@ UglyNonRefResult<int> testFun(bool br)
 {
     if (br)
     {
-        return UglyNonRefResult<int>("break");
+        return UglyNonRefResult<int>(0);
     }
     else
     {
@@ -178,7 +178,7 @@ UglyRefResult<int> testFun2(bool br)
 {
     if (br)
     {
-        return UglyRefResult<int>("break");
+        return UglyRefResult<int>(static_cast<uint32_t>(10));
     }
     else
     {
@@ -192,53 +192,44 @@ enum I_HATE_ENUM_CLASS
 };
 
 /*
+
+왜 비트마스킹이냐?
+발생하는 오류가 위치, 행위, 원인만 바뀌고 형태는 똑같다.
+->따라서, 행위와 원인만 비트마스킹으로 압축하고, 해석함수에서 위의 형태대로 해석해서 리턴하는게 더 효율적일거라 판단함
+ 
+ 
 비트마스킹으로 할거면, 비트를 구역으로 나눠서, 어디에 어떤 정보를 담을건지 정해야지
 일단, 노드 타입의 갯수가 8개:
 하위 8개 비트(1바이트)는 어떤 노드에서 발생한 오류인지
 
 null이 아닌 리프노드에서 뽑아올 수 있는 데이터는 총 4개:
 int, double, bool, string
-하위 1바이트 바로 다음의 4개 비트는 어떤 데이터 뽑아오다가 발생한 오류인지
-    
-오브젝트/어레이 노드에서 뽑아올 수 있는 데이터는 총 2개:
-노드 1개, 벡터에 담긴 묶음 1개
-하위 하위 1바이트+4개비트 바로 다음 2개 비트는 어떤 데이터 뽑아오다가 발생한 오류인지
+하위 1바이트 바로 다음의 4개 비트는 어떤 데이터와 관련한 오류인지
+
+오브젝트/어레이 노드에서 뽑아올 수 있는 데이터는 총 4개:
+노드 1개, 벡터에 담긴 묶음 1개, 자식노드 갯수, 특정 자식노드 존재 여부
+다음 4비트도 어떤 데이터와 관련한 오류인지
 
 obj/arr노드의 경우 자식 노드로의 접근 수단은 총 2개:
 string,int
-하위 1바이트+4+2개 비트 바로 다음 2개 비트는 자식노드에 어떻게 접근했는지
+하위 1바이트+4+2개 비트 바로 다음 2개 비트는 자식노드에 어떤 타입 인덱스로 접근했는지
 
-연산의 종류는 총 3개:
-값 넣기, 가져오기, 삭제하기
-하위 1바이트+4+2+2개 비트 바로 다음 3개 비트는 어떤 연산인지
+행동 총 4개:
+가져오기, 넣기, 삭제하기, 생성하기
 
-tot 19개
+그리고 모든 enum에 대해 존제하는 false비트
 
 
-하위 8비트 : 어디 노드에서 일어난거냐
-그 다음 6비트 : 뭐 뽑아오다가 일어난거냐
-그 다음 2비트 : obj/arr라면 뭐로 접근하다 일어난거냐
-그 다음 3비트 : 뭐 하다가 일어난거냐
 
 
 */
 
 void run()
 {
-    //필요한 변수들 선언
-    UglyJSONParser::JSONParser parser;
-    UglyJSONParser::RootNode root;
-    std::string json = "{\"key\":\"value and this is \\\"value\\\"\",   \"arr\" : [1,1e+4,1.234]}";
+    auto f = ResultUtils::MakeErrorBitmask;
 
-    //string을 기반으로 JSONTree 생성
-    parser.BuildJSONTreeFromString(json, root);
+    
 
-
-    //값 읽어오기
-    std::cout << "key : " << root["key"].AsString() << '\n';
-    std::cout << "arr 0 : " << root["arr"][0].AsInt() << '\n';
-    std::cout << "arr 1 : " << root["arr"][1].AsInt() << '\n';
-    std::cout << "arr 2 : " << root["arr"][2].AsDouble() << '\n';
 }
 /*
 

@@ -7,10 +7,11 @@ namespace UglyJSONParser
 {
     enum class OperationTypes : uint32_t
     {
-        ZERO_VALUE = 0b0,
-        INSERT          = 0b1 << 16,
-        GET             = 0b1 << 17,
-        DELETE          = 0b1 << 18
+        FALSE_BIT       = 0b1 << 21,
+        INSERT          = 0b1 << 22,
+        GET             = 0b1 << 23,
+        DELETE          = 0b1 << 24,
+        CREATE          = 0b1 << 25
     };
 
     inline constexpr OperationTypes operator|(OperationTypes left, OperationTypes right) noexcept

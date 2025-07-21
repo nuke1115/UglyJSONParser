@@ -198,9 +198,6 @@
     <ClInclude Include="Include\UglyJSONParser\EnumerationInclude.hpp">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Include\UglyJSONParser\Enumerations\DetailedErrInfo.hpp">
-      <Filter>헤더 파일\Enumerations</Filter>
-    </ClInclude>
     <ClInclude Include="Include\UglyJSONParser\Utils\ResultUtils.hpp">
       <Filter>헤더 파일\Utils</Filter>
     </ClInclude>

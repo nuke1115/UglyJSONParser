@@ -8,13 +8,12 @@ namespace UglyJSONParser
 {
     namespace ResultUtils
     {
-        constexpr inline uint32_t MakeErrorBitmask(NodeType nodeType, DataTypes dataType, AccessTypes accessType, OperationTypes operationType, DetailedErrInfo detailedErrInfo)
+        constexpr inline uint32_t MakeErrorBitmask(NodeType nodeType, DataTypes dataType, AccessTypes accessType, OperationTypes operationType)
         {
             return  static_cast<uint32_t>(nodeType)         |
                     static_cast<uint32_t>(dataType)         |
                     static_cast<uint32_t>(accessType)       |
-                    static_cast<uint32_t>(operationType)    |
-                    static_cast<uint32_t>(detailedErrInfo)  ;
+                    static_cast<uint32_t>(operationType)    ;
         }
     }
 }
