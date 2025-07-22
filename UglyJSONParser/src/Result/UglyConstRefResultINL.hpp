@@ -1,5 +1,5 @@
-#ifndef UGLY_JSON_PARSER_UGLY_REF_RESULT_INL_HEADER
-#define UGLY_JSON_PARSER_UGLY_REF_RESULT_INL_HEADER
+#ifndef UGLY_JSON_PARSER_UGLY_CONST_REF_RESULT_INL_HEADER
+#define UGLY_JSON_PARSER_UGLY_CONST_REF_RESULT_INL_HEADER
 
 
 template<typename ValueType>
@@ -15,10 +15,10 @@ UglyJSONParser::ErrorBitmask UglyJSONParser::UglyRefResult<ValueType>::GetErrorI
 }
 
 template<typename ValueType>
-ValueType& UglyJSONParser::UglyRefResult<ValueType>::GetValueRef()
+const ValueType& UglyJSONParser::UglyRefResult<ValueType>::GetConstRef() const
 {
     assert(HasValue());
     return *(_value.value());
 }
 
-#endif // !UGLY_JSON_PARSER_UGLY_REF_RESULT_INL_HEADER
+#endif // !UGLY_JSON_PARSER_UGLY_CONST_REF_RESULT_INL_HEADER

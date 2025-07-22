@@ -1,5 +1,5 @@
-#ifndef UGLY_JSON_PARSER_UGLY_REF_RESULT_HEADER
-#define UGLY_JSON_PARSER_UGLY_REF_RESULT_HEADER
+#ifndef UGLY_JSON_PARSER_UGLY_CONST_REF_RESULT_HEADER
+#define UGLY_JSON_PARSER_UGLY_CONST_REF_RESULT_HEADER
 
 #include <optional>
 #include <string>
@@ -17,26 +17,26 @@ namespace UglyJSONParser
     /// </summary>
     /// <typeparam name="ValueType"></typeparam>
     template<typename ValueType>
-    class UglyRefResult
+    class UglyConstRefResult
     {
     private:
         ErrorBitmask _errInfo;
-        std::optional<ValueType*> _value;
+        std::optional<const ValueType*> _value;
     public:
 
-        UglyRefResult(ValueType* value);
+        UglyConstRefResult(const ValueType* value);
 
-        UglyRefResult(ErrorBitmask errInfoBitMask);
+        UglyConstRefResult(ErrorBitmask errInfoBitMask);
 
         inline bool HasValue() const;
 
         inline ErrorBitmask GetErrorInfoMask() const;
 
-        inline ValueType& GetValueRef();
+        inline const ValueType& GetConstRef() const;
     };
 }
 
-#include "../../../src/Result/UglyRefResultINL.hpp"
-#include "../../../src/Result/UglyRefResultTPP.hpp"
+#include "../../../src/Result/UglyConstRefResultINL.hpp"
+#include "../../../src/Result/UglyConstRefResultTPP.hpp"
 
-#endif // !UGLY_JSON_PARSER_UGLY_REF_RESULT_HEADER
+#endif // !UGLY_JSON_PARSER_UGLY_CONST_REF_RESULT_HEADER

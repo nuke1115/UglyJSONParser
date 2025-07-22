@@ -764,8 +764,11 @@
     <ClInclude Include="Include\UglyJSONParser\Enumerations\NodeTypes.hpp" />
     <ClInclude Include="Include\UglyJSONParser\Enumerations\OperationTypes.hpp" />
     <ClInclude Include="Include\UglyJSONParser\ResultInclude.hpp" />
+    <ClInclude Include="Include\UglyJSONParser\Result\UglyConstRefResult.hpp" />
     <ClInclude Include="Include\UglyJSONParser\Result\UglyNonRefResult.hpp" />
     <ClInclude Include="Include\UglyJSONParser\Utils\ResultUtils.hpp" />
+    <ClInclude Include="src\Result\UglyConstRefResultINL.hpp" />
+    <ClInclude Include="src\Result\UglyConstRefResultTPP.hpp" />
     <ClInclude Include="src\Result\UglyNonRefResultINL.hpp" />
     <ClInclude Include="src\Result\UglyNonRefResultTPP.hpp" />
     <ClInclude Include="src\Result\UglyRefResultINL.hpp" />
