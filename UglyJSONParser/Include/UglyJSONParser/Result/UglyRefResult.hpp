@@ -6,6 +6,8 @@
 #include <assert.h>
 #include <stdint.h>
 #include <type_traits>
+#include "../Constants/ResultEnumConstants.hpp"
+#include "../Utils/ResultUtils.hpp"
 
 namespace UglyJSONParser
 {

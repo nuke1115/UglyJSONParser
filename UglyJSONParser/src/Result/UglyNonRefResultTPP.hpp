@@ -11,7 +11,7 @@ UglyJSONParser::UglyNonRefResult<ValueType>::UglyNonRefResult(uint32_t errInfoBi
 template<typename ValueType>
 UglyJSONParser::UglyNonRefResult<ValueType>::UglyNonRefResult(ValueType value)
 {
-    _errInfo = 0;
+    _errInfo = noErrorFilter;
     _value = value;
 }
 

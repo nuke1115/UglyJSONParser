@@ -5,10 +5,15 @@
 template<typename ValueType>
 UglyJSONParser::UglyRefResult<ValueType>::UglyRefResult(ValueType* value)
 {
-    _errInfo = 0;
+    _errInfo = noErrorFilter;
     if (value == nullptr)
     {
-        _errInfo = 0;
+        _errInfo = ResultUtils::MakeErrorBitmask(
+            NodeType::Error,
+            DataTypes::FALSE_BIT,
+            AccessTypes::FALSE_BIT,
+            OperationTypes::FALSE_BIT
+        );
         _value = std::nullopt;
     }
     else

@@ -7,6 +7,7 @@
 #include <stdint.h>
 #include "../EnumerationInclude.hpp"
 #include "../Utils/TypeUtils.hpp"
+#include "../Constants/ResultEnumConstants.hpp"
 
 namespace UglyJSONParser
 {

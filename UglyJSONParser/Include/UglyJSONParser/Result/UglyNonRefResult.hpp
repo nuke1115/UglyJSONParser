@@ -5,7 +5,7 @@
 #include <string>
 #include <assert.h>
 #include <stdint.h>
-
+#include "../Constants/ResultEnumConstants.hpp"
 
 namespace UglyJSONParser
 {
