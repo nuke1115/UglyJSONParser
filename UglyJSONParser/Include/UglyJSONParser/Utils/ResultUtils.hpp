@@ -13,15 +13,15 @@ namespace UglyJSONParser
 {
     namespace ResultUtils
     {
-        constexpr inline uint32_t MakeErrorBitmask(NodeType nodeType, DataTypes dataType, AccessTypes accessType, OperationTypes operationType)
+        constexpr inline ErrorBitmask MakeErrorBitmask(NodeType nodeType, DataTypes dataType, AccessTypes accessType, OperationTypes operationType)
         {
-            return  static_cast<uint32_t>(nodeType)         |
-                    static_cast<uint32_t>(dataType)         |
-                    static_cast<uint32_t>(accessType)       |
-                    static_cast<uint32_t>(operationType)    ;
+            return  static_cast<ErrorBitmask>(nodeType)         |
+                    static_cast<ErrorBitmask>(dataType)         |
+                    static_cast<ErrorBitmask>(accessType)       |
+                    static_cast<ErrorBitmask>(operationType)    ;
         }
 
-        std::string DecodeErrorBitMask(uint32_t errorBitMask);
+        std::string DecodeErrorBitMask(ErrorBitmask errorBitMask);
     }
 }
 

@@ -132,13 +132,23 @@ bool UglyJSONParser::BaseNode::CreateNewNode(NodeType type)
 }
 
 
-size_t UglyJSONParser::BaseNode::GetChildNodeCount() const
+UglyJSONParser::UglyNonRefResult<size_t> UglyJSONParser::BaseNode::GetChildNodeCount() const
 {
-    throw std::logic_error(std::format("tried to get child node count in {}", TypeUtils::GetNodeTypeName(_nodeType)));
+    return UglyNonRefResult<size_t>(ResultUtils::MakeErrorBitmask(
+        GetNodeType(),
+        DataTypes::NODE_COUNT,
+        AccessTypes::FALSE_BIT,
+        OperationTypes::GET
+    ));
 }
 
 
-bool UglyJSONParser::BaseNode::Contains(const string& key) const
+UglyJSONParser::UglyNonRefResult<bool> UglyJSONParser::BaseNode::Contains(const string& key) const
 {
-    throw std::logic_error(std::format("tried to  in {}", TypeUtils::GetNodeTypeName(_nodeType)));
+    return UglyNonRefResult<bool>(ResultUtils::MakeErrorBitmask(
+        GetNodeType(),
+        DataTypes::NODE_EXISTENCE,
+        AccessTypes::FALSE_BIT,
+        OperationTypes::GET
+    ));
 }

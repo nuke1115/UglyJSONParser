@@ -2,7 +2,7 @@
 #define UGLY_JSON_PARSER_UGLY_NON_REF_RESULT_TPP_HEADER
 
 template<typename ValueType>
-UglyJSONParser::UglyNonRefResult<ValueType>::UglyNonRefResult(uint32_t errInfoBitMask)
+UglyJSONParser::UglyNonRefResult<ValueType>::UglyNonRefResult(ErrorBitmask errInfoBitMask)
 {
     _errInfo = errInfoBitMask;
     _value = std::nullopt;

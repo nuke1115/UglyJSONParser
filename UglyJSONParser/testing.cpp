@@ -162,29 +162,6 @@ string_view란?
 
 #include "Include/UglyJSONParser/ResultInclude.hpp"
 
-UglyNonRefResult<int> testFun(bool br)
-{
-    if (br)
-    {
-        return UglyNonRefResult<int>(0);
-    }
-    else
-    {
-        return UglyNonRefResult<int>(6974);
-    }
-}
-int test_ver = 100;
-UglyRefResult<int> testFun2(bool br)
-{
-    if (br)
-    {
-        return UglyRefResult<int>(static_cast<uint32_t>(10));
-    }
-    else
-    {
-        return UglyRefResult<int>(&test_ver);
-    }
-}
 
 enum I_HATE_ENUM_CLASS
 {
@@ -220,15 +197,26 @@ string,int
 그리고 모든 enum에 대해 존제하는 false비트
 
 
+--------
 
+내일 할 일:
+해석함수 만들기
+result버전으로 전부 적용시키기
+chain만들기
 
 */
 
 void run()
 {
-    auto f = ResultUtils::MakeErrorBitmask;
+    UglyJSONParser::JSONParser parser;
+    UglyJSONParser::RootNode root;
+    std::string json = "{\"key\":\"value and this is \\\"value\\\"\",   \"arr\" : [1,1e+4,1.234]}";
 
-    
+    //string을 기반으로 JSONTree 생성
+    parser.BuildJSONTreeFromString(json, root);
+
+    std::cout << static_cast<uint32_t>(root.Contains("asdf").GetErrorInfoMask());
+    std::cout << ResultUtils::DecodeErrorBitMask(root.Contains("f").GetErrorInfoMask());
 
 }
 /*
