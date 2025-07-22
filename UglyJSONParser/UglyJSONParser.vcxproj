@@ -734,6 +734,7 @@
     <ClCompile Include="src\JSONTree\Node.cpp" />
     <ClCompile Include="src\JSONTree\NodeBase.cpp" />
     <ClCompile Include="src\Tokenizer\Tokenizer.cpp" />
+    <ClCompile Include="src\Utils\ResultUtils.cpp" />
     <ClCompile Include="src\Utils\StringUtils.cpp" />
     <ClCompile Include="src\Utils\TypeUtils.cpp" />
     <ClCompile Include="testing.cpp">

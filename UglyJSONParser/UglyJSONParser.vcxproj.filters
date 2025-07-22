@@ -93,6 +93,9 @@
     <ClCompile Include="src\FileIO\FileIOManager.cpp">
       <Filter>소스 파일\FileIO</Filter>
     </ClCompile>
+    <ClCompile Include="src\Utils\ResultUtils.cpp">
+      <Filter>소스 파일\Utils</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\.gitignore">

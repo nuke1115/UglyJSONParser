@@ -2,7 +2,7 @@
 #define UGLY_JSON_PARSER_TYPE_UTILS_HEADER
 
 #include <string>
-#include "../Enumerations/NodeTypes.hpp"
+#include "../EnumerationInclude.hpp"
 #include "./StringUtils.hpp"
 #include "../Tokenizer/Tokens.hpp"
 
@@ -76,6 +76,12 @@ namespace UglyJSONParser
         /// <param name="nodeType"></param>
         /// <returns></returns>
         const char* GetNodeTypeName(NodeType nodeType);
+
+        const char* GetDataTypeName(DataTypes dataType);
+
+        const char* GetAccessTypeName(AccessTypes accessType);
+
+        const char* GetOperationTypeName(OperationTypes opType);
     }
 }
 
