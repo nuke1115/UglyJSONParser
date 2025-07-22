@@ -8,7 +8,7 @@ bool UglyJSONParser::UglyNonRefResult<ValueType>::HasValue() const
 }
 
 template<typename ValueType>
-uint32_t UglyJSONParser::UglyNonRefResult<ValueType>::GetErrorInfoMask() const
+UglyJSONParser::ErrorBitmask UglyJSONParser::UglyNonRefResult<ValueType>::GetErrorInfoMask() const
 {
     return _errInfo;
 }

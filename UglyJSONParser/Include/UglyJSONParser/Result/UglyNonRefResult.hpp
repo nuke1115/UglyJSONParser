@@ -5,6 +5,7 @@
 #include <string>
 #include <assert.h>
 #include <stdint.h>
+#include "../EnumerationInclude.hpp"
 #include "../Constants/ResultEnumConstants.hpp"
 
 namespace UglyJSONParser
@@ -17,14 +18,14 @@ namespace UglyJSONParser
     class UglyNonRefResult
     {
     private:
-        uint32_t _errInfo;
+        ErrorBitmask _errInfo;
         std::optional<ValueType> _value;
     public:
-        UglyNonRefResult(uint32_t errInfoBitMask);
+        UglyNonRefResult(ErrorBitmask errInfoBitMask);
         UglyNonRefResult(ValueType value);
 
         inline bool HasValue() const;
-        inline uint32_t GetErrorInfoMask() const;
+        inline ErrorBitmask GetErrorInfoMask() const;
         inline ValueType GetValue() const;
         inline const ValueType& GetConstRef() const;
 

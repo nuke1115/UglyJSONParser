@@ -1,6 +1,6 @@
 #include "../../Include/UglyJSONParser/Utils/ResultUtils.hpp"
 
-std::string UglyJSONParser::ResultUtils::DecodeErrorBitMask(uint32_t errorBitMask)
+std::string UglyJSONParser::ResultUtils::DecodeErrorBitMask(ErrorBitmask errorBitMask)
 {
     
     if (errorBitMask == noErrorFilter)
@@ -8,7 +8,7 @@ std::string UglyJSONParser::ResultUtils::DecodeErrorBitMask(uint32_t errorBitMas
         return std::string("no error");
     }
 
-    if (static_cast<uint32_t>(AccessTypes::FALSE_BIT) & errorBitMask)//老馆 立辟
+    if (static_cast<uint32_t>(AccessTypes::FALSE_BIT) & static_cast<uint32_t>(errorBitMask))//老馆 立辟
     {
         return std::move(std::format(
             "tried to {} {} in {} node",

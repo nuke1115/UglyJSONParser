@@ -9,7 +9,7 @@ namespace UglyJSONParser
     constexpr DataTypes dataTypeFilter = DataTypes::FALSE_BIT | DataTypes::BOOL | DataTypes::INT | DataTypes::DOUBLE | DataTypes::STRING | DataTypes::NODE | DataTypes::NODE_VECTOR | DataTypes::NODE_EXISTENCE | DataTypes::NODE_COUNT;
     constexpr AccessTypes accessTypeFilter = AccessTypes::FALSE_BIT | AccessTypes::BY_INT | AccessTypes::BY_STRING;
     constexpr OperationTypes operationTypeFilter = OperationTypes::FALSE_BIT | OperationTypes::INSERT | OperationTypes::GET | OperationTypes::DELETE | OperationTypes::CREATE;
-    constexpr uint32_t noErrorFilter = static_cast<uint32_t>(NodeType::FALSE_BIT) | static_cast<uint32_t>(DataTypes::FALSE_BIT) | static_cast<uint32_t>(AccessTypes::FALSE_BIT) | static_cast<uint32_t>(OperationTypes::FALSE_BIT);
+    constexpr ErrorBitmask noErrorFilter = static_cast<ErrorBitmask>(NodeType::FALSE_BIT) | static_cast<ErrorBitmask>(DataTypes::FALSE_BIT) | static_cast<ErrorBitmask>(AccessTypes::FALSE_BIT) | static_cast<ErrorBitmask>(OperationTypes::FALSE_BIT);
 }
 
 
