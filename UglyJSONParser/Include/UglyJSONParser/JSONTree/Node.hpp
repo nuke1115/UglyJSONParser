@@ -6,7 +6,6 @@
 #include "../Enumerations/NodeTypes.hpp"
 #include "../Utils/TypeUtils.hpp"
 #include "../Tokenizer/Tokens.hpp"
-#include "../ResultInclude.hpp"
 
 
 namespace UglyJSONParser
@@ -99,9 +98,9 @@ namespace UglyJSONParser
         bool CreateNewNode(NodeType type, string strKey) override;
         bool CreateNewNode(NodeType type) override;
 
-        UglyNonRefResult<size_t> GetChildNodeCount() const override;
+        size_t GetChildNodeCount() const override;
 
-        UglyNonRefResult<bool> Contains(const string& key) const override;
+        bool Contains(const string& key) const override;
 
         ~ObjectNode();
     };
@@ -129,9 +128,9 @@ namespace UglyJSONParser
         bool CreateNewNode(NodeType type, string strKey) override;
         bool CreateNewNode(NodeType type) override;
 
-        UglyNonRefResult<size_t> GetChildNodeCount() const override;
+        size_t GetChildNodeCount() const override;
 
-        UglyNonRefResult<bool> Contains(const string& key) const override;
+        bool Contains(const string& key) const override;
 
         ~ArrayNode();
     };
@@ -189,9 +188,9 @@ namespace UglyJSONParser
         bool CreateNewNode(NodeType type, string strKey) override;
         bool CreateNewNode(NodeType type) override;
 
-        UglyNonRefResult<size_t> GetChildNodeCount() const override;
+        size_t GetChildNodeCount() const override;
 
-        UglyNonRefResult<bool> Contains(const string& key) const override;
+        bool Contains(const string& key) const override;
 
         bool CreateRootNode(NodeType nodeType);
 

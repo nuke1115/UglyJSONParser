@@ -7,10 +7,8 @@
 #include <sstream>
 #include <stdlib.h>
 #include <format>
-#include "../EnumerationInclude.hpp"
+#include "../Enumerations/NodeTypes.hpp"
 #include "../Utils/TypeUtils.hpp"
-#include "../ResultInclude.hpp"
-#include "../Utils/ResultUtils.hpp"
 
 namespace UglyJSONParser
 {
@@ -124,14 +122,14 @@ namespace UglyJSONParser
         /// Returns child node count of this node
         /// </summary>
         /// <returns></returns>
-        virtual UglyNonRefResult<size_t> GetChildNodeCount() const;
+        virtual size_t GetChildNodeCount() const;
 
         /// <summary>
         /// Returns whether childNodeVector contains node which name is same to key
         /// </summary>
         /// <param name="key"></param>
         /// <returns></returns>
-        virtual UglyNonRefResult<bool> Contains(const string& key) const;
+        virtual bool Contains(const string& key) const;
 
         virtual ~BaseNode();
     };

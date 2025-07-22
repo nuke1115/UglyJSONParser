@@ -272,21 +272,21 @@ bool UglyJSONParser::ObjectNode::CreateNewNode(NodeType type)
     return false;
 }
 
-UglyJSONParser::UglyNonRefResult<size_t> UglyJSONParser::ObjectNode::GetChildNodeCount() const
+size_t UglyJSONParser::ObjectNode::GetChildNodeCount() const
 {
-    return UglyNonRefResult<size_t>(static_cast<size_t>(_childNodeVector.size()));
+    return _childNodeVector.size();
 }
 
-UglyJSONParser::UglyNonRefResult<bool> UglyJSONParser::ObjectNode::Contains(const string& key) const
+bool UglyJSONParser::ObjectNode::Contains(const string& key) const
 {
     for (BaseNode* i : _childNodeVector)
     {
         if (!(i->GetName().compare(key)))
         {
-            return UglyNonRefResult<bool>(true);
+            return true;
         }
     }
-    return UglyNonRefResult<bool>(false);
+    return false;
 }
 
 #pragma endregion
@@ -373,19 +373,14 @@ bool UglyJSONParser::ArrayNode::CreateNewNode(NodeType type)
     return true;
 }
 
-UglyJSONParser::UglyNonRefResult<size_t> UglyJSONParser::ArrayNode::GetChildNodeCount() const
+size_t UglyJSONParser::ArrayNode::GetChildNodeCount() const
 {
-    return UglyNonRefResult<size_t>(static_cast<size_t>(_childNodeVector.size()));
+    return _childNodeVector.size();
 }
 
-UglyJSONParser::UglyNonRefResult<bool> UglyJSONParser::ArrayNode::Contains(const string& key) const
+bool UglyJSONParser::ArrayNode::Contains(const string& key) const
 {
-    return UglyNonRefResult<bool>(ResultUtils::MakeErrorBitmask(
-        GetNodeType(),
-        DataTypes::NODE_EXISTENCE,
-        AccessTypes::BY_STRING,
-        OperationTypes::GET
-    ));
+    return false;
 }
 
 #pragma endregion
@@ -510,33 +505,13 @@ bool UglyJSONParser::RootNode::CreateNewNode(NodeType type)
     return _entryPoint->CreateNewNode(type);
 }
 
-UglyJSONParser::UglyNonRefResult<size_t> UglyJSONParser::RootNode::GetChildNodeCount() const
+size_t UglyJSONParser::RootNode::GetChildNodeCount() const
 {
-    if (_entryPoint == nullptr)
-    {
-        return UglyNonRefResult<size_t>(ResultUtils::MakeErrorBitmask(
-            NodeType::Error,
-            DataTypes::NODE_EXISTENCE,
-            AccessTypes::FALSE_BIT,
-            OperationTypes::GET
-        ));
-    }
-
     return _entryPoint->GetChildNodeCount();
 }
 
-UglyJSONParser::UglyNonRefResult<bool> UglyJSONParser::RootNode::Contains(const string& key) const
+bool UglyJSONParser::RootNode::Contains(const string& key) const
 {
-    if (_entryPoint == nullptr)
-    {
-        return UglyNonRefResult<bool>(ResultUtils::MakeErrorBitmask(
-            NodeType::Error,
-            DataTypes::NODE_EXISTENCE,
-            AccessTypes::FALSE_BIT,
-            OperationTypes::GET
-        ));
-    }
-
     return _entryPoint->Contains(key);
 }
 

@@ -760,7 +760,6 @@
     <ClInclude Include="Include\UglyJSONParser\EnumerationInclude.hpp" />
     <ClInclude Include="Include\UglyJSONParser\Enumerations\AccessTypes.hpp" />
     <ClInclude Include="Include\UglyJSONParser\Enumerations\DataTypes.hpp" />
-    <ClInclude Include="Include\UglyJSONParser\Enumerations\ErrorBitmask.hpp" />
     <ClInclude Include="Include\UglyJSONParser\Enumerations\NodeTypes.hpp" />
     <ClInclude Include="Include\UglyJSONParser\Enumerations\OperationTypes.hpp" />
     <ClInclude Include="Include\UglyJSONParser\ResultInclude.hpp" />

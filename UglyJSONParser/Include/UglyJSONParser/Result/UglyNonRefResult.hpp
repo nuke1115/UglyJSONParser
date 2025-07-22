@@ -17,14 +17,14 @@ namespace UglyJSONParser
     class UglyNonRefResult
     {
     private:
-        ErrorBitmask _errInfo;
+        uint32_t _errInfo;
         std::optional<ValueType> _value;
     public:
-        UglyNonRefResult(ErrorBitmask errInfoBitMask);
+        UglyNonRefResult(uint32_t errInfoBitMask);
         UglyNonRefResult(ValueType value);
 
         inline bool HasValue() const;
-        inline ErrorBitmask GetErrorInfoMask() const;
+        inline uint32_t GetErrorInfoMask() const;
         inline ValueType GetValue() const;
         inline const ValueType& GetConstRef() const;
 

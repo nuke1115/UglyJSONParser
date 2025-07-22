@@ -23,7 +23,7 @@ UglyJSONParser::UglyRefResult<ValueType>::UglyRefResult(ValueType* value)
 }
 
 template<typename ValueType>
-UglyJSONParser::UglyRefResult<ValueType>::UglyRefResult(ErrorBitmask errInfoBitMask)
+UglyJSONParser::UglyRefResult<ValueType>::UglyRefResult(uint32_t errInfoBitMask)
 {
     _errInfo = errInfoBitMask;
     _value = std::nullopt;
