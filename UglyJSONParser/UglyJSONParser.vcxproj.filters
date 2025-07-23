@@ -210,15 +210,6 @@
     <ClInclude Include="Include\UglyJSONParser\ConstantsIncludeHeader.hpp">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Include\UglyJSONParser\Result\UglyConstRefResult.hpp">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Result\UglyConstRefResultINL.hpp">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Result\UglyConstRefResultTPP.hpp">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
     <ClInclude Include="Include\UglyJSONParser\Enumerations\ErrorDescriptions.hpp">
       <Filter>헤더 파일\Enumerations</Filter>
     </ClInclude>
@@ -227,6 +218,15 @@
     </ClInclude>
     <ClInclude Include="Include\UglyJSONParser\Constants\ResultEnumConstants.hpp">
       <Filter>헤더 파일\Constants</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\UglyJSONParser\Result\UglyConstRefResult.hpp">
+      <Filter>헤더 파일\Result</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Result\UglyConstRefResultTPP.hpp">
+      <Filter>소스 파일\Result</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Result\UglyConstRefResultINL.hpp">
+      <Filter>소스 파일\Result</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

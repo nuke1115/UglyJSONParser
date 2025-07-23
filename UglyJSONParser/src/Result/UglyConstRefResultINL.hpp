@@ -3,19 +3,19 @@
 
 
 template<typename ValueType>
-bool UglyJSONParser::UglyRefResult<ValueType>::HasValue() const
+bool UglyJSONParser::UglyConstRefResult<ValueType>::HasValue() const
 {
     return _value.has_value();
 }
 
 template<typename ValueType>
-UglyJSONParser::ErrorBitmask UglyJSONParser::UglyRefResult<ValueType>::GetErrorInfoMask() const
+UglyJSONParser::ErrorBitmask UglyJSONParser::UglyConstRefResult<ValueType>::GetErrorInfoMask() const
 {
     return _errInfo;
 }
 
 template<typename ValueType>
-const ValueType& UglyJSONParser::UglyRefResult<ValueType>::GetConstRef() const
+const ValueType& UglyJSONParser::UglyConstRefResult<ValueType>::GetConstRef() const
 {
     assert(HasValue());
     return *(_value.value());
