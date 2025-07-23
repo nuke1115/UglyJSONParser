@@ -12,7 +12,7 @@ namespace UglyJSONParser
         NOT_FOUND = 0b1<<28,
         INDEX_EXCEED = 0b1<<29,
         DUPLICATED_KEY = 0b1<<30,
-        CREATE_FAILED = 0b1 <<31
+        CREATE_FAILED = 0b1U <<31
     };
 
     inline constexpr ErrorDescriptions operator|(ErrorDescriptions left, ErrorDescriptions right) noexcept
