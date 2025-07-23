@@ -3,9 +3,11 @@
 
 #include <utility>
 #include "./NodeBase.hpp"
-#include "../Enumerations/NodeTypes.hpp"
+#include "../EnumerationInclude.hpp"
 #include "../Utils/TypeUtils.hpp"
 #include "../Tokenizer/Tokens.hpp"
+#include "../Utils/ResultUtils.hpp"
+#include "../ResultInclude.hpp"
 
 
 namespace UglyJSONParser
@@ -27,10 +29,10 @@ namespace UglyJSONParser
 
         string GetJsonTreeByString() override;
 
-        const string& AsString() const override;
+        UglyConstRefResult<string> AsString() const override;
 
-        void operator=(const char* strData) override;
-        void operator=(const string& strData) override;
+        UglyNonRefResult<bool> operator=(const char* strData) override;
+        UglyNonRefResult<bool> operator=(const string& strData) override;
 
         ~StringNode();
     };
@@ -48,11 +50,11 @@ namespace UglyJSONParser
 
         string GetJsonTreeByString() override;
 
-        long long AsInt() const override;
-        double AsDouble() const override;
+        UglyNonRefResult<long long> AsInt() const override;
+        UglyNonRefResult<double> AsDouble() const override;
 
-        void operator=(const long long intData) override;
-        void operator=(const double doubleData) override;
+        UglyNonRefResult<bool> operator=(const long long intData) override;
+        UglyNonRefResult<bool> operator=(const double doubleData) override;
 
         ~NumberNode();
     };
@@ -68,9 +70,9 @@ namespace UglyJSONParser
 
         string GetJsonTreeByString() override;
 
-        bool AsBool() const override;
+        UglyNonRefResult<bool> AsBool() const override;
 
-        void operator=(const bool boolData) override;
+        UglyNonRefResult<bool> operator=(const bool boolData) override;
 
         ~BoolNode();
     };    
@@ -87,20 +89,19 @@ namespace UglyJSONParser
 
         string GetJsonTreeByString() override;
 
-        BaseNode& operator[](const string& strKey) override;
+        UglyRefResult<BaseNode> operator[](const string& strKey) override;
 
-        std::vector<BaseNode*>& GetChildNodeVector() override;
+        UglyRefResult<std::vector<BaseNode*>> GetChildNodeVector() override;
 
-        void Clear() override;
+        UglyNonRefResult<bool> Clear() override;
 
-        void DeleteChildNode(const string& strKey) override;
+        UglyNonRefResult<bool> DeleteChildNode(const string& strKey) override;
 
-        bool CreateNewNode(NodeType type, string strKey) override;
-        bool CreateNewNode(NodeType type) override;
+        UglyNonRefResult<bool> CreateNewNode(NodeType type, string strKey) override;
 
-        size_t GetChildNodeCount() const override;
+        UglyNonRefResult<size_t> GetChildNodeCount() const override;
 
-        bool Contains(const string& key) const override;
+        UglyNonRefResult<bool> Contains(const string& key) const override;
 
         ~ObjectNode();
     };
@@ -117,20 +118,19 @@ namespace UglyJSONParser
 
         string GetJsonTreeByString() override;
 
-        BaseNode& operator[](const size_t intKey) override;
+        UglyRefResult<BaseNode> operator[](const size_t intKey) override;
 
-        std::vector<BaseNode*>& GetChildNodeVector() override;
+        UglyRefResult<std::vector<BaseNode*>> GetChildNodeVector() override;
 
-        void Clear() override;
+        UglyNonRefResult<bool> Clear() override;
 
-        void DeleteChildNode(size_t intKey) override;
+        UglyNonRefResult<bool> DeleteChildNode(size_t intKey) override;
 
-        bool CreateNewNode(NodeType type, string strKey) override;
-        bool CreateNewNode(NodeType type) override;
+        UglyNonRefResult<bool> CreateNewNode(NodeType type) override;
 
-        size_t GetChildNodeCount() const override;
+        UglyNonRefResult<size_t> GetChildNodeCount() const override;
 
-        bool Contains(const string& key) const override;
+        UglyNonRefResult<bool> Contains(const string& key) const override;
 
         ~ArrayNode();
     };
@@ -164,35 +164,35 @@ namespace UglyJSONParser
 
         string GetJsonTreeByString() override;
 
-        const string& AsString() const override;
-        long long AsInt() const override;
-        bool AsBool() const override;
-        double AsDouble() const override;
+        UglyConstRefResult<string> AsString() const override;
+        UglyNonRefResult<long long> AsInt() const override;
+        UglyNonRefResult<bool> AsBool() const override;
+        UglyNonRefResult<double> AsDouble() const override;
 
-        BaseNode& operator[](const string& strKey) override;
-        BaseNode& operator[](const size_t intKey) override;
+        UglyRefResult<BaseNode> operator[](const string& strKey) override;
+        UglyRefResult<BaseNode> operator[](const size_t intKey) override;
 
-        void operator=(const char* strData) override;
-        void operator=(const string& strData) override;
-        void operator=(const long long intData) override;
-        void operator=(const bool boolData) override;
-        void operator=(const double doubleData) override;
+        UglyNonRefResult<bool> operator=(const char* strData) override;
+        UglyNonRefResult<bool> operator=(const string& strData) override;
+        UglyNonRefResult<bool> operator=(const long long intData) override;
+        UglyNonRefResult<bool> operator=(const bool boolData) override;
+        UglyNonRefResult<bool> operator=(const double doubleData) override;
 
-        std::vector<BaseNode*>& GetChildNodeVector() override;
+        UglyRefResult<std::vector<BaseNode*>> GetChildNodeVector() override;
 
-        void Clear() override;
+        UglyNonRefResult<bool> Clear() override;
 
-        void DeleteChildNode(const string& strKey) override;
-        void DeleteChildNode(size_t intKey) override;
+        UglyNonRefResult<bool> DeleteChildNode(const string& strKey) override;
+        UglyNonRefResult<bool> DeleteChildNode(size_t intKey) override;
 
-        bool CreateNewNode(NodeType type, string strKey) override;
-        bool CreateNewNode(NodeType type) override;
+        UglyNonRefResult<bool> CreateNewNode(NodeType type, string strKey) override;
+        UglyNonRefResult<bool> CreateNewNode(NodeType type) override;
 
-        size_t GetChildNodeCount() const override;
+        UglyNonRefResult<size_t> GetChildNodeCount() const override;
 
-        bool Contains(const string& key) const override;
+        UglyNonRefResult<bool> Contains(const string& key) const override;
 
-        bool CreateRootNode(NodeType nodeType);
+        UglyNonRefResult<bool> CreateRootNode(NodeType nodeType);
 
         ~RootNode();
     };

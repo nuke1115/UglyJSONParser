@@ -8,137 +8,275 @@ UglyJSONParser::BaseNode::~BaseNode()
 }
 
 
-const std::string& UglyJSONParser::BaseNode::AsString() const
+UglyJSONParser::UglyConstRefResult<std::string> UglyJSONParser::BaseNode::AsString() const
 {
-    throw std::logic_error(std::format("tried to get string data in {}",TypeUtils::GetNodeTypeName(_nodeType)));
+    return UglyConstRefResult<std::string>(ResultUtils::MakeErrorBitmask(
+        GetNodeType(),
+        DataTypes::STRING,
+        AccessTypes::FALSE_BIT,
+        OperationTypes::GET,
+        ErrorDescriptions::WRONG_TYPE
+    ));
 }
 
 
 
-long long UglyJSONParser::BaseNode::AsInt() const
+UglyJSONParser::UglyNonRefResult<long long> UglyJSONParser::BaseNode::AsInt() const
 {
-    throw std::logic_error(std::format("tried to get int(long long) data in {}", TypeUtils::GetNodeTypeName(_nodeType)));
+    return UglyNonRefResult<long long>(ResultUtils::MakeErrorBitmask(
+        GetNodeType(),
+        DataTypes::INT,
+        AccessTypes::FALSE_BIT,
+        OperationTypes::GET,
+        ErrorDescriptions::WRONG_TYPE
+    ));
 }
 
 
-bool UglyJSONParser::BaseNode::AsBool() const
+UglyJSONParser::UglyNonRefResult<bool> UglyJSONParser::BaseNode::AsBool() const
 {
-    throw std::logic_error(std::format("tried to get bool data in {}", TypeUtils::GetNodeTypeName(_nodeType)));
+    return UglyNonRefResult<bool>(ResultUtils::MakeErrorBitmask(
+        GetNodeType(),
+        DataTypes::BOOL,
+        AccessTypes::FALSE_BIT,
+        OperationTypes::GET,
+        ErrorDescriptions::WRONG_TYPE
+    ));
 }
 
 
-double UglyJSONParser::BaseNode::AsDouble() const
+UglyJSONParser::UglyNonRefResult<double> UglyJSONParser::BaseNode::AsDouble() const
 {
-    throw std::logic_error(std::format("tried to get double(float) data in {}", TypeUtils::GetNodeTypeName(_nodeType)));
+    return UglyNonRefResult<double>(ResultUtils::MakeErrorBitmask(
+        GetNodeType(),
+        DataTypes::DOUBLE,
+        AccessTypes::FALSE_BIT,
+        OperationTypes::GET,
+        ErrorDescriptions::WRONG_TYPE
+    ));
 }
 
-UglyJSONParser::BaseNode& UglyJSONParser::BaseNode::operator[](const std::string& strKey)
+UglyJSONParser::UglyRefResult<UglyJSONParser::BaseNode> UglyJSONParser::BaseNode::operator[](const std::string& strKey)
 {
     if (_nodeType == NodeType::Array)
     {
-        throw std::logic_error("tried to get child node by string index in ArrayNode");
+        return UglyRefResult<UglyJSONParser::BaseNode>(ResultUtils::MakeErrorBitmask(
+            NodeType::Array,
+            DataTypes::NODE,
+            AccessTypes::BY_STRING,
+            OperationTypes::GET,
+            ErrorDescriptions::WRONG_TYPE
+        ));
     }
     else
     {
-        throw std::logic_error(std::format("tried to get child node in {}", TypeUtils::GetNodeTypeName(_nodeType)));
+        return UglyRefResult<UglyJSONParser::BaseNode>(ResultUtils::MakeErrorBitmask(
+            GetNodeType(),
+            DataTypes::NODE,
+            AccessTypes::FALSE_BIT,
+            OperationTypes::GET,
+            ErrorDescriptions::WRONG_TYPE
+        ));
     }
 }
 
-UglyJSONParser::BaseNode& UglyJSONParser::BaseNode::operator[](const size_t intKey)
+UglyJSONParser::UglyRefResult<UglyJSONParser::BaseNode> UglyJSONParser::BaseNode::operator[](const size_t intKey)
 {
     if (_nodeType == NodeType::Object)
     {
-        throw std::logic_error("tried to get child node by int index in ObjectNode");
+        return UglyRefResult<UglyJSONParser::BaseNode>(ResultUtils::MakeErrorBitmask(
+            NodeType::Object,
+            DataTypes::NODE,
+            AccessTypes::BY_INT,
+            OperationTypes::GET,
+            ErrorDescriptions::WRONG_TYPE
+        ));
     }
     else
     {
-        throw std::logic_error(std::format("tried to get child node in {}", TypeUtils::GetNodeTypeName(_nodeType)));
+        return UglyRefResult<UglyJSONParser::BaseNode>(ResultUtils::MakeErrorBitmask(
+            GetNodeType(),
+            DataTypes::NODE,
+            AccessTypes::FALSE_BIT,
+            OperationTypes::GET,
+            ErrorDescriptions::WRONG_TYPE
+        ));
     }
 }
 
-void UglyJSONParser::BaseNode::operator=(const std::string& strData)
+UglyJSONParser::UglyNonRefResult<bool> UglyJSONParser::BaseNode::operator=(const std::string& strData)
 {
-    throw std::logic_error(std::format("tried to insert string data in {}", TypeUtils::GetNodeTypeName(_nodeType)));
+    return UglyNonRefResult<bool>(ResultUtils::MakeErrorBitmask(
+        GetNodeType(),
+        DataTypes::STRING,
+        AccessTypes::FALSE_BIT,
+        OperationTypes::INSERT,
+        ErrorDescriptions::WRONG_TYPE
+    ));
 }
 
-void UglyJSONParser::BaseNode::operator=(const char* strData)
+UglyJSONParser::UglyNonRefResult<bool> UglyJSONParser::BaseNode::operator=(const char* strData)
 {
-    throw std::logic_error(std::format("tried to insert string data in {}", TypeUtils::GetNodeTypeName(_nodeType)));
+    return UglyNonRefResult<bool>(ResultUtils::MakeErrorBitmask(
+        GetNodeType(),
+        DataTypes::STRING,
+        AccessTypes::FALSE_BIT,
+        OperationTypes::INSERT,
+        ErrorDescriptions::WRONG_TYPE
+    ));
 }
 
-void UglyJSONParser::BaseNode::operator=(const long long intData)
+UglyJSONParser::UglyNonRefResult<bool> UglyJSONParser::BaseNode::operator=(const long long intData)
 {
-    throw std::logic_error(std::format("tried to insert int(long long) data in {}", TypeUtils::GetNodeTypeName(_nodeType)));
+    return UglyNonRefResult<bool>(ResultUtils::MakeErrorBitmask(
+        GetNodeType(),
+        DataTypes::INT,
+        AccessTypes::FALSE_BIT,
+        OperationTypes::INSERT,
+        ErrorDescriptions::WRONG_TYPE
+    ));
 }
 
-void UglyJSONParser::BaseNode::operator=(const bool boolData)
+UglyJSONParser::UglyNonRefResult<bool> UglyJSONParser::BaseNode::operator=(const bool boolData)
 {
-    throw std::logic_error(std::format("tried to insert bool data in {}", TypeUtils::GetNodeTypeName(_nodeType)));
+    return UglyNonRefResult<bool>(ResultUtils::MakeErrorBitmask(
+        GetNodeType(),
+        DataTypes::BOOL,
+        AccessTypes::FALSE_BIT,
+        OperationTypes::INSERT,
+        ErrorDescriptions::WRONG_TYPE
+    ));
 }
 
-void UglyJSONParser::BaseNode::operator=(const double doubleData)
+UglyJSONParser::UglyNonRefResult<bool> UglyJSONParser::BaseNode::operator=(const double doubleData)
 {
-    throw std::logic_error(std::format("tried to insert double(float) data in {}", TypeUtils::GetNodeTypeName(_nodeType)));
+    return UglyNonRefResult<bool>(ResultUtils::MakeErrorBitmask(
+        GetNodeType(),
+        DataTypes::DOUBLE,
+        AccessTypes::FALSE_BIT,
+        OperationTypes::INSERT,
+        ErrorDescriptions::WRONG_TYPE
+    ));
 }
 
 
-std::vector<UglyJSONParser::BaseNode*>& UglyJSONParser::BaseNode::GetChildNodeVector()
+UglyJSONParser::UglyRefResult<std::vector<UglyJSONParser::BaseNode*>> UglyJSONParser::BaseNode::GetChildNodeVector()
 {
-    throw std::logic_error(std::format("tried to get child node vector in {}", TypeUtils::GetNodeTypeName(_nodeType)));
+    return UglyRefResult<std::vector<UglyJSONParser::BaseNode*>>(ResultUtils::MakeErrorBitmask(
+        GetNodeType(),
+        DataTypes::NODE_VECTOR,
+        AccessTypes::FALSE_BIT,
+        OperationTypes::GET,
+        ErrorDescriptions::WRONG_TYPE
+    ));
 }
 
 
-void UglyJSONParser::BaseNode::Clear()
+UglyJSONParser::UglyNonRefResult<bool> UglyJSONParser::BaseNode::Clear()
 {
-    throw std::logic_error(std::format("tried to clear child nodes in {}", TypeUtils::GetNodeTypeName(_nodeType)));
+    return UglyNonRefResult<bool>(ResultUtils::MakeErrorBitmask(
+        GetNodeType(),
+        DataTypes::NODE_VECTOR,
+        AccessTypes::FALSE_BIT,
+        OperationTypes::DELETE,
+        ErrorDescriptions::WRONG_TYPE
+    ));
 }
 
 
-void UglyJSONParser::BaseNode::DeleteChildNode(const std::string& strKey)
+UglyJSONParser::UglyNonRefResult<bool> UglyJSONParser::BaseNode::DeleteChildNode(const std::string& strKey)
 {
     if (_nodeType == NodeType::Array)
     {
-        throw std::logic_error("tried to delete child node by string index in ArrayNode");
+        return UglyNonRefResult<bool>(ResultUtils::MakeErrorBitmask(
+            NodeType::Array,
+            DataTypes::NODE,
+            AccessTypes::BY_STRING,
+            OperationTypes::DELETE,
+            ErrorDescriptions::WRONG_TYPE
+        ));
     }
     else
     {
-        throw std::logic_error(std::format("tried to delete child node in {}", TypeUtils::GetNodeTypeName(_nodeType)));
+        return UglyNonRefResult<bool>(ResultUtils::MakeErrorBitmask(
+            GetNodeType(),
+            DataTypes::NODE,
+            AccessTypes::FALSE_BIT,
+            OperationTypes::DELETE,
+            ErrorDescriptions::WRONG_TYPE
+        ));
     }
 }
 
 
-void UglyJSONParser::BaseNode::DeleteChildNode(size_t intKey)
+UglyJSONParser::UglyNonRefResult<bool> UglyJSONParser::BaseNode::DeleteChildNode(size_t intKey)
 {
     if (_nodeType == NodeType::Object)
     {
-        throw std::logic_error("tried to delete child node by int index in ObjectNode");
+        return UglyNonRefResult<bool>(ResultUtils::MakeErrorBitmask(
+            NodeType::Object,
+            DataTypes::NODE,
+            AccessTypes::BY_INT,
+            OperationTypes::DELETE,
+            ErrorDescriptions::WRONG_TYPE
+        ));
     }
     else
     {
-        throw std::logic_error(std::format("tried to delete child node in {}", TypeUtils::GetNodeTypeName(_nodeType)));
+        return UglyNonRefResult<bool>(ResultUtils::MakeErrorBitmask(
+            GetNodeType(),
+            DataTypes::NODE,
+            AccessTypes::FALSE_BIT,
+            OperationTypes::DELETE,
+            ErrorDescriptions::WRONG_TYPE
+        ));
     }
 }
 
 
-bool UglyJSONParser::BaseNode::CreateNewNode(NodeType type, string strKey)
+UglyJSONParser::UglyNonRefResult<bool> UglyJSONParser::BaseNode::CreateNewNode(NodeType type, string strKey)
 {
-    throw std::logic_error(std::format("tried to create child node in {}", TypeUtils::GetNodeTypeName(_nodeType)));
+    return UglyNonRefResult<bool>(ResultUtils::MakeErrorBitmask(
+        GetNodeType(),
+        DataTypes::NODE,
+        AccessTypes::BY_STRING,
+        OperationTypes::CREATE,
+        ErrorDescriptions::WRONG_TYPE
+    ));
 }
 
 
-bool UglyJSONParser::BaseNode::CreateNewNode(NodeType type)
+UglyJSONParser::UglyNonRefResult<bool> UglyJSONParser::BaseNode::CreateNewNode(NodeType type)
 {
-    throw std::logic_error(std::format("tried to create child node in {}", TypeUtils::GetNodeTypeName(_nodeType)));
+    return UglyNonRefResult<bool>(ResultUtils::MakeErrorBitmask(
+        GetNodeType(),
+        DataTypes::NODE,
+        AccessTypes::BY_INT,
+        OperationTypes::CREATE,
+        ErrorDescriptions::WRONG_TYPE
+    ));
 }
 
 
-size_t UglyJSONParser::BaseNode::GetChildNodeCount() const
+UglyJSONParser::UglyNonRefResult<size_t> UglyJSONParser::BaseNode::GetChildNodeCount() const
 {
-    throw std::logic_error(std::format("tried to get child node count in {}", TypeUtils::GetNodeTypeName(_nodeType)));
+    return UglyNonRefResult<size_t>(ResultUtils::MakeErrorBitmask(
+        GetNodeType(),
+        DataTypes::NODE_COUNT,
+        AccessTypes::FALSE_BIT,
+        OperationTypes::GET,
+        ErrorDescriptions::WRONG_TYPE
+    ));
 }
 
 
-bool UglyJSONParser::BaseNode::Contains(const string& key) const
+UglyJSONParser::UglyNonRefResult<bool> UglyJSONParser::BaseNode::Contains(const string& key) const
 {
-    throw std::logic_error(std::format("tried to  in {}", TypeUtils::GetNodeTypeName(_nodeType)));
+    return UglyNonRefResult<bool>(ResultUtils::MakeErrorBitmask(
+        GetNodeType(),
+        DataTypes::NODE_EXISTENCE,
+        AccessTypes::BY_STRING,
+        OperationTypes::GET,
+        ErrorDescriptions::WRONG_TYPE
+    ));
 }

@@ -7,8 +7,11 @@
 #include <sstream>
 #include <stdlib.h>
 #include <format>
-#include "../Enumerations/NodeTypes.hpp"
+#include "../EnumerationInclude.hpp"
 #include "../Utils/TypeUtils.hpp"
+#include "../Utils/ResultUtils.hpp"
+#include "../ResultInclude.hpp"
+
 
 namespace UglyJSONParser
 {
@@ -52,84 +55,84 @@ namespace UglyJSONParser
         /// returns data as string
         /// </summary>
         /// <returns></returns>
-        virtual const string& AsString() const;
+        virtual UglyConstRefResult <string> AsString() const;
 
 
         /// <summary>
         /// returns data as int(long long)
         /// </summary>
         /// <returns></returns>
-        virtual long long AsInt() const;
+        virtual UglyNonRefResult<long long> AsInt() const;
 
         /// <summary>
         /// returns data as bool
         /// </summary>
         /// <returns></returns>
-        virtual bool AsBool() const;
+        virtual UglyNonRefResult<bool> AsBool() const;
 
         /// <summary>
         /// returns data as double
         /// </summary>
         /// <returns></returns>
-        virtual double AsDouble() const;
+        virtual UglyNonRefResult<double> AsDouble() const;
 
-        virtual BaseNode& operator[](const string& strKey);
-        virtual BaseNode& operator[](const size_t intKey);
+        virtual UglyRefResult<BaseNode> operator[](const string& strKey);
+        virtual UglyRefResult<BaseNode> operator[](const size_t intKey);
 
-        virtual void operator=(const string& strData);
-        virtual void operator=(const char* strData);
-        virtual void operator=(const long long intData);
-        virtual void operator=(const bool boolData);
-        virtual void operator=(const double doubleData);
+        virtual UglyNonRefResult<bool> operator=(const string& strData);
+        virtual UglyNonRefResult<bool> operator=(const char* strData);
+        virtual UglyNonRefResult<bool> operator=(const long long intData);
+        virtual UglyNonRefResult<bool> operator=(const bool boolData);
+        virtual UglyNonRefResult<bool> operator=(const double doubleData);
 
         /// <summary>
         /// returns reference of node's childeNodeVector
         /// </summary>
         /// <returns></returns>
-        virtual std::vector<BaseNode*>& GetChildNodeVector();
+        virtual UglyRefResult<std::vector<BaseNode*>> GetChildNodeVector();
 
         /// <summary>
         /// Clears all child node of this node
         /// </summary>
         /// <returns></returns>
-        virtual void Clear();
+        virtual UglyNonRefResult<bool> Clear();
 
         /// <summary>
         /// Delete this node's child node by string.
         /// </summary>
         /// <returns></returns>
-        virtual void DeleteChildNode(const string& strKey);
+        virtual UglyNonRefResult<bool> DeleteChildNode(const string& strKey);
 
         /// <summary>
         /// Delete this node's child node by int index.
         /// </summary>
         /// <returns></returns>
-        virtual void DeleteChildNode(size_t intKey);
+        virtual UglyNonRefResult<bool> DeleteChildNode(size_t intKey);
 
         /// <summary>
         /// Create new child node to this node.
         /// </summary>
         /// <returns></returns>
-        virtual bool CreateNewNode(NodeType type, string strKey);
+        virtual UglyNonRefResult<bool> CreateNewNode(NodeType type, string strKey);
 
         /// <summary>
         /// Create new child node to this node.
         /// </summary>
         /// <returns></returns>
-        virtual bool CreateNewNode(NodeType type);
+        virtual UglyNonRefResult<bool> CreateNewNode(NodeType type);
 
         /// <summary>
         /// Returns child node count of this node
         /// </summary>
         /// <returns></returns>
-        virtual size_t GetChildNodeCount() const;
+        virtual UglyNonRefResult<size_t> GetChildNodeCount() const;
 
         /// <summary>
         /// Returns whether childNodeVector contains node which name is same to key
         /// </summary>
         /// <param name="key"></param>
         /// <returns></returns>
-        virtual bool Contains(const string& key) const;
+        virtual UglyNonRefResult<bool> Contains(const string& key) const;
 
         virtual ~BaseNode();
     };

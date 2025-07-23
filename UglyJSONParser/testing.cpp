@@ -162,29 +162,6 @@ string_view란?
 
 #include "Include/UglyJSONParser/ResultInclude.hpp"
 
-UglyNonRefResult<int> testFun(bool br)
-{
-    if (br)
-    {
-        return UglyNonRefResult<int>(0);
-    }
-    else
-    {
-        return UglyNonRefResult<int>(6974);
-    }
-}
-int test_ver = 100;
-UglyRefResult<int> testFun2(bool br)
-{
-    if (br)
-    {
-        return UglyRefResult<int>(static_cast<uint32_t>(10));
-    }
-    else
-    {
-        return UglyRefResult<int>(&test_ver);
-    }
-}
 
 enum I_HATE_ENUM_CLASS
 {
@@ -222,14 +199,38 @@ string,int
 
 
 
+but으로 오류 종류도 말해줄까
+일단 세부 오류 정보 다시 만들어야됨 ㅇㄴ럼눎누러ㅏㅁ누러ㅏㄴ무러ㅏㄴ물너ㅏㅜ
+
+
+에러 종류:
+잘못된 타입의 노드로 접근, 잘못된 타입의 인덱스로 접근, 값 못찾음, 인덱스 초과, 중복된 키, 생성 실패
+
+
+
+------------------------
+해석함수에 nullptr 케이스 넣기
+clear에 있는 node -> nodevector로//v
+Clear함수에 중간에 리턴하는거 제거하기
+
 */
 
 void run()
 {
-    auto f = ResultUtils::MakeErrorBitmask;
+    //필요한 변수들 선언
+    UglyJSONParser::JSONParser parser;
+    UglyJSONParser::RootNode root;
+    std::string json = "{\"key\":\"value and this is \\\"value\\\"\",   \"arr\" : [1,1e+4,1.234]}";
 
-    
+    //string을 기반으로 JSONTree 생성
+    parser.BuildJSONTreeFromString(json, root);
 
+
+    //값 읽어오기
+    std::cout << "key : " << root["key"].GetValueRef().AsString().GetConstRef() << '\n';
+    std::cout << "arr 0 : " << root["arr"].GetValueRef()[0].GetValueRef().AsInt().GetValue() << '\n';
+    std::cout << "arr 1 : " << root["arr"].GetValueRef()[1].GetValueRef().AsInt().GetValue() << '\n';
+    std::cout << "arr 2 : " << root["arr"].GetValueRef()[2].GetValueRef().AsDouble().GetValue() << '\n';
 }
 /*
 
