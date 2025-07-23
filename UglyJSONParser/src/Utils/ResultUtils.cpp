@@ -8,24 +8,6 @@ std::string UglyJSONParser::ResultUtils::DecodeErrorBitMask(ErrorBitmask errorBi
         return std::string("no error");
     }
 
-    if ((static_cast<uint32_t>(errorBitMask) & static_cast<uint32_t>(NodeType::Array)) &&
-        (static_cast<uint32_t>(errorBitMask) & static_cast<uint32_t>(DataTypes::NODE)) &&
-        (static_cast<uint32_t>(errorBitMask) & static_cast<uint32_t>(OperationTypes::GET)) &&
-        (static_cast<uint32_t>(errorBitMask) & static_cast<uint32_t>(AccessTypes::BY_INT))
-        )
-    {
-        return std::string("item not found in array");
-    }
-
-    if ((static_cast<uint32_t>(errorBitMask) & static_cast<uint32_t>(NodeType::Object)) &&
-        (static_cast<uint32_t>(errorBitMask) & static_cast<uint32_t>(DataTypes::NODE)) &&
-        (static_cast<uint32_t>(errorBitMask) & static_cast<uint32_t>(OperationTypes::GET)) &&
-        (static_cast<uint32_t>(errorBitMask) & static_cast<uint32_t>(AccessTypes::BY_STRING))
-        )
-    {
-        return std::string("item not found in object");
-    }
-
     if (static_cast<uint32_t>(AccessTypes::FALSE_BIT) & static_cast<uint32_t>(errorBitMask))//일반 접근
     {
         return std::move(std::format(

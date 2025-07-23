@@ -6,5 +6,6 @@
 #include "./Enumerations/NodeTypes.hpp"
 #include "./Enumerations/OperationTypes.hpp"
 #include "./Enumerations/ErrorBitmask.hpp"
+#include "./Enumerations/ErrorDescriptions.hpp"
 
 #endif // !UGLY_JSON_PARSER_ENUMERATION_INCLUDE_HEADER

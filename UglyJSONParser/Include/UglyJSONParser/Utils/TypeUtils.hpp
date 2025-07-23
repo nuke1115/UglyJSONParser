@@ -82,6 +82,8 @@ namespace UglyJSONParser
         const char* GetAccessTypeName(AccessTypes accessType);
 
         const char* GetOperationTypeName(OperationTypes opType);
+
+        const char* GetErrorDescriptionName(ErrorDescriptions errorDesc);
     }
 }
 

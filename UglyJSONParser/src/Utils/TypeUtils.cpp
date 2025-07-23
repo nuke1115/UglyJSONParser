@@ -129,3 +129,24 @@ const char* UglyJSONParser::TypeUtils::GetOperationTypeName(OperationTypes opTyp
         return "Invalid";
     }
 }
+
+const char* UglyJSONParser::TypeUtils::GetErrorDescriptionName(ErrorDescriptions errorDesc)
+{
+    switch (errorDesc)
+    {
+    case ErrorDescriptions::FALSE_BIT:
+        return "False Bit";
+    case ErrorDescriptions::WRONG_TYPE:
+        return "Wrong Type";
+    case ErrorDescriptions::NOT_FOUND:
+        return "Not Found";
+    case ErrorDescriptions::INDEX_EXCEED:
+        return "Index Exceed";
+    case ErrorDescriptions::DUPLICATED_KEY:
+        return "Duplicated Key";
+    case ErrorDescriptions::CREATE_FAILED:
+        return "Create Failed";
+    default:
+        return "Invalid Error";
+    }
+}
