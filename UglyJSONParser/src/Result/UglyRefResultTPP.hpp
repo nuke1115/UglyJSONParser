@@ -12,7 +12,8 @@ UglyJSONParser::UglyRefResult<ValueType>::UglyRefResult(ValueType* value)
             NodeType::Error,
             DataTypes::FALSE_BIT,
             AccessTypes::FALSE_BIT,
-            OperationTypes::FALSE_BIT
+            OperationTypes::FALSE_BIT,
+            ErrorDescriptions::FALSE_BIT
         );
         _value = std::nullopt;
     }
