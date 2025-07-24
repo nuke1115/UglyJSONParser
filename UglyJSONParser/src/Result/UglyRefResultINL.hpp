@@ -9,20 +9,13 @@ bool UglyJSONParser::UglyRefResult<ValueType>::HasValue() const
 }
 
 template<typename ValueType>
-uint32_t UglyJSONParser::UglyRefResult<ValueType>::GetErrorInfoMask() const
+UglyJSONParser::ErrorBitmask UglyJSONParser::UglyRefResult<ValueType>::GetErrorInfoMask() const
 {
     return _errInfo;
 }
 
 template<typename ValueType>
 ValueType& UglyJSONParser::UglyRefResult<ValueType>::GetValueRef()
-{
-    assert(HasValue());
-    return *(_value.value());
-}
-
-template<typename ValueType>
-const ValueType& UglyJSONParser::UglyRefResult<ValueType>::GetConstRef() const
 {
     assert(HasValue());
     return *(_value.value());

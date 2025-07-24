@@ -68,3 +68,85 @@ const char* UglyJSONParser::TypeUtils::GetNodeTypeName(NodeType nodeType)
         return "Invalid";
     }
 }
+
+const char* UglyJSONParser::TypeUtils::GetDataTypeName(DataTypes dataType)
+{
+    switch (dataType)
+    {
+    case DataTypes::FALSE_BIT:
+        return "";
+    case DataTypes::BOOL:
+        return "bool";
+    case DataTypes::INT:
+        return "int(long long)";
+    case DataTypes::DOUBLE:
+        return "double(float)";
+    case DataTypes::STRING:
+        return "string";
+    case DataTypes::NODE:
+        return "node";
+    case DataTypes::NODE_VECTOR:
+        return "node vector";
+    case DataTypes::NODE_EXISTENCE:
+        return "node existence";
+    case DataTypes::NODE_COUNT:
+        return "node count";
+    default:
+        return "Invalid";
+    }
+}
+
+const char* UglyJSONParser::TypeUtils::GetAccessTypeName(AccessTypes accessType)
+{
+    switch (accessType)
+    {
+    case AccessTypes::FALSE_BIT:
+        return "";
+    case AccessTypes::BY_INT:
+        return "int";
+    case AccessTypes::BY_STRING:
+        return "string";
+    default:
+        return "Invalid";
+    }
+}
+
+const char* UglyJSONParser::TypeUtils::GetOperationTypeName(OperationTypes opType)
+{
+    switch (opType)
+    {
+    case OperationTypes::FALSE_BIT:
+        return "";
+    case OperationTypes::INSERT:
+        return "insert";
+    case OperationTypes::GET:
+        return "get";
+    case OperationTypes::DELETE:
+        return "delete";
+    case OperationTypes::CREATE:
+        return "create";
+    default:
+        return "Invalid";
+    }
+}
+
+const char* UglyJSONParser::TypeUtils::GetErrorDescriptionName(ErrorDescriptions errorDesc)
+{
+    switch (errorDesc)
+    {
+    case ErrorDescriptions::FALSE_BIT:
+        return "False Bit";
+    case ErrorDescriptions::WRONG_TYPE:
+        return "Wrong Type";
+    case ErrorDescriptions::NOT_FOUND:
+        return "Not Found";
+    case ErrorDescriptions::INDEX_EXCEED:
+        return "Index Exceed";
+    case ErrorDescriptions::DUPLICATED_KEY:
+        return "Duplicated Key";
+    case ErrorDescriptions::CREATE_FAILED:
+        return "Create Failed";
+    default:
+        return "Invalid Error";
+    }
+}

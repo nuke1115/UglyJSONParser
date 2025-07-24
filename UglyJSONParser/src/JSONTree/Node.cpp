@@ -88,19 +88,21 @@ std::string UglyJSONParser::StringNode::GetJsonTreeByString()
     return buffer.str();
 }
 
-const std::string& UglyJSONParser::StringNode::AsString() const
+UglyJSONParser::UglyConstRefResult<std::string> UglyJSONParser::StringNode::AsString() const
 {
-    return _stringData;
+    return UglyConstRefResult<string>(&_stringData);
 }
 
-void UglyJSONParser::StringNode::operator=(const char* strData)
+UglyJSONParser::UglyNonRefResult<bool> UglyJSONParser::StringNode::operator=(const char* strData)
 {
     _stringData = strData;
+    return UglyNonRefResult<bool>(true);
 }
 
-void UglyJSONParser::StringNode::operator=(const string& strData)
+UglyJSONParser::UglyNonRefResult<bool> UglyJSONParser::StringNode::operator=(const string& strData)
 {
     _stringData = strData;
+    return UglyNonRefResult<bool>(true);
 }
 #pragma endregion
 
@@ -118,40 +120,42 @@ std::string UglyJSONParser::NumberNode::GetJsonTreeByString()
     }
 }
 
-long long UglyJSONParser::NumberNode::AsInt() const
+UglyJSONParser::UglyNonRefResult<long long> UglyJSONParser::NumberNode::AsInt() const
 {
     if (_isItDouble)
     {
-        return static_cast<long long>(_doubleData);
+        return UglyNonRefResult<long long>(static_cast<long long>(_doubleData));
     }
     else
     {
-        return _intData;
+        return UglyNonRefResult<long long>(_intData);
     }
 }
 
-double UglyJSONParser::NumberNode::AsDouble() const
+UglyJSONParser::UglyNonRefResult<double> UglyJSONParser::NumberNode::AsDouble() const
 {
     if (_isItDouble)
     {
-        return _doubleData;
+        return UglyNonRefResult<double>(_doubleData);
     }
     else
     {
-        return static_cast<double>(_intData);
+        return UglyNonRefResult<double>(static_cast<double>(_intData));
     }
 }
 
-void UglyJSONParser::NumberNode::operator=(const long long intData)
+UglyJSONParser::UglyNonRefResult<bool> UglyJSONParser::NumberNode::operator=(const long long intData)
 {
     _isItDouble = false;
     _intData = intData;
+    return UglyNonRefResult<bool>(true);
 }
 
-void UglyJSONParser::NumberNode::operator=(const double doubleData)
+UglyJSONParser::UglyNonRefResult<bool> UglyJSONParser::NumberNode::operator=(const double doubleData)
 {
     _isItDouble = true;
     _doubleData = doubleData;
+    return UglyNonRefResult<bool>(true);
 }
 
 #pragma endregion
@@ -163,14 +167,15 @@ std::string UglyJSONParser::BoolNode::GetJsonTreeByString()
     return TypeUtils::ConvertBoolToString(_boolData);
 }
 
-bool UglyJSONParser::BoolNode::AsBool() const
+UglyJSONParser::UglyNonRefResult<bool> UglyJSONParser::BoolNode::AsBool() const
 {
-    return _boolData;
+    return UglyNonRefResult<bool>(_boolData);
 }
 
-void UglyJSONParser::BoolNode::operator=(const bool boolData)
+UglyJSONParser::UglyNonRefResult<bool> UglyJSONParser::BoolNode::operator=(const bool boolData)
 {
     _boolData = boolData;
+    return UglyNonRefResult<bool>(true);
 }
 #pragma endregion
 
@@ -199,25 +204,31 @@ std::string UglyJSONParser::ObjectNode::GetJsonTreeByString()
     return buffer.str();
 }
 
-UglyJSONParser::BaseNode& UglyJSONParser::ObjectNode::operator[](const string& strKey)
+UglyJSONParser::UglyRefResult<UglyJSONParser::BaseNode> UglyJSONParser::ObjectNode::operator[](const string& strKey)
 {
     for (BaseNode* i : _childNodeVector)
     {
         if (!(i->GetName().compare(strKey)))
         {
-            return *i;
+            return UglyRefResult<BaseNode>(i);
         }
     }
 
-    throw std::logic_error("item not found");
+    return UglyRefResult<BaseNode>(ResultUtils::MakeErrorBitmask(
+        GetNodeType(),
+        DataTypes::NODE,
+        AccessTypes::BY_STRING,
+        OperationTypes::GET,
+        ErrorDescriptions::NOT_FOUND
+    ));
 }
 
-std::vector<UglyJSONParser::BaseNode*>& UglyJSONParser::ObjectNode::GetChildNodeVector()
+UglyJSONParser::UglyRefResult<std::vector<UglyJSONParser::BaseNode*>> UglyJSONParser::ObjectNode::GetChildNodeVector()
 {
-    return _childNodeVector;
+    return UglyRefResult<std::vector<BaseNode*>>(&_childNodeVector);
 }
 
-void UglyJSONParser::ObjectNode::Clear()
+UglyJSONParser::UglyNonRefResult<bool> UglyJSONParser::ObjectNode::Clear()
 {
     for (BaseNode* i : _childNodeVector)
     {
@@ -229,9 +240,11 @@ void UglyJSONParser::ObjectNode::Clear()
         delete i;
     }
     _childNodeVector.clear();
+    
+    return UglyNonRefResult<bool>(true);
 }
 
-void UglyJSONParser::ObjectNode::DeleteChildNode(const string& strKey)
+UglyJSONParser::UglyNonRefResult<bool> UglyJSONParser::ObjectNode::DeleteChildNode(const string& strKey)
 {
     for (size_t i = 0; i < _childNodeVector.size(); i++)
     {
@@ -239,19 +252,32 @@ void UglyJSONParser::ObjectNode::DeleteChildNode(const string& strKey)
         {
             delete _childNodeVector[i];
             _childNodeVector.erase(_childNodeVector.begin() + i);
-            return;
+            return UglyNonRefResult<bool>(true);
         }
     }
-    throw std::logic_error("item not found");
+
+    return UglyNonRefResult<bool>(ResultUtils::MakeErrorBitmask(
+        GetNodeType(),
+        DataTypes::NODE,
+        AccessTypes::BY_STRING,
+        OperationTypes::DELETE,
+        ErrorDescriptions::NOT_FOUND
+    ));
 }
 
-bool UglyJSONParser::ObjectNode::CreateNewNode(NodeType type, string strKey)
+UglyJSONParser::UglyNonRefResult<bool> UglyJSONParser::ObjectNode::CreateNewNode(NodeType type, string strKey)
 {
     for (BaseNode* i : _childNodeVector)
     {
         if (!(i->GetName().compare(strKey)))
         {
-            return false;
+            return UglyNonRefResult<bool>(ResultUtils::MakeErrorBitmask(
+                GetNodeType(),
+                DataTypes::NODE,
+                AccessTypes::BY_STRING,
+                OperationTypes::CREATE,
+                ErrorDescriptions::DUPLICATED_KEY
+            ));
         }
     }
 
@@ -259,34 +285,35 @@ bool UglyJSONParser::ObjectNode::CreateNewNode(NodeType type, string strKey)
 
     if (newNode == nullptr)
     {
-        return false;
+        return UglyNonRefResult<bool>(ResultUtils::MakeErrorBitmask(
+            GetNodeType(),
+            DataTypes::NODE,
+            AccessTypes::BY_STRING,
+            OperationTypes::CREATE,
+            ErrorDescriptions::CREATE_FAILED
+        ));
     }
 
     _childNodeVector.push_back(newNode);
 
-    return true;
+    return UglyNonRefResult<bool>(true);
 }
 
-bool UglyJSONParser::ObjectNode::CreateNewNode(NodeType type)
+UglyJSONParser::UglyNonRefResult<size_t> UglyJSONParser::ObjectNode::GetChildNodeCount() const
 {
-    return false;
+    return UglyNonRefResult<size_t>(_childNodeVector.size());
 }
 
-size_t UglyJSONParser::ObjectNode::GetChildNodeCount() const
-{
-    return _childNodeVector.size();
-}
-
-bool UglyJSONParser::ObjectNode::Contains(const string& key) const
+UglyJSONParser::UglyNonRefResult<bool> UglyJSONParser::ObjectNode::Contains(const string& key) const
 {
     for (BaseNode* i : _childNodeVector)
     {
         if (!(i->GetName().compare(key)))
         {
-            return true;
+            return UglyNonRefResult<bool>(true);
         }
     }
-    return false;
+    return UglyNonRefResult<bool>(false);
 }
 
 #pragma endregion
@@ -315,22 +342,28 @@ std::string UglyJSONParser::ArrayNode::GetJsonTreeByString()
     return buffer.str();
 }
 
-UglyJSONParser::BaseNode& UglyJSONParser::ArrayNode::operator[](const size_t intKey)
+UglyJSONParser::UglyRefResult<UglyJSONParser::BaseNode> UglyJSONParser::ArrayNode::operator[](const size_t intKey)
 {
     if (intKey >= _childNodeVector.size())
     {
-        throw std::logic_error("index exceeded array bound");
+        return UglyRefResult<BaseNode>(ResultUtils::MakeErrorBitmask(
+            GetNodeType(),
+            DataTypes::NODE,
+            AccessTypes::BY_INT,
+            OperationTypes::GET,
+            ErrorDescriptions::INDEX_EXCEED
+        ));
     }
-    return *_childNodeVector[intKey];
+    return UglyRefResult<BaseNode>(_childNodeVector[intKey]);
 }
 
 
-std::vector<UglyJSONParser::BaseNode*>& UglyJSONParser::ArrayNode::GetChildNodeVector()
+UglyJSONParser::UglyRefResult<std::vector<UglyJSONParser::BaseNode*>> UglyJSONParser::ArrayNode::GetChildNodeVector()
 {
-    return _childNodeVector;
+    return UglyRefResult<std::vector<BaseNode*>>(&_childNodeVector);
 }
 
-void UglyJSONParser::ArrayNode::Clear()
+UglyJSONParser::UglyNonRefResult<bool> UglyJSONParser::ArrayNode::Clear()
 {
     for (BaseNode* i : _childNodeVector)
     {
@@ -342,45 +375,62 @@ void UglyJSONParser::ArrayNode::Clear()
         delete i;
     }
     _childNodeVector.clear();
+
+    return UglyNonRefResult<bool>(true);
 }
 
-void UglyJSONParser::ArrayNode::DeleteChildNode(size_t intKey)
+UglyJSONParser::UglyNonRefResult<bool> UglyJSONParser::ArrayNode::DeleteChildNode(size_t intKey)
 {
     if (intKey >= _childNodeVector.size())
     {
-        throw std::logic_error("index exceeded array bound");
+        return UglyNonRefResult<bool>(ResultUtils::MakeErrorBitmask(
+            GetNodeType(),
+            DataTypes::NODE,
+            AccessTypes::BY_INT,
+            OperationTypes::DELETE,
+            ErrorDescriptions::INDEX_EXCEED
+        ));
     }
 
     delete _childNodeVector[intKey];
     _childNodeVector.erase(_childNodeVector.begin() + intKey);
+
+    return UglyNonRefResult<bool>(true);
 }
 
-bool UglyJSONParser::ArrayNode::CreateNewNode(NodeType type, string strKey)
-{
-    return CreateNewNode(type);
-}
-
-bool UglyJSONParser::ArrayNode::CreateNewNode(NodeType type)
+UglyJSONParser::UglyNonRefResult<bool> UglyJSONParser::ArrayNode::CreateNewNode(NodeType type)
 {
     BaseNode* tmp = _factory.CreateNode(type, "nullName");
 
     if (tmp == nullptr)
     {
-        return false;   
+        return UglyNonRefResult<bool>(ResultUtils::MakeErrorBitmask(
+            GetNodeType(),
+            DataTypes::NODE,
+            AccessTypes::BY_INT,
+            OperationTypes::CREATE,
+            ErrorDescriptions::CREATE_FAILED
+        ));   
     }
 
     _childNodeVector.push_back(tmp);
-    return true;
+    return UglyNonRefResult<bool>(true);
 }
 
-size_t UglyJSONParser::ArrayNode::GetChildNodeCount() const
+UglyJSONParser::UglyNonRefResult<size_t> UglyJSONParser::ArrayNode::GetChildNodeCount() const
 {
-    return _childNodeVector.size();
+    return UglyJSONParser::UglyNonRefResult<size_t>(_childNodeVector.size());
 }
 
-bool UglyJSONParser::ArrayNode::Contains(const string& key) const
+UglyJSONParser::UglyNonRefResult<bool> UglyJSONParser::ArrayNode::Contains(const string& key) const
 {
-    return false;
+    return UglyJSONParser::UglyNonRefResult<bool>(ResultUtils::MakeErrorBitmask(
+        GetNodeType(),
+        DataTypes::NODE_EXISTENCE,
+        AccessTypes::BY_STRING,
+        OperationTypes::GET,
+        ErrorDescriptions::WRONG_TYPE
+    ));
 }
 
 #pragma endregion
@@ -396,122 +446,358 @@ std::string UglyJSONParser::NullNode::GetJsonTreeByString()
 
 #pragma region RootNode
 
-bool UglyJSONParser::RootNode::CreateRootNode(NodeType nodeType)
+UglyJSONParser::UglyNonRefResult<bool> UglyJSONParser::RootNode::CreateRootNode(NodeType nodeType)
 {
     if (nodeType == NodeType::Error || nodeType == NodeType::Root || !(_nodeType == NodeType::Root && _entryPoint == nullptr))
     {
-        return false;
+        return UglyNonRefResult<bool>(ResultUtils::MakeErrorBitmask(
+            GetNodeType(),
+            DataTypes::NODE,
+            AccessTypes::FALSE_BIT,
+            OperationTypes::CREATE,
+            ErrorDescriptions::WRONG_TYPE
+        ));
     }
 
     _entryPoint = _factory.CreateNode(nodeType, _FirstNodeName);
 
     if (_entryPoint == nullptr)
     {
-        return false;
+        return UglyNonRefResult<bool>(ResultUtils::MakeErrorBitmask(
+            GetNodeType(),
+            DataTypes::NODE,
+            AccessTypes::FALSE_BIT,
+            OperationTypes::CREATE,
+            ErrorDescriptions::CREATE_FAILED
+        ));
     }
 
     _nodeType = nodeType;
 
-    return true;
+    return UglyNonRefResult<bool>(true);
 }
 
 std::string UglyJSONParser::RootNode::GetJsonTreeByString()
 {
+    if (_entryPoint == nullptr)
+    {
+        return "";
+    }
+
     return _entryPoint->GetJsonTreeByString();
 }
 
-const std::string& UglyJSONParser::RootNode::AsString() const
+UglyJSONParser::UglyConstRefResult<std::string>  UglyJSONParser::RootNode::AsString() const
 {
+    if (_entryPoint == nullptr)
+    {
+        return UglyConstRefResult<std::string>(ResultUtils::MakeErrorBitmask(
+            NodeType::FALSE_BIT,
+            DataTypes::STRING,
+            AccessTypes::FALSE_BIT,
+            OperationTypes::GET,
+            ErrorDescriptions::WRONG_TYPE
+        ));
+    }
     return _entryPoint->AsString();
 }
 
-long long UglyJSONParser::RootNode::AsInt() const
+UglyJSONParser::UglyNonRefResult<long long> UglyJSONParser::RootNode::AsInt() const
 {
+    if (_entryPoint == nullptr)
+    {
+        return UglyNonRefResult<long long>(ResultUtils::MakeErrorBitmask(
+            NodeType::FALSE_BIT,
+            DataTypes::INT,
+            AccessTypes::FALSE_BIT,
+            OperationTypes::GET,
+            ErrorDescriptions::WRONG_TYPE
+        ));
+    }
     return _entryPoint->AsInt();
 }
 
-bool UglyJSONParser::RootNode::AsBool() const
+UglyJSONParser::UglyNonRefResult<bool> UglyJSONParser::RootNode::AsBool() const
 {
+    if (_entryPoint == nullptr)
+    {
+        return UglyNonRefResult<bool>(ResultUtils::MakeErrorBitmask(
+            NodeType::FALSE_BIT,
+            DataTypes::BOOL,
+            AccessTypes::FALSE_BIT,
+            OperationTypes::GET,
+            ErrorDescriptions::WRONG_TYPE
+        ));
+    }
     return _entryPoint->AsBool();
 }
 
-double UglyJSONParser::RootNode::AsDouble() const
+UglyJSONParser::UglyNonRefResult<double> UglyJSONParser::RootNode::AsDouble() const
 {
+    if (_entryPoint == nullptr)
+    {
+        return UglyNonRefResult<double>(ResultUtils::MakeErrorBitmask(
+            NodeType::FALSE_BIT,
+            DataTypes::DOUBLE,
+            AccessTypes::FALSE_BIT,
+            OperationTypes::GET,
+            ErrorDescriptions::WRONG_TYPE
+        ));
+    }
     return _entryPoint->AsDouble();
 }
 
-UglyJSONParser::BaseNode& UglyJSONParser::RootNode::operator[](const string& strKey)
+UglyJSONParser::UglyRefResult<UglyJSONParser::BaseNode> UglyJSONParser::RootNode::operator[](const string& strKey)
 {
+    if (_entryPoint == nullptr)
+    {
+        return UglyRefResult<BaseNode>(ResultUtils::MakeErrorBitmask(
+            NodeType::FALSE_BIT,
+            DataTypes::NODE,
+            AccessTypes::BY_STRING,
+            OperationTypes::GET,
+            ErrorDescriptions::WRONG_TYPE
+        ));
+    }
+
     return (*_entryPoint)[strKey];
 }
 
-UglyJSONParser::BaseNode& UglyJSONParser::RootNode::operator[](const size_t intKey)
+UglyJSONParser::UglyRefResult<UglyJSONParser::BaseNode> UglyJSONParser::RootNode::operator[](const size_t intKey)
 {
+    if (_entryPoint == nullptr)
+    {
+        return UglyRefResult<BaseNode>(ResultUtils::MakeErrorBitmask(
+            NodeType::FALSE_BIT,
+            DataTypes::NODE,
+            AccessTypes::BY_INT,
+            OperationTypes::GET,
+            ErrorDescriptions::WRONG_TYPE
+        ));
+    }
+
     return (*_entryPoint)[intKey];
 }
 
-void UglyJSONParser::RootNode::operator=(const char* strData)
+UglyJSONParser::UglyNonRefResult<bool> UglyJSONParser::RootNode::operator=(const char* strData)
 {
+    if (_entryPoint == nullptr)
+    {
+        return UglyNonRefResult<bool>(ResultUtils::MakeErrorBitmask(
+            NodeType::FALSE_BIT,
+            DataTypes::STRING,
+            AccessTypes::FALSE_BIT,
+            OperationTypes::INSERT,
+            ErrorDescriptions::WRONG_TYPE
+        ));
+    }
+
     (*_entryPoint) = strData;
+
+    return UglyNonRefResult<bool>(true);
 }
 
-void UglyJSONParser::RootNode::operator=(const string& strData)
+UglyJSONParser::UglyNonRefResult<bool> UglyJSONParser::RootNode::operator=(const string& strData)
 {
+    if (_entryPoint == nullptr)
+    {
+        return UglyNonRefResult<bool>(ResultUtils::MakeErrorBitmask(
+            NodeType::FALSE_BIT,
+            DataTypes::STRING,
+            AccessTypes::FALSE_BIT,
+            OperationTypes::INSERT,
+            ErrorDescriptions::WRONG_TYPE
+        ));
+    }
+
     (*_entryPoint) = strData;
+
+    return UglyNonRefResult<bool>(true);
 }
 
-void UglyJSONParser::RootNode::operator=(const long long intData)
+UglyJSONParser::UglyNonRefResult<bool> UglyJSONParser::RootNode::operator=(const long long intData)
 {
+    if (_entryPoint == nullptr)
+    {
+        return UglyNonRefResult<bool>(ResultUtils::MakeErrorBitmask(
+            NodeType::FALSE_BIT,
+            DataTypes::INT,
+            AccessTypes::FALSE_BIT,
+            OperationTypes::INSERT,
+            ErrorDescriptions::WRONG_TYPE
+        ));
+    }
+
     (*_entryPoint) = intData;
+
+    return UglyNonRefResult<bool>(true);
 }
 
-void UglyJSONParser::RootNode::operator=(const bool boolData)
+UglyJSONParser::UglyNonRefResult<bool> UglyJSONParser::RootNode::operator=(const bool boolData)
 {
+    if (_entryPoint == nullptr)
+    {
+        return UglyNonRefResult<bool>(ResultUtils::MakeErrorBitmask(
+            NodeType::FALSE_BIT,
+            DataTypes::BOOL,
+            AccessTypes::FALSE_BIT,
+            OperationTypes::INSERT,
+            ErrorDescriptions::WRONG_TYPE
+        ));
+    }
+
     (*_entryPoint) = boolData;
+
+    return UglyNonRefResult<bool>(true);
 }
 
-void UglyJSONParser::RootNode::operator=(const double doubleData)
+UglyJSONParser::UglyNonRefResult<bool> UglyJSONParser::RootNode::operator=(const double doubleData)
 {
+    if (_entryPoint == nullptr)
+    {
+        return UglyNonRefResult<bool>(ResultUtils::MakeErrorBitmask(
+            NodeType::FALSE_BIT,
+            DataTypes::DOUBLE,
+            AccessTypes::FALSE_BIT,
+            OperationTypes::INSERT,
+            ErrorDescriptions::WRONG_TYPE
+        ));
+    }
+
     (*_entryPoint) = doubleData;
+
+    return UglyNonRefResult<bool>(true);
 }
 
-std::vector<UglyJSONParser::BaseNode*>& UglyJSONParser::RootNode::GetChildNodeVector()
+UglyJSONParser::UglyRefResult<std::vector<UglyJSONParser::BaseNode*>> UglyJSONParser::RootNode::GetChildNodeVector()
 {
+    if (_entryPoint == nullptr)
+    {
+        return UglyRefResult<std::vector<UglyJSONParser::BaseNode*>>(ResultUtils::MakeErrorBitmask(
+            NodeType::FALSE_BIT,
+            DataTypes::NODE_VECTOR,
+            AccessTypes::FALSE_BIT,
+            OperationTypes::GET,
+            ErrorDescriptions::WRONG_TYPE
+        ));
+    }
+
     return _entryPoint->GetChildNodeVector();
 }
 
-void UglyJSONParser::RootNode::Clear()
+UglyJSONParser::UglyNonRefResult<bool> UglyJSONParser::RootNode::Clear()
 {
+    if (_entryPoint == nullptr)
+    {
+        return UglyNonRefResult<bool>(ResultUtils::MakeErrorBitmask(
+            NodeType::FALSE_BIT,
+            DataTypes::NODE_VECTOR,
+            AccessTypes::FALSE_BIT,
+            OperationTypes::DELETE,
+            ErrorDescriptions::WRONG_TYPE
+        ));
+    }
+
     _entryPoint->Clear();
+
+    return UglyNonRefResult<bool>(true);
 }
 
-void UglyJSONParser::RootNode::DeleteChildNode(const string& strKey)
+UglyJSONParser::UglyNonRefResult<bool> UglyJSONParser::RootNode::DeleteChildNode(const string& strKey)
 {
+    if (_entryPoint == nullptr)
+    {
+        return UglyNonRefResult<bool>(ResultUtils::MakeErrorBitmask(
+            NodeType::FALSE_BIT,
+            DataTypes::NODE,
+            AccessTypes::BY_STRING,
+            OperationTypes::DELETE,
+            ErrorDescriptions::WRONG_TYPE
+        ));
+    }
+
     _entryPoint->DeleteChildNode(strKey);
+
+    return UglyNonRefResult<bool>(true);
 }
 
-void UglyJSONParser::RootNode::DeleteChildNode(size_t intKey)
+UglyJSONParser::UglyNonRefResult<bool> UglyJSONParser::RootNode::DeleteChildNode(size_t intKey)
 {
+    if (_entryPoint == nullptr)
+    {
+        return UglyNonRefResult<bool>(ResultUtils::MakeErrorBitmask(
+            NodeType::FALSE_BIT,
+            DataTypes::NODE,
+            AccessTypes::BY_INT,
+            OperationTypes::DELETE,
+            ErrorDescriptions::WRONG_TYPE
+        ));
+    }
+
     _entryPoint->DeleteChildNode(intKey);
+
+    return UglyNonRefResult<bool>(true);
 }
 
-bool UglyJSONParser::RootNode::CreateNewNode(NodeType type, string strKey)
+UglyJSONParser::UglyNonRefResult<bool> UglyJSONParser::RootNode::CreateNewNode(NodeType type, string strKey)
 {
+    if (_entryPoint == nullptr)
+    {
+        return UglyNonRefResult<bool>(ResultUtils::MakeErrorBitmask(
+            NodeType::FALSE_BIT,
+            DataTypes::NODE,
+            AccessTypes::BY_STRING,
+            OperationTypes::CREATE,
+            ErrorDescriptions::WRONG_TYPE
+        ));
+    }
+
     return _entryPoint->CreateNewNode(type, strKey);
 }
 
-bool UglyJSONParser::RootNode::CreateNewNode(NodeType type)
+UglyJSONParser::UglyNonRefResult<bool> UglyJSONParser::RootNode::CreateNewNode(NodeType type)
 {
+    if (_entryPoint == nullptr)
+    {
+        return UglyNonRefResult<bool>(ResultUtils::MakeErrorBitmask(
+            NodeType::FALSE_BIT,
+            DataTypes::NODE,
+            AccessTypes::BY_INT,
+            OperationTypes::CREATE,
+            ErrorDescriptions::WRONG_TYPE
+        ));
+    }
+
     return _entryPoint->CreateNewNode(type);
 }
 
-size_t UglyJSONParser::RootNode::GetChildNodeCount() const
+UglyJSONParser::UglyNonRefResult<size_t> UglyJSONParser::RootNode::GetChildNodeCount() const
 {
+    if (_entryPoint == nullptr)
+    {
+        return UglyNonRefResult<size_t>(ResultUtils::MakeErrorBitmask(
+            NodeType::FALSE_BIT,
+            DataTypes::NODE_COUNT,
+            AccessTypes::FALSE_BIT,
+            OperationTypes::GET,
+            ErrorDescriptions::WRONG_TYPE
+        ));
+    }
     return _entryPoint->GetChildNodeCount();
 }
 
-bool UglyJSONParser::RootNode::Contains(const string& key) const
+UglyJSONParser::UglyNonRefResult<bool> UglyJSONParser::RootNode::Contains(const string& key) const
 {
+    if (_entryPoint == nullptr)
+    {
+        return UglyNonRefResult<bool>(ResultUtils::MakeErrorBitmask(
+            NodeType::FALSE_BIT,
+            DataTypes::NODE_EXISTENCE,
+            AccessTypes::FALSE_BIT,
+            OperationTypes::GET,
+            ErrorDescriptions::WRONG_TYPE
+        ));
+    }
     return _entryPoint->Contains(key);
 }
 

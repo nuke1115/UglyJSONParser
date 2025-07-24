@@ -1,9 +1,9 @@
-#ifndef UGLY_JSON_PARSER_UGLY_REF_RESULT_TPP_HEADER
-#define UGLY_JSON_PARSER_UGLY_REF_RESULT_TPP_HEADER
+#ifndef UGLY_JSON_PARSER_UGLY_CONST_REF_RESULT_TPP_HEADER
+#define UGLY_JSON_PARSER_UGLY_CONST_REF_RESULT_TPP_HEADER
 
 
 template<typename ValueType>
-UglyJSONParser::UglyRefResult<ValueType>::UglyRefResult(ValueType* value)
+UglyJSONParser::UglyConstRefResult<ValueType>::UglyConstRefResult(const ValueType* value)
 {
     _errInfo = noErrorFilter;
     if (value == nullptr)
@@ -24,10 +24,10 @@ UglyJSONParser::UglyRefResult<ValueType>::UglyRefResult(ValueType* value)
 }
 
 template<typename ValueType>
-UglyJSONParser::UglyRefResult<ValueType>::UglyRefResult(ErrorBitmask errInfoBitMask)
+UglyJSONParser::UglyConstRefResult<ValueType>::UglyConstRefResult(ErrorBitmask errInfoBitMask)
 {
     _errInfo = errInfoBitMask;
     _value = std::nullopt;
 }
 
-#endif // !UGLY_JSON_PARSER_UGLY_REF_RESULT_TPP_HEADER
+#endif // !UGLY_JSON_PARSER_UGLY_CONST_REF_RESULT_TPP_HEADER

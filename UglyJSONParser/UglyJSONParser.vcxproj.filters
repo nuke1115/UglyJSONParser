@@ -64,6 +64,9 @@
     <Filter Include="헤더 파일\Result">
       <UniqueIdentifier>{b2eb606e-552e-4474-9a3f-9e366b09d3ad}</UniqueIdentifier>
     </Filter>
+    <Filter Include="헤더 파일\Constants">
+      <UniqueIdentifier>{6e910199-b053-4c55-bc32-2eade2548c1a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="testing.cpp">
@@ -92,6 +95,9 @@
     </ClCompile>
     <ClCompile Include="src\FileIO\FileIOManager.cpp">
       <Filter>소스 파일\FileIO</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Utils\ResultUtils.cpp">
+      <Filter>소스 파일\Utils</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -198,8 +204,29 @@
     <ClInclude Include="Include\UglyJSONParser\EnumerationInclude.hpp">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Include\UglyJSONParser\Enumerations\DetailedErrInfo.hpp">
+    <ClInclude Include="Include\UglyJSONParser\Utils\ResultUtils.hpp">
+      <Filter>헤더 파일\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\UglyJSONParser\ConstantsIncludeHeader.hpp">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\UglyJSONParser\Enumerations\ErrorDescriptions.hpp">
       <Filter>헤더 파일\Enumerations</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\UglyJSONParser\Enumerations\ErrorBitmask.hpp">
+      <Filter>헤더 파일\Enumerations</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\UglyJSONParser\Constants\ResultEnumConstants.hpp">
+      <Filter>헤더 파일\Constants</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\UglyJSONParser\Result\UglyConstRefResult.hpp">
+      <Filter>헤더 파일\Result</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Result\UglyConstRefResultTPP.hpp">
+      <Filter>소스 파일\Result</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Result\UglyConstRefResultINL.hpp">
+      <Filter>소스 파일\Result</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

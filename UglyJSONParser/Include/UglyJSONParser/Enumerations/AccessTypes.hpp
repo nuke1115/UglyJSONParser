@@ -7,9 +7,9 @@ namespace UglyJSONParser
 {
     enum class AccessTypes : uint32_t
     {
-        ZERO_VALUE = 0b0,
-        BY_INT      = 0b1<<14,
-        BY_STRING   = 0b1<<15
+        FALSE_BIT   = 0b1<<18,
+        BY_INT      = 0b1<<19,
+        BY_STRING   = 0b1<<20
     };
 
     inline constexpr AccessTypes operator|(AccessTypes left, AccessTypes right) noexcept

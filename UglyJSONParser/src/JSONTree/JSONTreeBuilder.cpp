@@ -65,7 +65,14 @@ bool UglyJSONParser::JSONTreeBuilder::BuildJSONTree(RootNode& rootNode, const st
 
     NodeType type = TypeUtils::GetNodeTypeOfToken(tokens.front());
 
-    if (type == NodeType::Error || rootNode.CreateRootNode(type) == false)
+    if (type == NodeType::Error)
+    {
+        return false;
+    }
+
+    auto createResult = rootNode.CreateRootNode(type);
+
+    if (createResult.HasValue() && createResult.GetValue() == false)
     {
         return false;
     }
@@ -89,12 +96,20 @@ bool UglyJSONParser::JSONTreeBuilder::BuildJSONTree(RootNode& rootNode, const st
         }
         else if (nowNode->GetNodeType() == NodeType::Array && (StringUtils::IsItOpeningToken(iter->front()) || TypeUtils::IsItSingleJsonValue(*iter)))
         {
-            if (nowNode->CreateNewNode(TypeUtils::GetNodeTypeOfToken(*iter)) == false)
+            auto createResult = nowNode->CreateNewNode(TypeUtils::GetNodeTypeOfToken(*iter));
+            if (createResult.HasValue() && createResult.GetValue() == false)
             {
                 return false;
             }
 
-            BaseNode* tmp = nowNode->GetChildNodeVector().back();
+            auto getChildNodeVectorResult = nowNode->GetChildNodeVector();
+
+            if (getChildNodeVectorResult.HasValue() == false)
+            {
+                return false;
+            }
+
+            BaseNode* tmp = getChildNodeVectorResult.GetValueRef().back();
 
             if (StringUtils::IsItOpeningToken(iter->front()))
             {
@@ -109,14 +124,22 @@ bool UglyJSONParser::JSONTreeBuilder::BuildJSONTree(RootNode& rootNode, const st
         else if (nowNode->GetNodeType() == NodeType::Object && iter->front() == Tokens::TokenColon)
         {
             auto right = std::next(iter), left = std::prev(iter);
-
-            if (nowNode->CreateNewNode(TypeUtils::GetNodeTypeOfToken(*right), *left) == false)
+            auto createResult = nowNode->CreateNewNode(TypeUtils::GetNodeTypeOfToken(*right), *left);
+            if (createResult.HasValue() && createResult.GetValue() == false)
             {
                 return false;
             }
 
-            BaseNode* tmp = nowNode->GetChildNodeVector().back();
+            auto getChildNodeVectorResult = nowNode->GetChildNodeVector();
+
+            if (getChildNodeVectorResult.HasValue() == false)
+            {
+                return false;
+            }
+
+            BaseNode* tmp = getChildNodeVectorResult.GetValueRef().back();
             
+
             if (StringUtils::IsItOpeningToken(right->front()))
             {
                 indentationStack.push(nowNode);

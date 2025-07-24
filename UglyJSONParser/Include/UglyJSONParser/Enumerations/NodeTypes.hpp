@@ -7,15 +7,15 @@ namespace UglyJSONParser
 {
     enum class NodeType : uint32_t
     {
-        ZERO_VALUE = 0b0,
-        Null    = 0b1<<0,
-        Object  = 0b1<<1,
-        Array   = 0b1<<2,
-        String  = 0b1<<3,
-        Number  = 0b1<<4,
-        Bool    = 0b1<<5,
-        Root    = 0b1<<6,
-        Error   = 0b1<<7
+        FALSE_BIT   = 0b1<<0,
+        Null        = 0b1<<1,
+        Object      = 0b1<<2,
+        Array       = 0b1<<3,
+        String      = 0b1<<4,
+        Number      = 0b1<<5,
+        Bool        = 0b1<<6,
+        Root        = 0b1<<7,
+        Error       = 0b1<<8
     };
 
     //underlying_type_t<NodeType> == uint32_t

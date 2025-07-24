@@ -226,3 +226,382 @@ arr일때는 그냥 읽고 추가하기.
 
 
 */
+-------------------------------------
+
+
+
+/*
+todo
+------
+난 이걸 정적라이브러리로 배포하고싶다.
+저거 헤더들을 한번에 include가능하도록 뭐 하기
+전부 include라는 폴더에 위치해있다.
+src하고 include하고 따로 나뉘어져있다.
+그러면 github에 올릴때, include버전하고 src버전하고 폴더를 나눌까?
+----------
+
+include 폴더 구조:
+
+
+include
+{
+    UglyJSONParserInclude.hpp
+
+    FileIO.hpp
+    JSONTree.hpp
+    Tokenizer.hpp
+    JSONParser.hpp
+    Utils.hpp
+
+    libs
+    {
+        lib
+    }
+}
+
+
+||GetNodeType()|
+|-|-|
+|설명|노드의 타입을 반환한다.|
+|특징|BaseClass의 함수를 그대로 사용합니다.|
+|반환|타입:UglyJSONParser::NodeType<br>노드의 타입|
+
+||GetName()|
+|-|-|
+|설명|노드의 이름을 const 참조로 반환한다.|
+|특징|BaseClass의 함수를 그대로 사용합니다.|
+|반환|타입:std::string<br>노드의 이름의 const 참조|
+
+||GetJsonTreeByString()|
+|-|-|
+|정의|string GetJsonTreeByString() override|
+|설명|StringNode의 데이터(이하 strData로 칭함)를 (")로 감싸서 반환한다.|
+|반환|타입:std::string<br>(")로 감싸진 strData|
+
+||AsString()<br>AsInt()<br>AsBool()<br>AsDouble()|
+|-|-|
+|정의|const string& AsString() const override;<br>long long AsInt() const override;<br>bool AsBool() const override;<br>double AsDouble() const override;|
+|<span style="color:red">주의</span>|이 함수들은 ArrayNode와 마찬가지로 호출하면 런타임 에러가 발생합니다.<br>절대로 호출하시면 안됩니다.|
+
+||operator=()|
+|-|-|
+|오버로드 1|void operator=(const string& strData) override|
+|오버로드 2|void operator=(const char* strData) override|
+|오버로드 3|void operator=(const long long intData) override|
+|오버로드 4|void operator=(const bool boolData) override|
+|오버로드 5|void operator=(const double doubleData) override|
+|<span style="color:red">주의</span>|이 함수들은 ArrayNode와 마찬가지로 호출하면 런타임 에러가 발생합니다.<br>절대로 호출하시면 안됩니다.|
+
+||operator\[\]()|
+|-|-|
+|오버로드 1|BaseNode& operator\[\](const string& strKey) override;|
+|설명|이 오버로드는 const std::string& 타입의 문자열을 입력받아, 일치하는 이름을 가진 노드를 childNodeVector에서 찾아 참조를 반환합니다.|
+|<span style="color:red">주의</span>|입력한 문자열을 이름으로 가지는 노드가 childNodeVector에 없다면 런타임 에러가 발생합니다.<br>입력할 문자열이 있는게 맞는지 확인하시기 바랍니다.|
+
+||operator\[\]()|
+|-|-|
+|오버로드 2|BaseNode& operator\[\](const size_t intKey) override;|
+|<span style="color:red">주의</span>|이 오버로드는 호출하면 런타임 에러가 발생합니다.<br>절대로 정수를 키로 넣어, 이 오버로드를호출하시면 안됩니다.|
+
+||GetChildNodeVector()|
+|-|-|
+|정의|std::vector<BaseNode*>& GetChildNodeVector() override;|
+|설명|childNodeVector의 참조를 반환합니다.|
+|반환|타입:std::vector\<UglyJSONParser::BaseNode*\>&<br>childNodeVector의 참조|
+
+
+||Clear()|
+|-|-|
+|정의|void Clear() override;|
+|설명|이 함수를 재귀적으로 호출하며, 자신을 기준으로 모든 자식노드를 삭제합니다.|
+|작동|이 함수가 호출되면, childNodeVector를 순회하며, 만약 object 또는 arrayNode라면, Clear()함수를 재귀호출하고, 아니라면 삭제합니다. |
+||그리고 루프가 끝나면 childNodeVector.clear()를 호출하여 백터를 비우고 함수를 종료합니다.|
+|특징|소멸시에 자동으로 호출됨|
+
+||DeleteChildNode()|
+|-|-|
+|오버로드 1|void DeleteChildNode(const string& strKey) override;|
+|설명|이 오버로드는 const string& strKey 타입의 문자열 키를 입력받아, 내부의 childNodeVector에서 해당 키와 같은 이름을 가지는 자식노드를 삭제합니다.|
+|<span style="color:red">주의</span>|만약 입력 키를 이름으로 가지는 노드가 childNodeVector에 없다면 런타임 오류가 발생합니다.<br>반드시 키를 확인하여 주십시오.|
+|매개변수|타입:const std::string<br>삭제할 노드의 이름|
+
+||DeleteChildNode()|
+|-|-|
+|오버로드 2|void DeleteChildNode(size_t intKey) override;|
+|<span style="color:red">주의</span>|이 오버로드는 호출하면 런타임 에러가 발생합니다.<br>절대로 정수를 키로 넣어, 이 오버로드를호출하시면 안됩니다.|
+
+||CreateNewNode()|
+|-|-|
+|오버로드 1|bool CreateNewNode(NodeType type, string strKey) override;|
+|설명|이 오버로드는 노드의 타입과 문자열로 된 노드의 이름을 입력받아,먼저 childNodeVector에 겹치는 이름이 있는지 검사합니다.|
+||없다면, NodeFactory에 타입과 이름을 넣어서 노드 생성을 시도하고, 성공한다면 childNodeVector에 push합니다|
+|반환|타입:bool<br>true : 자식노드 생성에 성공했습니다.<br>false : 자식노드 생성에 문제가 발생했습니다|
+|매개변수|타입:UglyJSONParser::NodeType, std::string<br>생성할 노드의 타입과 이름|
+
+||CreateNewNode()|
+|-|-|
+|오버로드 2|bool CreateNewNode(NodeType type) override;|
+|<span style="color:red">주의</span>|이 object는 std::string타입의 이름까지 생성에 필요하기에, 이 오버로드는 항상 false만 반환합니다.|
+|반환|타입:bool<br>false : 자식노드 생성에 문제가 발생했습니다|
+|매개변수|타입:UglyJSONParser::NodeType<br>생성할 노드의 타입|
+
+||GetChildNodeCount()|
+|-|-|
+|정의|size_t GetChildNodeCount() const override;|
+|설명|childNodeVector.size() 의 결과를 반환합니다.|
+|반환|타입:size_t<br>자식노드의 갯수|
+
+||Contains()|
+|-|-|
+|정의|bool Contains(const std::string& key) const override;|
+|설명|입력으로 받은 키와 일치하는 이름을 가지는 노드가 childNodeVector에 있는지 검사하고 결과를 반환한다.|
+|반환|타입:bool<br>true:있다<br>false:없다|
+|매개변수|const std::string&<br>검사할 이름|
+
+
+*/
+/*
+7/20일자 고민
+Result클래스에서 굳이 복사,이동생성자를 남길 필요가 있을까?
+어차피 이 클래스의 용도는 리턴값과 에러여부를 묶어서 exception없이 안전하게 리턴하자가 목적이고,
+이렇게 사용하면 매우 자주 생성하고 파괴가 이루어져야 함
+또한, 값을 복사하면 되지, 굳이 리턴 클래스를 복사할 필요도 없다.
+그냥 저 클래스를 아주 잠깐 이용해서 값을 안전하게 가져오는게 목적이고
+그리고, RefRsult의 경우는 소유권의 문제가 생길수도 있고
+
+노드 내부에 저장하고, 데이터에 접근할 때 Result의 const참조를 반환
+노드에 데이터를 저장하면 Result 내부의 값만 바꿔서 저장
+
+근데, 이러면 또 멀티스레드가 문제네
+-----------
+아니면 이동생성자만 살려두고, 값 요청할때마다 Result를 생성해서 보내줄까
+
+복사하는 부분만 잘 해주면, 나중에 멀티스레딩 환경 대응도 될거같은데(<--근자감)
+
+근데, 이러면 복사 오버헤드가 있지 않을까
+
+enum bitfield로 하고, 그걸 문자열로 바꾸는 함수를 만들어서 복사 오버헤드를 최소한으로?
+마침 노드타입도 8개라서 한 바이트 단위로 저장하기도 좋은데
+-------------
+일단 지금 생각중인 구조는 그냥 바로 값 리턴하기 대신
+데이터를 가져오는 함수 호출마다 stack에 Result클래스를 생성해서 데이터와 기타 오류 정보(오류 발생시만)넘겨준다(이동이돈, 복사든)
+이 방식의 장점은 
+{
+exception 대신 Result를 반환해서 성능저하를 줄인다
+어떤 오류인지 명확히 파악 가능하고, 개발자가 명시적으로 오류 처리를 관리 가능하다
+}
+이 방식의 단점은
+{
+Result의 생성과 이동의 오버헤드가 있다
+}
+(멀티스레드 환경에서 안전이 보장되지 않는건 이 라이브러리 전체가 그러니까 넘기고)
+
+만약, 저 구조로 갈거라면, Result 생성과 이동에 드는 비용을 최대한 줄여야 한다.
+지금 구조는 string으로 오류 정보 저장하고, optional로 오류 여부와 값을 동시에 저장하는 구조다
+일단, optional은 값을 아예 비워두는것도 생각해야 되기에, 이건 필수
+그러면, 줄일 수 있는게 string이다
+지금의 string은 복사할때의 비용이 상당히 비싸다
+그러나, 이걸 bitmask + Result 외부에 저걸 변환 가능한 함수 구조로 바꾸면, string에 비해 비용과 용량 상당히 적어진다
+
+*/
+/*
+
+코딩 스타일/스텐다드를 작성하고, 그거에 맞춰서 리팩토링을 대대적으로 해야되겠다.
+
+v1.0에는 아직 코딩 스텐다드나 스타일이 확립되지 않은 상태라서 조금 어지러울수도 있다.
+
+*/
+/*
+
+이거 스트링노드로 변환/출력할때 \붙은 문자들 처리하는 로직
+
+다음 버전에서 뜯어고치면서 하자
+
+에초에 들어오는 JSON의 이스케이프 문자는 무조건 \코드로 두가지 문자가 조합된 형태다.
+여기에 아무런 조작도 안하고, 그냥 있는대로 저장하고 내보내는건 딱히 문제가 없다.
+
+
+
+*/
+/*
+todo:
+배포할때 api문서,튜토리얼,문서 작성하기
+링커오류 안일으키도록 하는 방법,해결방법 알아보기
+//MD, MDd로 런타임 라이브러리 설정
+
+루트노드에 설정된게 obj/arr아니면 오류나네
+
+
+int오버로드 만들어야되네
+
+아니 이거 우선순위 이거 작업 끝나면 억울해서 찾아봐야지 아니
+en.cppreference.com/w/cpp/language/implicit_conversion
+en.cppreference.com/w/cpp/language/overload_resolution
+
+
+
+todo: 노드 문서들에서 사용 금지한거는 다 빼버리고 한문장으로 압축하기
+
+이동연산자는 Root한해서 풀어줄까?
+
+일단 지금 내가 const& &&둘 다 막은게, 저 두개를 하면, 한쪽에서 데이터를 삭제하면, 다른쪽에서 데이터 접근시 오류가 날거같으니까지
+
+
+
+업데이트 예정인거: static_cast<long long>() 안써도 되도록 하기 << 아니 이거 암시적 형변환 ;;;;;;;;;;;
+
+*/
+
+/*
+enum class와 underlying_type_t에 대해서
+소신발언)enum class 저거 설계부터 잘못했다고 생각함
+그렇다고 생각하면 개추 ㅋㅋ
+*/
+
+/*
+
+왜 비트마스킹이냐?
+발생하는 오류가 위치, 행위, 원인만 바뀌고 형태는 똑같다.
+->따라서, 행위와 원인만 비트마스킹으로 압축하고, 해석함수에서 위의 형태대로 해석해서 리턴하는게 더 효율적일거라 판단함
+ 
+ 
+비트마스킹으로 할거면, 비트를 구역으로 나눠서, 어디에 어떤 정보를 담을건지 정해야지
+일단, 노드 타입의 갯수가 8개:
+하위 8개 비트(1바이트)는 어떤 노드에서 발생한 오류인지
+
+null이 아닌 리프노드에서 뽑아올 수 있는 데이터는 총 4개:
+int, double, bool, string
+하위 1바이트 바로 다음의 4개 비트는 어떤 데이터와 관련한 오류인지
+
+오브젝트/어레이 노드에서 뽑아올 수 있는 데이터는 총 4개:
+노드 1개, 벡터에 담긴 묶음 1개, 자식노드 갯수, 특정 자식노드 존재 여부
+다음 4비트도 어떤 데이터와 관련한 오류인지
+
+obj/arr노드의 경우 자식 노드로의 접근 수단은 총 2개:
+string,int
+하위 1바이트+4+2개 비트 바로 다음 2개 비트는 자식노드에 어떤 타입 인덱스로 접근했는지
+
+행동 총 4개:
+가져오기, 넣기, 삭제하기, 생성하기
+
+그리고 모든 enum에 대해 존제하는 false비트
+
+
+
+
+but으로 오류 종류도 말해줄까
+일단 세부 오류 정보 다시 만들어야됨 ㅇㄴ럼눎누러ㅏㅁ누러ㅏㄴ무러ㅏㄴ물너ㅏㅜ
+
+
+에러 종류:
+잘못된 타입의 노드로 접근, 잘못된 타입의 인덱스로 접근, 값 못찾음, 인덱스 초과, 중복된 키, 생성 실패
+
+
+
+------------------------
+해석함수에 nullptr 케이스 넣기
+clear에 있는 node -> nodevector로//v
+Clear함수에 중간에 리턴하는거 제거하기
+
+*/
+//template<typename ValueType>
+//class UglyRefResult
+//{
+//private:
+//    std::string _errInfo;
+//    std::optional<ValueType*> _value;
+//public:
+//
+//    UglyRefResult(ValueType* value) : _errInfo("no error")
+//    {
+//        if (value == nullptr)
+//        {
+//            _errInfo = "entered nullptr";
+//            _value = std::nullopt;
+//        }
+//        else
+//        {
+//            _value = value;
+//        }
+//    }
+//
+//    UglyRefResult(const char* errInfo) : _errInfo(errInfo)
+//    {
+//        _value = std::nullopt;
+//    }
+//
+//    inline bool HasValue() const
+//    {
+//        return _value.has_value();
+//    }
+//
+//    inline const std::string& GetErrorInfo() const
+//    {
+//        return _errInfo;
+//    }
+//
+//    inline ValueType& GetValue()
+//    {
+//        return *(_value.value());
+//    }
+//
+//    inline const ValueType& GetConstRef() const
+//    {
+//        return *(_value.value());
+//    }
+//};
+//
+//template<typename ValueType>
+//class UglyNonRefResult
+//{
+//private:
+//    std::string _errInfo;
+//    std::optional<ValueType> _value;
+//public:
+//
+//    UglyNonRefResult(ValueType value) : _errInfo("no error"), _value(value)
+//    {
+//    }
+//
+//    UglyNonRefResult(const char* errInfo) : _errInfo(errInfo)
+//    {
+//        _value = std::nullopt;
+//    }
+//
+//    inline bool HasValue() const
+//    {
+//        return _value.has_value();
+//    }
+//
+//    inline const std::string& GetErrorInfo() const
+//    {
+//        return _errInfo;
+//    }
+//
+//    inline ValueType GetValue()
+//    {
+//        return _value.value();
+//    }
+//
+//    inline const ValueType& GetConstRef()
+//    {
+//        return _value.value();
+//    }
+//};
+
+/*
+공부할 것:
+string_view란?
+*/
+
+
+/*
+버그수정 및 기능 추가 기록
+
+1:JSONTreeBuilder에 첫번째 값 추가 안하는 버그
+에러 케이스
+1:const char*를 string이 아닌bool로 인식했다
+2:long long, double, bool이 있을때, int데이터를 주면, 저거 3개에 다 걸린다
+3:디랙터리 대소문자 구분 안한거. 이건 윈도우에서는 되는데, 다른 환경에서 오류 발생
+
+*/

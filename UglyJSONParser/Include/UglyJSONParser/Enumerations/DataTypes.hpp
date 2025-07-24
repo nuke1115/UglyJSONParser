@@ -7,13 +7,15 @@ namespace UglyJSONParser
 {
     enum class DataTypes : uint32_t
     {
-        ZERO_VALUE = 0b0,
-        BOOL        = 0b1<<8,
-        INT         = 0b1<<9,
-        DOUBLE      = 0b1<<10,
-        STRING      = 0b1<<11,
-        NODE        = 0b1<<12,
-        NODE_VECTOR = 0b1<<13
+        FALSE_BIT       = 0b1<<9,
+        BOOL            = 0b1<<10,
+        INT             = 0b1<<11,
+        DOUBLE          = 0b1<<12,
+        STRING          = 0b1<<13,
+        NODE            = 0b1<<14,
+        NODE_VECTOR     = 0b1<<15,
+        NODE_EXISTENCE  = 0b1<<16,
+        NODE_COUNT      = 0b1<<17
     };
 
     inline constexpr DataTypes operator|(DataTypes left, DataTypes right) noexcept
