@@ -80,12 +80,29 @@ void run()
 
     //string을 기반으로 JSONTree 생성
     parser.BuildJSONTreeFromString(json, root);
+    auto value1 = root["arr"].GetValueRef()[0].GetValueRef().AsInt().GetValue();//값 검사 안하고 했을 때
 
+    
+    auto res1 = root["arr"];
+    if (!res1.HasValue())
+    {
+        return;
+    }
+    auto res2 = res1.GetValueRef()[0];
+    if (!res2.HasValue())
+    {
+        return;
+    }
+    auto res3 = res2.GetValueRef().AsInt();
+    if (!res3.HasValue())
+    {
+        return;
+    }
+    auto value2 = res3.GetValue();//값 검사 하면서 했을 때
+    //둘 다 일단 코드가 복잡해지고, 첫번째는 이 구조로 고친 이유가 없어짐
+    //=>체인을 만들어서 하면 더 깔끔하게 할 수 있을듯?
 
-    auto f = ResultUtils::DecodeErrorBitMask;
-
-    std::cout << f(root.CreateNewNode(NodeType::Array,).GetErrorInfoMask());
-
+    printf("%lld %lld\n", value1, value2);
 }
 
 #include <mutex>
