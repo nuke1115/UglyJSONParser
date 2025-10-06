@@ -779,6 +779,7 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="CMakeLists.txt" />
+    <Text Include="dummy\method_chain_구상.txt" />
     <Text Include="dummy\구상의 흔적들.txt" />
   </ItemGroup>
   <ItemGroup>
